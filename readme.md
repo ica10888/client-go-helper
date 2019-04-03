@@ -6,7 +6,6 @@ client-go-helper is a encapsulates client-go as `kubectl`
 
 | module                           | dependency version      |  note                               |
 | ------------------------------ | ------------ | --------------------------------- |
-| k8s.io/helm                    | v2.13        |                                   |
 | k8s.io/kubernetes              | v1.13.5-beta |                                   |
 | k8s.io/api                     |              |                                   |
 | k8s.io/apiextensions-apiserver |              |                                   |
