@@ -11,5 +11,5 @@ client-go-helper is a encapsulates client-go as `kubectl`
 | k8s.io/apiextensions-apiserver |              |                                   |
 | k8s.io/apiserver               |              |                                   |
 | k8s.io/cli-runtime             |              |                                   |
-| k8s.io/client-go               | v10.0.0      | 10.0.0 dependencies kubernetes version is 1.13 |
+| k8s.io/client-go               | v10.0.0      | v10.0.0 dependencies kubernetes version is 1.13 |
  
