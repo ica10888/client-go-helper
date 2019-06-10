@@ -7,6 +7,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/tools/clientcmd"
+	"log"
 
 	_ "k8s.io/kubernetes/pkg/kubectl/cmd/cp"
 
@@ -26,7 +27,7 @@ func (*kubectl) Describe(containerMeta *ContainerMeta) (string ,error) {
 	}
 	pod,err := clientset.CoreV1().Pods(containerMeta.Namespace).Get(containerMeta.PodName, podGetOpts)
 	if err != nil {
-		i.Logger.Failuref( "error in get pod events")
+		log.Fatalf( "error in get pod events")
 	}
 	//parsing client-go data structures into K8s yaml spec
 	json, err := json.Marshal(pod)
@@ -34,7 +35,7 @@ func (*kubectl) Describe(containerMeta *ContainerMeta) (string ,error) {
 		fmt.Errorf("json Unmarshal err")
 	}
 	data ,_ := yaml.JSONToYAML(json)
-	i.Logger.Info(string(data))
+	fmt.Print(string(data))
 	// Events
 	// Instantiate loader for kubeconfig file.
 	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
