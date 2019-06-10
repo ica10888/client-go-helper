@@ -3,6 +3,7 @@ module client-go-helper
 go 1.12
 
 require (
+	github.com/ghodss/yaml v1.0.0
 	gopkg.in/yaml.v2 v2.2.2
 	k8s.io/api v0.0.0-20181213150558-05914d821849
 	k8s.io/apiextensions-apiserver v0.0.0-20181213153335-0fe22c71c476 // indirect
@@ -17,6 +18,5 @@ require (
 	k8s.io/utils v0.0.0-20190308190857-21c4ce38f2a7 // indirect
 	sigs.k8s.io/kustomize v2.0.3+incompatible // indirect
 	sigs.k8s.io/yaml v1.1.0
-	github.com/ghodss/yaml v1.0.0
 
 )
