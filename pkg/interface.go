@@ -14,7 +14,7 @@ type Interface interface {
 
 	LogsWithPrevious(containerMeta *ContainerMeta) (error)  //kubectl logs  --previous
 
-	Describe(containerMeta *ContainerMeta) (error) //kubectl describe pods
+	Describe(containerMeta *ContainerMeta) (string ,error) //kubectl describe pods
 
 	Exec(containerMeta *ContainerMeta, cmd []string) (error) //kubectl exec
 
