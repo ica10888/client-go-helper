@@ -9,8 +9,6 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	"log"
 
-	_ "k8s.io/kubernetes/pkg/kubectl/cmd/cp"
-
 )
 
 

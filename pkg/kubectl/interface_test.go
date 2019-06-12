@@ -8,7 +8,7 @@ func TestLogs(t *testing.T) {
 		PodName:       "hfc-service-admin-66f775795f-9gjdm",
 		Namespace:     "dev",
 	}
-	pod.Logs()
+	pod.Describe()
 
 }
 
