@@ -7,7 +7,7 @@ type Pod struct {
 }
 
 
-type Describe interface {
+type describe interface {
 	Describe()(string ,error)
 }
 

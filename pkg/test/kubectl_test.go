@@ -12,5 +12,4 @@ func TestLogs(t *testing.T) {
 		Namespace:     "dev",
 	}
 	pod.Describe()
-
 }
