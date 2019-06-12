@@ -1,34 +1,32 @@
-package pkg
+package kubectl
 
 import "testing"
 
 func TestLogs(t *testing.T) {
-	kc := kubectl{}
-	cm := ContainerMeta{
+	pod := Pod{
 		ContainerName: "",
 		PodName:       "hfc-service-admin-66f775795f-9gjdm",
 		Namespace:     "dev",
 	}
-	kc.Logs(&cm)
+	pod.Logs()
 
 }
 
 func TestDescribe(t *testing.T) {
-	kc := kubectl{}
-	cm := ContainerMeta{
+	pod := Pod{
 		ContainerName: "",
 		PodName:       "hfc-service-admin-66f775795f-9gjdm",
 		Namespace:     "dev",
 	}
-	kc.Describe(&cm)
+	pod.Describe()
 }
 
 func TestExec(t *testing.T) {
-	kc := kubectl{}
-	cm := ContainerMeta{
+
+	pod := Pod{
 		ContainerName: "",
 		PodName:       "api-test-7fd7794c68-zzkrf",
 		Namespace:     "dev",
 	}
-	kc.Exec(&cm,[]string{"ls","-al"})
+	pod.Exec([]string{"ls","-al"})
 }

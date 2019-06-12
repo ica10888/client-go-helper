@@ -1,4 +1,4 @@
-package pkg
+package kubectl
 
 import (
 	"encoding/json"
@@ -17,7 +17,7 @@ import (
 //kubectl  describe pods
 // from  https://stackoverflow.com/questions/40764400/rest-api-alternative-for-describe-command
 // a describe is actually a combination of results from the pod and the events APIs:
-func (*kubectl) Describe(containerMeta *ContainerMeta) (string ,error) {
+func (i *Pod) Describe()(string ,error) {
 	// Status
 	podGetOpts := metav1.GetOptions{}
 	//podLogOpts.Container = containerMeta.ContainerName
@@ -25,7 +25,7 @@ func (*kubectl) Describe(containerMeta *ContainerMeta) (string ,error) {
 	if e != nil{
 		fmt.Errorf("something wrong happend ,%s",e)
 	}
-	pod,err := clientset.CoreV1().Pods(containerMeta.Namespace).Get(containerMeta.PodName, podGetOpts)
+	pod,err := clientset.CoreV1().Pods(i.Namespace).Get(i.Name, podGetOpts)
 	if err != nil {
 		log.Fatalf( "error in get pod events")
 	}
@@ -60,9 +60,9 @@ func (*kubectl) Describe(containerMeta *ContainerMeta) (string ,error) {
 	// this case, we'll run a remote shell.
 	req := coreclient.RESTClient().
 		Get().
-		Namespace(containerMeta.Namespace).
+		Namespace(i.Namespace).
 		Resource("events").
-		Param("fieldSelector","involvedObject.name="+ containerMeta.PodName)
+		Param("fieldSelector","involvedObject.name="+ i.Name)
 
 	rawJson ,_:= req.Do().Raw()
 	rawYaml ,_ := yaml.JSONToYAML(rawJson)

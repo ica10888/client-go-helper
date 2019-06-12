@@ -1,4 +1,4 @@
-package pkg
+package kubectl
 
 
 func (*kubectl) Cp(containerMeta *ContainerMeta, srcPath string, destPath string) (error) {
