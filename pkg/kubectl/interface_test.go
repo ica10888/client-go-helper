@@ -30,3 +30,6 @@ func TestExec(t *testing.T) {
 	}
 	pod.Exec([]string{"ls","-al"})
 }
+
+
+
