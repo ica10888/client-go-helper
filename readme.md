@@ -1,6 +1,6 @@
 # client-go-helper
 
-client-go-helper is a encapsulates client-go as `kubectl`
+client-go-helper  encapsulates client-go as `kubectl`
 
 ### Dependencies
 
