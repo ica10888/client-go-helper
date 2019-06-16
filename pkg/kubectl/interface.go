@@ -6,6 +6,7 @@ type Pod struct {
 	Namespace     string
 }
 
+
 type Node struct {
 	NodeName string
 }
@@ -23,4 +24,10 @@ type get interface {
 
 type exec interface {
 	Exec(cmd []string)(error)
+}
+
+
+
+type cp interface {
+	Cp(srcPath string, destPath string)(error)
 }
