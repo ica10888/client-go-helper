@@ -1,31 +1,38 @@
 package kubectl
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestLogs(t *testing.T) {
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "hfc-service-admin-66f775795f-9gjdm",
+		PodName:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	pod.Describe()
+	pod.Logs(false)
 
 }
 
 func TestDescribe(t *testing.T) {
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "hfc-service-admin-66f775795f-9gjdm",
+		PodName:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	pod.Describe()
+	str,e :=pod.Describe()
+	if e !=nil {
+		fmt.Print(e)
+	}
+	fmt.Print(str)
 }
 
 func TestExec(t *testing.T) {
 
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "api-test-7fd7794c68-zzkrf",
+		PodName:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
 	pod.Exec([]string{"ls","-al"})

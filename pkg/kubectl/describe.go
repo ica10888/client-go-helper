@@ -21,7 +21,7 @@ func (i *Pod) Describe()(string ,error) {
 	//podLogOpts.Container = containerMeta.ContainerName
 	clientset, e := InitClient()
 	if e != nil{
-		fmt.Errorf("something wrong happend ,%s",e)
+		return "",fmt.Errorf("something wrong happend ,%s",e)
 	}
 	pod,err := clientset.CoreV1().Pods(i.Namespace).Get(i.PodName, podGetOpts)
 	if err != nil {
@@ -30,10 +30,10 @@ func (i *Pod) Describe()(string ,error) {
 	//parsing client-go data structures into K8s yaml spec
 	json, err := json.Marshal(pod)
 	if err != nil {
-		fmt.Errorf("json Unmarshal err")
+		return "",fmt.Errorf("json Unmarshal err")
 	}
 	data ,_ := yaml.JSONToYAML(json)
-	fmt.Print(string(data))
+	str1 := string(data)
 	// Events
 	// Instantiate loader for kubeconfig file.
 	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
@@ -64,5 +64,7 @@ func (i *Pod) Describe()(string ,error) {
 
 	rawJson ,_:= req.Do().Raw()
 	rawYaml ,_ := yaml.JSONToYAML(rawJson)
-	return string(rawYaml),nil
+	str2 := string(rawYaml)
+	str := str1 + str2
+	return str,nil
 }
