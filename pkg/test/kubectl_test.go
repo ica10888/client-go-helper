@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: event-processor
-        image: "core.harbor.172.16.20.63.nip.io/hanclouds/event-processor:1.20190215.1751-d"
+        image: "core.harbor.172.16.20.63.nip.io/event-processor:1.20190215.1751-d"
         imagePullPolicy: IfNotPresent
         env:
         - name: JAVA_COMMAND
