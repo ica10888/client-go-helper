@@ -75,7 +75,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.BatchV1beta1().CronJobs(namespace).Update(cronJob)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -96,7 +96,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CertificatesV1beta1().CertificateSigningRequests().Update(certificateSigningRequest)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -117,7 +117,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoordinationV1beta1().Leases(namespace).Update(lease)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -138,7 +138,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.NetworkingV1().NetworkPolicies(namespace).Update(networkPolicy)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -159,7 +159,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1beta1().SelfSubjectAccessReviews().Update(selfSubjectAccessReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -173,7 +173,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1beta1().SelfSubjectRulesReviews().Update(selfSubjectRulesReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -187,7 +187,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1beta1().SubjectAccessReviews().Update(subjectAccessReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -201,7 +201,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1beta1().LocalSubjectAccessReviews(namespace).Update(localSubjectAccessReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -222,7 +222,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.ExtensionsV1beta1().DaemonSets(namespace).Update(daemonSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -236,7 +236,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.ExtensionsV1beta1().Deployments(namespace).Update(deployment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -250,7 +250,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.ExtensionsV1beta1().Ingresses(namespace).Update(ingress)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -264,7 +264,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.ExtensionsV1beta1().PodSecurityPolicies().Update(podSecurityPolicy)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -278,7 +278,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.ExtensionsV1beta1().ReplicaSets(namespace).Update(replicaSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -299,7 +299,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1().ClusterRoles().Update(clusterRole)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -313,7 +313,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1().RoleBindings(namespace).Update(roleBinding)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -327,7 +327,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1().Roles(namespace).Update(role)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -341,7 +341,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1().ClusterRoleBindings().Update(clusterRoleBinding)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -362,7 +362,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta2().DaemonSets(namespace).Update(daemonSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -376,7 +376,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta2().Deployments(namespace).Update(deployment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -390,7 +390,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta2().ReplicaSets(namespace).Update(replicaSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -404,7 +404,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta2().StatefulSets(namespace).Update(statefulSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -418,7 +418,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta2().ControllerRevisions(namespace).Update(controllerRevision)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -439,7 +439,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthenticationV1().TokenReviews().Update(tokenReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -460,7 +460,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1alpha1().Roles(namespace).Update(role)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -474,7 +474,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1alpha1().ClusterRoleBindings().Update(clusterRoleBinding)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -488,7 +488,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1alpha1().ClusterRoles().Update(clusterRole)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -502,7 +502,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1alpha1().RoleBindings(namespace).Update(roleBinding)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -523,7 +523,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.SettingsV1alpha1().PodPresets(namespace).Update(podPreset)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -544,7 +544,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().Update(mutatingWebhookConfiguration)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -558,7 +558,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().Update(validatingWebhookConfiguration)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -579,7 +579,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.EventsV1beta1().Events(namespace).Update(event)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -600,7 +600,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.PolicyV1beta1().PodDisruptionBudgets(namespace).Update(podDisruptionBudget)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -614,7 +614,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.PolicyV1beta1().PodSecurityPolicies().Update(podSecurityPolicy)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -635,7 +635,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.SchedulingV1alpha1().PriorityClasses().Update(priorityClass)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -656,7 +656,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.StorageV1beta1().StorageClasses().Update(storageClass)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -670,7 +670,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.StorageV1beta1().VolumeAttachments().Update(volumeAttachment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -691,7 +691,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.BatchV1().Jobs(namespace).Update(job)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -712,7 +712,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1beta1().ClusterRoleBindings().Update(clusterRoleBinding)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -726,7 +726,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1beta1().ClusterRoles().Update(clusterRole)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -740,7 +740,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1beta1().RoleBindings(namespace).Update(roleBinding)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -754,7 +754,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.RbacV1beta1().Roles(namespace).Update(role)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -775,7 +775,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.StorageV1().StorageClasses().Update(storageClass)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -789,7 +789,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.StorageV1().VolumeAttachments().Update(volumeAttachment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -810,7 +810,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AuditregistrationV1alpha1().AuditSinks().Update(auditSink)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -831,7 +831,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthenticationV1beta1().TokenReviews().Update(tokenReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -852,7 +852,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AutoscalingV2beta1().HorizontalPodAutoscalers(namespace).Update(horizontalPodAutoscaler)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -873,7 +873,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.SchedulingV1beta1().PriorityClasses().Update(priorityClass)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -894,7 +894,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1().DaemonSets(namespace).Update(daemonSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -908,7 +908,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1().Deployments(namespace).Update(deployment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -922,7 +922,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1().ReplicaSets(namespace).Update(replicaSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -936,7 +936,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1().StatefulSets(namespace).Update(statefulSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -950,7 +950,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1().ControllerRevisions(namespace).Update(controllerRevision)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -971,7 +971,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta1().ControllerRevisions(namespace).Update(controllerRevision)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -985,7 +985,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta1().Deployments(namespace).Update(deployment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -999,7 +999,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AppsV1beta1().StatefulSets(namespace).Update(statefulSet)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1020,7 +1020,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1().SelfSubjectRulesReviews().Update(selfSubjectRulesReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1034,7 +1034,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1().SubjectAccessReviews().Update(subjectAccessReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1048,7 +1048,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1().LocalSubjectAccessReviews(namespace).Update(localSubjectAccessReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1062,7 +1062,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					//_ ,e := clientset.AuthorizationV1().SelfSubjectAccessReviews().Update(selfSubjectAccessReview)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1083,7 +1083,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AutoscalingV1().HorizontalPodAutoscalers(namespace).Update(horizontalPodAutoscaler)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1104,7 +1104,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AutoscalingV2beta2().HorizontalPodAutoscalers(namespace).Update(horizontalPodAutoscaler)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1125,7 +1125,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.BatchV2alpha1().CronJobs(namespace).Update(cronJob)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1146,7 +1146,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().ResourceQuotas(namespace).Update(resourceQuota)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1160,7 +1160,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().ServiceAccounts(namespace).Update(serviceAccount)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1174,7 +1174,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().ComponentStatuses().Update(componentStatus)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1188,7 +1188,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Nodes().Update(node)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1202,7 +1202,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().PersistentVolumes().Update(persistentVolume)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1216,7 +1216,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Pods(namespace).Update(pod)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1230,7 +1230,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().ReplicationControllers(namespace).Update(replicationController)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1244,7 +1244,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Services(namespace).Update(service)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1258,7 +1258,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Endpoints(namespace).Update(endpoints)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1272,7 +1272,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Events(namespace).Update(event)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1286,7 +1286,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Namespaces().Update(namespace)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1300,7 +1300,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().PersistentVolumeClaims(namespace).Update(persistentVolumeClaim)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1314,7 +1314,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().PodTemplates(namespace).Update(podTemplate)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1328,7 +1328,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().ConfigMaps(namespace).Update(configMap)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1342,7 +1342,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().LimitRanges(namespace).Update(limitRange)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1356,7 +1356,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.CoreV1().Secrets(namespace).Update(secret)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1377,7 +1377,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.StorageV1alpha1().VolumeAttachments().Update(volumeAttachment)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e
@@ -1398,7 +1398,7 @@ func Apply(yaml string, namespace string) (error) {
 				if apierrs.IsAlreadyExists(e) {
 					_, e := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().Update(initializerConfiguration)
 					if e != nil {
-						return err
+						return e
 					}
 				} else {
 					return e

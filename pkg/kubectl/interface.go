@@ -21,7 +21,6 @@ type get interface {
 	Get()(error)
 }
 
-
 type exec interface {
 	Exec(cmd []string)(error)
 }
