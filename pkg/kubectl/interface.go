@@ -31,3 +31,8 @@ type exec interface {
 type cp interface {
 	Cp(srcPath string, destPath string)(error)
 }
+
+
+type logs interface {
+	Logs(previous bool)(string,error)
+}
