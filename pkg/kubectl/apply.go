@@ -42,12 +42,6 @@ apierrs "k8s.io/apimachinery/pkg/api/errors"
 "k8s.io/client-go/kubernetes/scheme"
 )
 
-type kubeapi struct {
-	ApiVersion string `yaml:"apiVersion"`
-	Kind       string `yaml:"kind"`
-	Yaml       string
-}
-
 func Apply(yaml string, namespace string) (error) {
 	// 校验和放入结构体
 	kapi := kubeapi{}
@@ -57,11 +51,11 @@ func Apply(yaml string, namespace string) (error) {
 	//序列化
 	obj, _, err := scheme.Codecs.UniversalDeserializer().Decode([]byte(yaml), nil, nil)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		return fmt.Errorf("Error: ", err)
 	}
 	clientset, e := InitClient()
 	if e != nil {
-		fmt.Errorf("something wrong happend ,%s", e)
+		return fmt.Errorf("something wrong happend ,%s", e)
 	}
 
 	switch kapi.ApiVersion {

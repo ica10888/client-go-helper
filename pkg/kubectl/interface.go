@@ -36,3 +36,13 @@ type cp interface {
 type logs interface {
 	Logs(previous bool)(string,error)
 }
+
+
+
+
+//used for apply/create
+type kubeapi struct {
+	ApiVersion string `yaml:"apiVersion"`
+	Kind       string `yaml:"kind"`
+	Yaml       string
+}

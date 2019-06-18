@@ -6,18 +6,7 @@ import (
 	"testing"
 )
 
-func TestLogs(t *testing.T) {
-	pod := kubectl.Pod{
-		ContainerName: "",
-		PodName:       "hfc-service-admin-66f775795f-9gjdm",
-		Namespace:     "dev",
-	}
-	pod.Describe()
-}
-
-func TestApply(t *testing.T) {
-
-	var yaml =`
+var yaml =`
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -101,7 +90,25 @@ spec:
       terminationGracePeriodSeconds: 20
 `
 
+func TestLogs(t *testing.T) {
+	pod := kubectl.Pod{
+		ContainerName: "",
+		PodName:       "hfc-service-admin-66f775795f-9gjdm",
+		Namespace:     "dev",
+	}
+	pod.Describe()
+}
+
+func TestApply(t *testing.T) {
 	e :=  kubectl.Apply(yaml,"local")
+	if e !=nil {
+		log.Print(e)
+	}
+
+}
+
+func TestCreate(t *testing.T) {
+	e :=  kubectl.Create(yaml,"local")
 	if e !=nil {
 		log.Print(e)
 	}
