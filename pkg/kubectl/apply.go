@@ -83,7 +83,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "certificates/v1beta1":
@@ -104,7 +104,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "coordination/v1beta1":
@@ -125,7 +125,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "networking/v1":
@@ -146,7 +146,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "authorization/v1beta1":
@@ -209,7 +209,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "extensions/v1beta1":
@@ -286,7 +286,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "rbac/v1":
@@ -349,7 +349,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "apps/v1beta2":
@@ -426,7 +426,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "authentication/v1":
@@ -447,7 +447,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "rbac/v1alpha1":
@@ -510,7 +510,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "settings/v1alpha1":
@@ -531,7 +531,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "admissionregistration/v1beta1":
@@ -566,7 +566,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "events/v1beta1":
@@ -587,7 +587,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "policy/v1beta1":
@@ -622,7 +622,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "scheduling/v1alpha1":
@@ -643,7 +643,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "storage/v1beta1":
@@ -678,7 +678,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "batch/v1":
@@ -699,7 +699,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "rbac/v1beta1":
@@ -762,7 +762,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "storage/v1":
@@ -797,7 +797,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "auditregistration/v1alpha1":
@@ -818,7 +818,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "authentication/v1beta1":
@@ -839,7 +839,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "autoscaling/v2beta1":
@@ -860,7 +860,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "scheduling/v1beta1":
@@ -881,7 +881,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "apps/v1":
@@ -958,7 +958,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "apps/v1beta1":
@@ -1007,7 +1007,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "authorization/v1":
@@ -1070,7 +1070,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "autoscaling/v1":
@@ -1091,7 +1091,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "autoscaling/v2beta2":
@@ -1112,7 +1112,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "batch/v2alpha1":
@@ -1133,7 +1133,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "v1":
@@ -1364,7 +1364,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "storage/v1alpha1":
@@ -1385,7 +1385,7 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
 	case "admissionregistration/v1alpha1":
@@ -1406,7 +1406,8 @@ func Apply(yaml string, namespace string) (error) {
 			}
 
 		default:
-			fmt.Printf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+			
 		}
 	}
 
