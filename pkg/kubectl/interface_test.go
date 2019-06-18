@@ -1,7 +1,7 @@
 package kubectl
 
 import (
-	"fmt"
+	"log"
 	"testing"
 )
 
@@ -23,9 +23,9 @@ func TestDescribe(t *testing.T) {
 	}
 	str,e :=pod.Describe()
 	if e !=nil {
-		fmt.Print(e)
+		log.Print(e)
 	}
-	fmt.Print(str)
+	log.Print(str)
 }
 
 func TestExec(t *testing.T) {

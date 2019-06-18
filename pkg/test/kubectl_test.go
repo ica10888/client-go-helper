@@ -2,6 +2,7 @@ package test
 
 import (
 	"client-go-helper/pkg/kubectl"
+	"log"
 	"testing"
 )
 
@@ -100,5 +101,9 @@ spec:
       terminationGracePeriodSeconds: 20
 `
 
-	kubectl.Apply(yaml,"local")
+	e :=  kubectl.Apply(yaml,"local")
+	if e !=nil {
+		log.Print(e)
+	}
+
 }
