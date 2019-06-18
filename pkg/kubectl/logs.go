@@ -6,15 +6,13 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
-func (i *Pod) Logs(previous bool) (string ,error) {
-	podLogOpts := corev1.PodLogOptions{}
+func (i *Pod) Logs(podLogOpts *corev1.PodLogOptions) (string ,error) {
 	podLogOpts.Container = i.ContainerName
-	podLogOpts.Previous = previous
 	clientset, e := InitClient()
 	if e != nil{
 		return "",e
 	}
-	req := clientset.CoreV1().Pods(i.Namespace).GetLogs(i.PodName, &podLogOpts)
+	req := clientset.CoreV1().Pods(i.Namespace).GetLogs(i.PodName, podLogOpts)
 	podLogs, err := req.Stream()
 	if err != nil {
 		return "",e

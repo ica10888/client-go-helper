@@ -1,5 +1,10 @@
 package kubectl
 
+import (
+	corev1 "k8s.io/api/core/v1"
+)
+
+
 type Pod struct {
 	PodName string
 	ContainerName string
@@ -34,7 +39,7 @@ type cp interface {
 
 
 type logs interface {
-	Logs(previous bool)(string,error)
+	Logs(podLogOpts *corev1.PodLogOptions)(string,error)
 }
 
 
