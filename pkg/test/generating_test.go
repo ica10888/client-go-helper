@@ -171,7 +171,7 @@ func writeCode (args map[string]bool,api string){
 			if vbool == false {
 				ns = ""
 			}
-			//applyPrintf
+
 			var _ = func() {
 				fmt.Printf(`
 		case "%s":
@@ -189,7 +189,10 @@ func writeCode (args map[string]bool,api string){
 			}
 `, v, lcfirst(v), lcfirst(api), v, api, vs, ns,lcfirst(v), api, vs, ns,lcfirst(v))
 			}
-			var createPrintf = func() {
+			//applyPrintf()
+
+
+			var _ = func() {
 				fmt.Printf(`
 		case "%s":
 			%s := obj.(*%s.%s)
@@ -199,9 +202,18 @@ func writeCode (args map[string]bool,api string){
 			}
 `, v, lcfirst(v), lcfirst(api), v, api, vs, ns,lcfirst(v))
 			}
+			//createPrintf()
+			var listPrintf = func() {
+				fmt.Printf(`
+		case "%s":
+			_, e = clientset.%s().%s(%s).List(*opts)
+			if e != nil {
+				return e
+			}
+`, v, api, vs, ns)
+			}
+			listPrintf()
 
-
-			createPrintf()
 
 		}
 	}
@@ -210,6 +222,7 @@ func writeCode (args map[string]bool,api string){
 		return fmt.Errorf("not support a kind : %%s in  apiVersion: %%s",kapi.Kind,kapi.ApiVersion)
 	}
 `)
+
 
 }
 

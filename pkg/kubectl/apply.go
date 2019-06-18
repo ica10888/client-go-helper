@@ -44,7 +44,7 @@ apierrs "k8s.io/apimachinery/pkg/api/errors"
 
 func Apply(yaml string, namespace string) (error) {
 	// 校验和放入结构体
-	kapi := kubeapi{}
+	kapi := Kubeapi{}
 	yaml2.Unmarshal([]byte(yaml), &kapi)
 	kapi.Yaml = yaml
 

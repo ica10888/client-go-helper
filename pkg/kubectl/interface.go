@@ -41,7 +41,7 @@ type logs interface {
 
 
 //used for apply/create
-type kubeapi struct {
+type Kubeapi struct {
 	ApiVersion string `yaml:"apiVersion"`
 	Kind       string `yaml:"kind"`
 	Yaml       string
