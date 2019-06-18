@@ -4,40 +4,29 @@ import (
 	"io"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/scheme"
-	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
-	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/tools/remotecommand"
 	_ "k8s.io/kubernetes/pkg/kubectl/cmd/cp"
 	cmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
+	"log"
 	"os"
 	"path"
+	"strings"
 	_ "unsafe"
 )
 
-
-
-
 func (i *Pod) Cp(srcPath string, destPath string) (error) {
-	// Instantiate loader for kubeconfig file.
-	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
-		clientcmd.NewDefaultClientConfigLoadingRules(),
-		&clientcmd.ConfigOverrides{},
-	)
-
-	// Get a rest.Config from the kubeconfig file.  This will be passed into all
-	// the client objects we create.
-	restconfig, err := kubeconfig.ClientConfig()
-	if err != nil {
-		return  err
-	}
-
-	// Create a Kubernetes core/v1 client.
-	coreclient, err := corev1client.NewForConfig(restconfig)
-	if err != nil {
-		return  err
-	}
+	restconfig, err, coreclient := InitRestClient()
 
 	reader, writer := io.Pipe()
+	// strip trailing slash (if any)
+	if destPath != "/" && strings.HasSuffix(string(destPath[len(destPath)-1]), "/") {
+		destPath = destPath[:len(destPath)-1]
+	}
+	if err := checkDestinationIsDir(i, destPath); err == nil {
+		// If no error, destPath was found to be a directory.
+		// Copy specified src into it
+		destPath = destPath + "/" + path.Base(srcPath)
+	}
 	go func() {
 		defer writer.Close()
 		err := cpMakeTar(srcPath, destPath, writer)
@@ -46,7 +35,7 @@ func (i *Pod) Cp(srcPath string, destPath string) (error) {
 	var cmdArr []string
 
 	cmdArr = []string{"tar", "-xf", "-"}
-	destDir := path.Dir("/tmp")
+	destDir := path.Dir(destPath)
 	if len(destDir) > 0 {
 		cmdArr = append(cmdArr, "-C", destDir)
 	}
@@ -69,6 +58,7 @@ func (i *Pod) Cp(srcPath string, destPath string) (error) {
 
 	exec, err := remotecommand.NewSPDYExecutor(restconfig, "POST", req.URL())
 	if err != nil {
+		log.Fatalf("error %s\n", err)
 		return err
 	}
 	err = exec.Stream(remotecommand.StreamOptions{
@@ -78,13 +68,16 @@ func (i *Pod) Cp(srcPath string, destPath string) (error) {
 		Tty:    false,
 	})
 	if err != nil {
+		log.Fatalf("error %s\n", err)
 		return err
 	}
 	return nil
 }
 
 
+func checkDestinationIsDir(i *Pod, destPath string) error {
+	return i.Exec([]string{"test", "-d", destPath})
+}
 
 //go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.makeTar
 func cpMakeTar(srcPath, destPath string, writer io.Writer) error
-

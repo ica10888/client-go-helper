@@ -47,14 +47,14 @@ func TestExec(t *testing.T) {
 }
 
 func TestCp(t *testing.T) {
-
+	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
 	pod := Pod{
 		ContainerName: "",
 		PodName:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	e := pod.Cp("/opt/app.jar","/tmp")
-	if e !=nil {
+	e := pod.Cp("/tmp/localfile","/opt/")
+		if e !=nil {
 		log.Print(e)
 	}
 }
