@@ -241,7 +241,7 @@ func Create(yaml string, namespace string) (error) {
 		case "Deployment":
 			deployment := obj.(*appsV1beta2.Deployment)
 			_, e = clientset.AppsV1beta2().Deployments(namespace).Create(deployment)
-			if e != nil {
+				if e != nil {
 				return e
 			}
 
