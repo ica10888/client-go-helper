@@ -71,8 +71,9 @@ func TestGet(t *testing.T) {
 		Kind:  "Deployment",
 		Yaml:   "",
 	}
-	e := Get(&opts,&kapi,"dev")
+	items ,e := Get(&opts,&kapi,"dev")
 	if e !=nil {
 		log.Print(e)
 	}
+	log.Print(items)
 }

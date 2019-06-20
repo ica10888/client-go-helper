@@ -206,11 +206,21 @@ func writeCode (args map[string]bool,api string){
 			var listPrintf = func() {
 				fmt.Printf(`
 		case "%s":
-			_, e = clientset.%s().%s(%s).List(*opts)
+			%sList, e := clientset.%s().%s(%s).List(*opts)
 			if e != nil {
-				return e
+				return nil,e
 			}
-`, v, api, vs, ns)
+			var items []string
+			for _,i := range %sList.Items {
+				json, err := json.Marshal(i)
+				if err != nil {
+					return nil,fmt.Errorf("json Unmarshal err")
+				}
+				data ,_ := yaml.JSONToYAML(json)
+				items = append(items, string(data))
+			}
+			return items,nil
+`, v, lcfirst(v),api, vs, ns,lcfirst(v))
 			}
 			listPrintf()
 
