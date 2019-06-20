@@ -84,10 +84,11 @@ func Get(opts *v1.ListOptions,kapi *Kubeapi ,namespace string) (error) {
 			}
 
 		case "Deployment":
-			_, e = clientset.ExtensionsV1beta1().Deployments(namespace).List(*opts)
+			dl, e := clientset.ExtensionsV1beta1().Deployments(namespace).List(*opts)
 			if e != nil {
 				return e
 			}
+			fmt.Print(dl)
 
 		case "Ingress":
 			_, e = clientset.ExtensionsV1beta1().Ingresses(namespace).List(*opts)

@@ -1,8 +1,10 @@
 package kubectl
 
 import (
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"log"
 	"testing"
+	corev1 "k8s.io/api/core/v1"
 )
 
 func TestLogs(t *testing.T) {
@@ -11,7 +13,8 @@ func TestLogs(t *testing.T) {
 		PodName:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	str,e := pod.Logs(false)
+	opts := corev1.PodLogOptions{}
+	str,e := pod.Logs(&opts)
 	if e !=nil {
 		log.Print(e)
 	}else {
@@ -60,3 +63,16 @@ func TestCp(t *testing.T) {
 }
 
 
+func TestGet(t *testing.T) {
+
+	opts := v1.ListOptions{}
+	kapi := Kubeapi{
+		ApiVersion:   "extensions/v1beta1",
+		Kind:  "Deployment",
+		Yaml:   "",
+	}
+	e := Get(&opts,&kapi,"dev")
+	if e !=nil {
+		log.Print(e)
+	}
+}

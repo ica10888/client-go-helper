@@ -90,14 +90,6 @@ spec:
       terminationGracePeriodSeconds: 20
 `
 
-func TestLogs(t *testing.T) {
-	pod := kubectl.Pod{
-		ContainerName: "",
-		PodName:       "hfc-service-admin-66f775795f-9gjdm",
-		Namespace:     "dev",
-	}
-	pod.Describe()
-}
 
 func TestApply(t *testing.T) {
 	e :=  kubectl.Apply(yaml,"local")
@@ -114,3 +106,4 @@ func TestCreate(t *testing.T) {
 	}
 
 }
+

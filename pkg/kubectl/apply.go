@@ -51,7 +51,7 @@ func Apply(yaml string, namespace string) (error) {
 	//序列化
 	obj, _, err := scheme.Codecs.UniversalDeserializer().Decode([]byte(yaml), nil, nil)
 	if err != nil {
-		return fmt.Errorf("Error: ", err)
+		return err
 	}
 	clientset, e := InitClient()
 	if e != nil {
