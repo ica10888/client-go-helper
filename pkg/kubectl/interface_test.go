@@ -71,9 +71,20 @@ func TestGet(t *testing.T) {
 		Kind:  "Deployment",
 		Yaml:   "",
 	}
+	//same result
+	kapi2 := Kubeapi{
+		ApiVersion:   "apps/v1beta2",
+		Kind:  "Deployment",
+		Yaml:   "",
+	}
 	items ,e := Get(&opts,&kapi,"dev")
 	if e !=nil {
 		log.Print(e)
 	}
 	log.Print(items)
+	items2 ,e := Get(&opts,&kapi2,"dev")
+	if e !=nil {
+		log.Print(e)
+	}
+	log.Print(items2)
 }
