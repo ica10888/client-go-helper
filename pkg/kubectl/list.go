@@ -1354,3 +1354,7 @@ func Get(opts *v1.ListOptions,kapi *Kubeapi ,namespace string) ( []string, error
 
 }
 
+func List(opts *v1.ListOptions,kapi *Kubeapi ,namespace string) ( []string, error) {
+	return Get(opts,kapi,namespace)
+
+}
