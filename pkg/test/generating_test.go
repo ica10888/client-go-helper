@@ -203,7 +203,7 @@ func writeCode (args map[string]bool,api string){
 `, v, lcfirst(v), lcfirst(api), v, api, vs, ns,lcfirst(v))
 			}
 			//createPrintf()
-			var listPrintf = func() {
+			var _ = func() {
 				fmt.Printf(`
 		case "%s":
 			%sList, e := clientset.%s().%s(%s).List(*opts)
@@ -222,8 +222,17 @@ func writeCode (args map[string]bool,api string){
 			return items,nil
 `, v, lcfirst(v),api, vs, ns,lcfirst(v))
 			}
-			listPrintf()
-
+			//listPrintf()
+			var deletePrintf = func() {
+				fmt.Printf(`
+		case "%s":
+			e := clientset.%s().%s(%s).Delete(name,opts)
+			if e != nil {
+				return e
+			}
+`, v, api, vs, ns)
+			}
+			deletePrintf()
 
 		}
 	}
