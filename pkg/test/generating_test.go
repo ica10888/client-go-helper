@@ -26,6 +26,16 @@ func TestCreateCode(t *testing.T)  {
 	fmt.Printf("\n")
 	fmt.Printf("\n")
 	fmt.Printf("\n")
+
+	for k, _ := range maps {
+		fmt.Printf(`
+	writeCode2(GetFunctionName2(clientset.%s()),"%s")
+`,k,k)
+	}
+
+	fmt.Printf("\n")
+	fmt.Printf("\n")
+	fmt.Printf("\n")
 	for v, _ := range maps {
 		comma:= strings.Index(lcfirst(v), "V")
 		v2 := lcfirst(v)[:comma]
@@ -103,6 +113,82 @@ func TestWriteCodeApply(t *testing.T)  {
 
 }
 
+
+func TestWriteCodeCreate(t *testing.T)  {
+	writeCode2(GetFunctionName2(clientset.AppsV1()),"AppsV1")
+
+	writeCode2(GetFunctionName2(clientset.AppsV1beta1()),"AppsV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.BatchV1()),"BatchV1")
+
+	writeCode2(GetFunctionName2(clientset.AdmissionregistrationV1alpha1()),"AdmissionregistrationV1alpha1")
+
+	writeCode2(GetFunctionName2(clientset.AuthorizationV1beta1()),"AuthorizationV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.AutoscalingV2beta1()),"AutoscalingV2beta1")
+
+	writeCode2(GetFunctionName2(clientset.AutoscalingV2beta2()),"AutoscalingV2beta2")
+
+	writeCode2(GetFunctionName2(clientset.EventsV1beta1()),"EventsV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.AuthenticationV1()),"AuthenticationV1")
+
+	writeCode2(GetFunctionName2(clientset.StorageV1()),"StorageV1")
+
+	writeCode2(GetFunctionName2(clientset.RbacV1beta1()),"RbacV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.CoordinationV1beta1()),"CoordinationV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.SchedulingV1alpha1()),"SchedulingV1alpha1")
+
+	writeCode2(GetFunctionName2(clientset.StorageV1alpha1()),"StorageV1alpha1")
+
+	writeCode2(GetFunctionName2(clientset.AdmissionregistrationV1beta1()),"AdmissionregistrationV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.PolicyV1beta1()),"PolicyV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.ExtensionsV1beta1()),"ExtensionsV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.CoreV1()),"CoreV1")
+
+	writeCode2(GetFunctionName2(clientset.RbacV1()),"RbacV1")
+
+	writeCode2(GetFunctionName2(clientset.SchedulingV1beta1()),"SchedulingV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.AuthorizationV1()),"AuthorizationV1")
+
+	writeCode2(GetFunctionName2(clientset.AutoscalingV1()),"AutoscalingV1")
+
+	writeCode2(GetFunctionName2(clientset.BatchV1beta1()),"BatchV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.SettingsV1alpha1()),"SettingsV1alpha1")
+
+	writeCode2(GetFunctionName2(clientset.StorageV1beta1()),"StorageV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.AppsV1beta2()),"AppsV1beta2")
+
+	writeCode2(GetFunctionName2(clientset.AuthenticationV1beta1()),"AuthenticationV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.BatchV2alpha1()),"BatchV2alpha1")
+
+	writeCode2(GetFunctionName2(clientset.CertificatesV1beta1()),"CertificatesV1beta1")
+
+	writeCode2(GetFunctionName2(clientset.NetworkingV1()),"NetworkingV1")
+
+	writeCode2(GetFunctionName2(clientset.RbacV1alpha1()),"RbacV1alpha1")
+
+	writeCode2(GetFunctionName2(clientset.AuditregistrationV1alpha1()),"AuditregistrationV1alpha1")
+
+}
+
+
+
+
+
+
+
+
+
 func lcfirst(str string) string {
 	for i, v := range str {
 		return string(unicode.ToLower(v)) + str[i+1:]
@@ -142,7 +228,8 @@ func GetFunctionName2(i interface{}) map[string]bool {
 }
 
 
-func writeCode (args map[string]bool,api string){
+
+func writeCode2 (args map[string]bool,api string){
 	if api != "CoreV1" {
 		comma := strings.Index(lcfirst(api), "V")
 		v2 := lcfirst(api)[:comma]
@@ -157,7 +244,6 @@ func writeCode (args map[string]bool,api string){
 	switch kapi.Kind {
 `)
 	}
-
 
 	for  v,vbool := range args {
 		if v!= "" {
@@ -174,8 +260,59 @@ func writeCode (args map[string]bool,api string){
 				ns = ""
 			}
 
-			var _ = func() {
-				fmt.Printf(`
+			fmt.Printf(`
+		case "%s":
+			%s := obj.(*%s.%s)
+			_, e = clientset.%s().%s(%s).Create(%s)
+			if e != nil {
+				return e
+			}
+`, v, lcfirst(v), lcfirst(api), v, api, vs, ns,lcfirst(v))
+
+
+		}
+	}
+	fmt.Printf(`
+	default:
+		return fmt.Errorf("not support a kind : %%s in  apiVersion: %%s",kapi.Kind,kapi.ApiVersion)
+	}
+`)
+}
+
+
+
+func writeCode (args map[string]bool,api string){
+	if api != "CoreV1" {
+		comma := strings.Index(lcfirst(api), "V")
+		v2 := lcfirst(api)[:comma]
+		v3 := lcfirst(lcfirst(api)[comma:])
+		fmt.Printf(`
+	case "%s/%s":
+	switch kapi.Kind {
+`, v2, v3)
+	} else {
+		fmt.Printf(`
+	case "v1":
+	switch kapi.Kind {
+`)
+	}
+
+	for  v,vbool := range args {
+		if v!= "" {
+			var vs = v + "s"
+			if  v[len(v)-1:]== "s"  {
+				vs = v + "es"
+			}
+			if v[len(v)-1:]== "y" {
+				vs = v[:len(v)-1] + "ies"
+			}
+
+			var ns = "namespace"
+			if vbool == false {
+				ns = ""
+			}
+
+			fmt.Printf(`
 		case "%s":
 			%s := obj.(*%s.%s)
 			_, e = clientset.%s().%s(%s).Create(%s)
@@ -190,21 +327,10 @@ func writeCode (args map[string]bool,api string){
 				}
 			}
 `, v, lcfirst(v), lcfirst(api), v, api, vs, ns,lcfirst(v), api, vs, ns,lcfirst(v))
-			}
-			//applyPrintf()
 
 
-			var _ = func() {
-				fmt.Printf(`
-		case "%s":
-			%s := obj.(*%s.%s)
-			_, e = clientset.%s().%s(%s).Create(%s)
-			if e != nil {
-				return e
-			}
-`, v, lcfirst(v), lcfirst(api), v, api, vs, ns,lcfirst(v))
-			}
-			//createPrintf()
+
+
 			var _ = func() {
 				fmt.Printf(`
 		case "%s":
@@ -225,7 +351,7 @@ func writeCode (args map[string]bool,api string){
 `, v, lcfirst(v),api, vs, ns,lcfirst(v))
 			}
 			//listPrintf()
-			var deletePrintf = func() {
+			var _ = func() {
 				fmt.Printf(`
 		case "%s":
 			e := clientset.%s().%s(%s).Delete(name,opts)
@@ -234,7 +360,11 @@ func writeCode (args map[string]bool,api string){
 			}
 `, v, api, vs, ns)
 			}
-			deletePrintf()
+			//deletePrintf()
+
+
+
+
 
 		}
 	}
