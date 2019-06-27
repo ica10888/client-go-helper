@@ -3,20 +3,18 @@ package test
 import (
 	"client-go-helper/pkg/kubectl"
 	"fmt"
-	"k8s.io/client-go/kubernetes"
 	"reflect"
 	"strings"
 	"testing"
 	"unicode"
 )
 
-var clientset *kubernetes.Clientset
 
 // 注意！！！corev1 -> v1
 func TestCreateCode(t *testing.T)  {
 
 
-	clientset, _ = kubectl.InitClient()
+	clientset, _ := kubectl.InitClient()
 	maps := GetFunctionName1(clientset)
 	for k, _ := range maps {
 		fmt.Printf(`
@@ -46,6 +44,9 @@ func TestCreateCode(t *testing.T)  {
 }
 
 func TestWriteCodeApply(t *testing.T)  {
+
+	clientset, _ := kubectl.InitClient()
+
 	//输出转输入
 	writeCode(GetFunctionName2(clientset.BatchV1beta1()),"BatchV1beta1")
 
@@ -115,6 +116,9 @@ func TestWriteCodeApply(t *testing.T)  {
 
 
 func TestWriteCodeCreate(t *testing.T)  {
+
+	clientset, _ := kubectl.InitClient()
+
 	writeCode2(GetFunctionName2(clientset.AppsV1()),"AppsV1")
 
 	writeCode2(GetFunctionName2(clientset.AppsV1beta1()),"AppsV1beta1")

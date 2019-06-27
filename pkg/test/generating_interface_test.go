@@ -12,7 +12,7 @@ import (
 func TestCreateInterfaceCode(t *testing.T)  {
 
 
-	clientset, _ = kubectl.InitClient()
+	clientset, _ := kubectl.InitClient()
 	maps := GetFunctionName1(clientset)
 	for k, _ := range maps {
 		fmt.Printf(`
@@ -32,6 +32,9 @@ func TestCreateInterfaceCode(t *testing.T)  {
 
 
 func TestWriteInterfaceCode(t *testing.T)  {
+
+	clientset, _ := kubectl.InitClient()
+
 	//输出转输入
 	writeInterfaceCode(GetFunctionName2(clientset.BatchV1beta1()),"BatchV1beta1")
 
