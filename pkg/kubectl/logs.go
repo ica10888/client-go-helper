@@ -12,7 +12,7 @@ func (i *Pod) Logs(podLogOpts *corev1.PodLogOptions) (string ,error) {
 	if e != nil{
 		return "",e
 	}
-	req := clientset.CoreV1().Pods(i.Namespace).GetLogs(i.PodName, podLogOpts)
+	req := clientset.CoreV1().Pods(i.Namespace).GetLogs(i.Name, podLogOpts)
 	podLogs, err := req.Stream()
 	if err != nil {
 		return "",e

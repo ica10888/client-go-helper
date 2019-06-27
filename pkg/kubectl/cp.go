@@ -45,7 +45,7 @@ func (i *Pod) Cp(srcPath string, destPath string) (error) {
 		Post().
 		Namespace(i.Namespace).
 		Resource("pods").
-		Name(i.PodName).
+		Name(i.Name).
 		SubResource("exec").
 		VersionedParams(&corev1.PodExecOptions{
 			Container: i.ContainerName,

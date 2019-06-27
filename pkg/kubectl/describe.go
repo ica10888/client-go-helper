@@ -23,7 +23,7 @@ func (i *Pod) Describe()(string ,error) {
 	if e != nil{
 		return "",fmt.Errorf("something wrong happend ,%s",e)
 	}
-	pod,err := clientset.CoreV1().Pods(i.Namespace).Get(i.PodName, podGetOpts)
+	pod,err := clientset.CoreV1().Pods(i.Namespace).Get(i.Name, podGetOpts)
 	if err != nil {
 		log.Fatalf( "error in get pod events")
 	}
@@ -60,7 +60,7 @@ func (i *Pod) Describe()(string ,error) {
 		Get().
 		Namespace(i.Namespace).
 		Resource("events").
-		Param("fieldSelector","involvedObject.name="+ i.PodName)
+		Param("fieldSelector","involvedObject.name="+ i.Name)
 
 	rawJson ,_:= req.Do().Raw()
 	rawYaml ,_ := yaml.JSONToYAML(rawJson)

@@ -10,7 +10,7 @@ import (
 func TestLogs(t *testing.T) {
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "api-test-775cf487ff-7zhnj",
+		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
 	opts := corev1.PodLogOptions{}
@@ -26,7 +26,7 @@ func TestLogs(t *testing.T) {
 func TestDescribe(t *testing.T) {
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "api-test-775cf487ff-7zhnj",
+		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
 	str,e :=pod.Describe()
@@ -40,7 +40,7 @@ func TestExec(t *testing.T) {
 
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "api-test-775cf487ff-7zhnj",
+		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
 	e := pod.Exec([]string{"ls","-al"})
@@ -53,7 +53,7 @@ func TestCp(t *testing.T) {
 	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
 	pod := Pod{
 		ContainerName: "",
-		PodName:       "api-test-775cf487ff-7zhnj",
+		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
 	e := pod.Cp("/tmp/localfile","/opt/")
