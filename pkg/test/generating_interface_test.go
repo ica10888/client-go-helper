@@ -137,3 +137,82 @@ type %s%s struct {
 	fmt.Printf(`
 `)
 }
+
+
+
+func TestWriteInterfaceCode2(t *testing.T)  {
+
+	clientset, _ := kubectl.InitClient()
+
+	//输出转输入
+	writeInterfaceCode2(GetFunctionName2(clientset.AuditregistrationV1alpha1()),"AuditregistrationV1alpha1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.AdmissionregistrationV1beta1()),"AdmissionregistrationV1beta1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.BatchV1()),"BatchV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.CertificatesV1beta1()),"CertificatesV1beta1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.RbacV1()),"RbacV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.CoordinationV1beta1()),"CoordinationV1beta1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.NetworkingV1()),"NetworkingV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.AppsV1()),"AppsV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.AutoscalingV2beta2()),"AutoscalingV2beta2")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.PolicyV1beta1()),"PolicyV1beta1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.AuthorizationV1()),"AuthorizationV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.CoreV1()),"CoreV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.SettingsV1alpha1()),"SettingsV1alpha1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.AdmissionregistrationV1alpha1()),"AdmissionregistrationV1alpha1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.AuthenticationV1()),"AuthenticationV1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.ExtensionsV1beta1()),"ExtensionsV1beta1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.SchedulingV1beta1()),"SchedulingV1beta1")
+
+	writeInterfaceCode2(GetFunctionName2(clientset.StorageV1()),"StorageV1")
+}
+
+
+func writeInterfaceCode2 (args map[string]bool,api string){
+	if api != "CoreV1" {
+		comma := strings.Index(lcfirst(api), "V")
+		v2 := lcfirst(api)[:comma]
+		v3 := lcfirst(lcfirst(api)[comma:])
+		fmt.Printf(`
+//%s.%s`, v2, v3)
+	} else {
+		fmt.Printf(`
+// v1`)
+	}
+
+	for  v,vbool := range args {
+		if v!= "" {
+
+			var ns = "Namespace     string"
+			if vbool == false {
+				ns = ""
+			}
+
+			fmt.Printf(`
+type %s struct {
+	Name     string
+	%s
+}
+`,  v,ns)
+
+
+		}
+	}
+	fmt.Printf(`
+`)
+}
