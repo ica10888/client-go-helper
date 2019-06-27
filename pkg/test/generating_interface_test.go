@@ -110,12 +110,10 @@ func writeInterfaceCode (args map[string]bool,api string){
 		v2 := lcfirst(api)[:comma]
 		v3 := lcfirst(lcfirst(api)[comma:])
 		fmt.Printf(`
-	//%s/%s
-`, v2, v3)
+//%s.%s`, v2, v3)
 	} else {
 		fmt.Printf(`
-	// v1
-`)
+// v1`)
 	}
 
 	for  v,vbool := range args {
@@ -128,7 +126,7 @@ func writeInterfaceCode (args map[string]bool,api string){
 
 			fmt.Printf(`
 type %s%s struct {
-	Name string
+	Name     string
 	%s
 }
 `, api, v,ns)
