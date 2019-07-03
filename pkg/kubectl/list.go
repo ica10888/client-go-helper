@@ -1,1360 +1,398 @@
 package kubectl
 
 import (
-	"fmt"
+	admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
+	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
+	appsV1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
-	"encoding/json"
-	"github.com/ghodss/yaml"
+
+	auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
+	autoscalingV2beta2 "k8s.io/api/autoscaling/v2beta2"
+	batchV1 "k8s.io/api/batch/v1"
+	batchV1beta1 "k8s.io/api/batch/v1beta1"
+	certificatesV1beta1 "k8s.io/api/certificates/v1beta1"
+	coordinationV1beta1 "k8s.io/api/coordination/v1beta1"
+	coreV1 "k8s.io/api/core/v1"
+	extensionsV1beta1 "k8s.io/api/extensions/v1beta1"
+	networkingV1 "k8s.io/api/networking/v1"
+	policyV1beta1 "k8s.io/api/policy/v1beta1"
+	rbacV1 "k8s.io/api/rbac/v1"
+	schedulingV1beta1 "k8s.io/api/scheduling/v1beta1"
+	settingsV1alpha1 "k8s.io/api/settings/v1alpha1"
+	storageV1 "k8s.io/api/storage/v1"
 )
 
-
-
-func Get(opts *v1.ListOptions,kapi *Kubeapi ,namespace string) ( []string, error) {
-	// 校验和放入结构体
-	clientset, e := InitClient()
+func (i *CronJob) List(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
+	cronJobList, e := clientset.BatchV1beta1().CronJobs(i.Namespace).List(*opts)
 	if e != nil {
-		return nil,fmt.Errorf("something wrong happend ,%s", e)
+		return nil,e
 	}
-
-	switch kapi.ApiVersion {
-	case "batch/v1beta1":
-		switch kapi.Kind {
-
-		case "CronJob":
-			cronJobList, e := clientset.BatchV1beta1().CronJobs(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range cronJobList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "certificates/v1beta1":
-		switch kapi.Kind {
-
-		case "CertificateSigningRequest":
-			certificateSigningRequestList, e := clientset.CertificatesV1beta1().CertificateSigningRequests().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range certificateSigningRequestList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "coordination/v1beta1":
-		switch kapi.Kind {
-
-		case "Lease":
-			leaseList, e := clientset.CoordinationV1beta1().Leases(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range leaseList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "networking/v1":
-		switch kapi.Kind {
-
-		case "NetworkPolicy":
-			networkPolicyList, e := clientset.NetworkingV1().NetworkPolicies(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range networkPolicyList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "authorization/v1beta1":
-		switch kapi.Kind {
-
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "extensions/v1beta1":
-		switch kapi.Kind {
-
-		case "Deployment":
-			deploymentList, e := clientset.ExtensionsV1beta1().Deployments(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range deploymentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Ingress":
-			ingressList, e := clientset.ExtensionsV1beta1().Ingresses(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range ingressList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "PodSecurityPolicy":
-			podSecurityPolicyList, e := clientset.ExtensionsV1beta1().PodSecurityPolicies().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range podSecurityPolicyList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ReplicaSet":
-			replicaSetList, e := clientset.ExtensionsV1beta1().ReplicaSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range replicaSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "DaemonSet":
-			daemonSetList, e := clientset.ExtensionsV1beta1().DaemonSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range daemonSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "rbac/v1":
-		switch kapi.Kind {
-
-		case "ClusterRoleBinding":
-			clusterRoleBindingList, e := clientset.RbacV1().ClusterRoleBindings().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range clusterRoleBindingList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ClusterRole":
-			clusterRoleList, e := clientset.RbacV1().ClusterRoles().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range clusterRoleList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "RoleBinding":
-			roleBindingList, e := clientset.RbacV1().RoleBindings(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range roleBindingList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Role":
-			roleList, e := clientset.RbacV1().Roles(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range roleList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "apps/v1beta2":
-		switch kapi.Kind {
-
-		case "Deployment":
-			deploymentList, e := clientset.AppsV1beta2().Deployments(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range deploymentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ReplicaSet":
-			replicaSetList, e := clientset.AppsV1beta2().ReplicaSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range replicaSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "StatefulSet":
-			statefulSetList, e := clientset.AppsV1beta2().StatefulSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range statefulSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ControllerRevision":
-			controllerRevisionList, e := clientset.AppsV1beta2().ControllerRevisions(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range controllerRevisionList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "DaemonSet":
-			daemonSetList, e := clientset.AppsV1beta2().DaemonSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range daemonSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "authentication/v1":
-		switch kapi.Kind {
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "rbac/v1alpha1":
-		switch kapi.Kind {
-
-		case "RoleBinding":
-			roleBindingList, e := clientset.RbacV1alpha1().RoleBindings(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range roleBindingList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Role":
-			roleList, e := clientset.RbacV1alpha1().Roles(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range roleList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ClusterRoleBinding":
-			clusterRoleBindingList, e := clientset.RbacV1alpha1().ClusterRoleBindings().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range clusterRoleBindingList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ClusterRole":
-			clusterRoleList, e := clientset.RbacV1alpha1().ClusterRoles().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range clusterRoleList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "settings/v1alpha1":
-		switch kapi.Kind {
-
-		case "PodPreset":
-			podPresetList, e := clientset.SettingsV1alpha1().PodPresets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range podPresetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "admissionregistration/v1beta1":
-		switch kapi.Kind {
-
-		case "MutatingWebhookConfiguration":
-			mutatingWebhookConfigurationList, e := clientset.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range mutatingWebhookConfigurationList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ValidatingWebhookConfiguration":
-			validatingWebhookConfigurationList, e := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range validatingWebhookConfigurationList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "events/v1beta1":
-		switch kapi.Kind {
-
-		case "Event":
-			eventList, e := clientset.EventsV1beta1().Events(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range eventList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "policy/v1beta1":
-		switch kapi.Kind {
-
-
-		case "PodDisruptionBudget":
-			podDisruptionBudgetList, e := clientset.PolicyV1beta1().PodDisruptionBudgets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range podDisruptionBudgetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "PodSecurityPolicy":
-			podSecurityPolicyList, e := clientset.PolicyV1beta1().PodSecurityPolicies().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range podSecurityPolicyList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "scheduling/v1alpha1":
-		switch kapi.Kind {
-
-		case "PriorityClass":
-			priorityClassList, e := clientset.SchedulingV1alpha1().PriorityClasses().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range priorityClassList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "storage/v1beta1":
-		switch kapi.Kind {
-
-		case "StorageClass":
-			storageClassList, e := clientset.StorageV1beta1().StorageClasses().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range storageClassList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "VolumeAttachment":
-			volumeAttachmentList, e := clientset.StorageV1beta1().VolumeAttachments().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range volumeAttachmentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "batch/v1":
-		switch kapi.Kind {
-
-		case "Job":
-			jobList, e := clientset.BatchV1().Jobs(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range jobList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "rbac/v1beta1":
-		switch kapi.Kind {
-
-		case "ClusterRoleBinding":
-			clusterRoleBindingList, e := clientset.RbacV1beta1().ClusterRoleBindings().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range clusterRoleBindingList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ClusterRole":
-			clusterRoleList, e := clientset.RbacV1beta1().ClusterRoles().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range clusterRoleList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "RoleBinding":
-			roleBindingList, e := clientset.RbacV1beta1().RoleBindings(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range roleBindingList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Role":
-			roleList, e := clientset.RbacV1beta1().Roles(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range roleList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "storage/v1":
-		switch kapi.Kind {
-
-		case "StorageClass":
-			storageClassList, e := clientset.StorageV1().StorageClasses().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range storageClassList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "VolumeAttachment":
-			volumeAttachmentList, e := clientset.StorageV1().VolumeAttachments().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range volumeAttachmentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "auditregistration/v1alpha1":
-		switch kapi.Kind {
-
-		case "AuditSink":
-			auditSinkList, e := clientset.AuditregistrationV1alpha1().AuditSinks().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range auditSinkList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "authentication/v1beta1":
-		switch kapi.Kind {
-
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "autoscaling/v2beta1":
-		switch kapi.Kind {
-
-		case "HorizontalPodAutoscaler":
-			horizontalPodAutoscalerList, e := clientset.AutoscalingV2beta1().HorizontalPodAutoscalers(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range horizontalPodAutoscalerList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "scheduling/v1beta1":
-		switch kapi.Kind {
-
-		case "PriorityClass":
-			priorityClassList, e := clientset.SchedulingV1beta1().PriorityClasses().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range priorityClassList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "apps/v1":
-		switch kapi.Kind {
-
-		case "ReplicaSet":
-			replicaSetList, e := clientset.AppsV1().ReplicaSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range replicaSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "StatefulSet":
-			statefulSetList, e := clientset.AppsV1().StatefulSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range statefulSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ControllerRevision":
-			controllerRevisionList, e := clientset.AppsV1().ControllerRevisions(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range controllerRevisionList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "DaemonSet":
-			daemonSetList, e := clientset.AppsV1().DaemonSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range daemonSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Deployment":
-			deploymentList, e := clientset.AppsV1().Deployments(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range deploymentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "apps/v1beta1":
-		switch kapi.Kind {
-
-		case "StatefulSet":
-			statefulSetList, e := clientset.AppsV1beta1().StatefulSets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range statefulSetList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ControllerRevision":
-			controllerRevisionList, e := clientset.AppsV1beta1().ControllerRevisions(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range controllerRevisionList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Deployment":
-			deploymentList, e := clientset.AppsV1beta1().Deployments(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range deploymentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "authorization/v1":
-		switch kapi.Kind {
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "autoscaling/v1":
-		switch kapi.Kind {
-
-		case "HorizontalPodAutoscaler":
-			horizontalPodAutoscalerList, e := clientset.AutoscalingV1().HorizontalPodAutoscalers(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range horizontalPodAutoscalerList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "autoscaling/v2beta2":
-		switch kapi.Kind {
-
-		case "HorizontalPodAutoscaler":
-			horizontalPodAutoscalerList, e := clientset.AutoscalingV2beta2().HorizontalPodAutoscalers(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range horizontalPodAutoscalerList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "batch/v2alpha1":
-		switch kapi.Kind {
-
-		case "CronJob":
-			cronJobList, e := clientset.BatchV2alpha1().CronJobs(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range cronJobList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "v1":
-		switch kapi.Kind {
-
-		case "ComponentStatus":
-			componentStatusList, e := clientset.CoreV1().ComponentStatuses().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range componentStatusList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Namespace":
-			namespaceList, e := clientset.CoreV1().Namespaces().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range namespaceList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ConfigMap":
-			configMapList, e := clientset.CoreV1().ConfigMaps(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range configMapList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-
-		case "Event":
-			eventList, e := clientset.CoreV1().Events(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range eventList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Pod":
-			podList, e := clientset.CoreV1().Pods(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range podList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "PersistentVolumeClaim":
-			persistentVolumeClaimList, e := clientset.CoreV1().PersistentVolumeClaims(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range persistentVolumeClaimList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "PersistentVolume":
-			persistentVolumeList, e := clientset.CoreV1().PersistentVolumes().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range persistentVolumeList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ReplicationController":
-			replicationControllerList, e := clientset.CoreV1().ReplicationControllers(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range replicationControllerList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Service":
-			serviceList, e := clientset.CoreV1().Services(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range serviceList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Secret":
-			secretList, e := clientset.CoreV1().Secrets(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range secretList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ServiceAccount":
-			serviceAccountList, e := clientset.CoreV1().ServiceAccounts(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range serviceAccountList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "LimitRange":
-			limitRangeList, e := clientset.CoreV1().LimitRanges(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range limitRangeList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "Node":
-			nodeList, e := clientset.CoreV1().Nodes().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range nodeList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "PodTemplate":
-			podTemplateList, e := clientset.CoreV1().PodTemplates(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range podTemplateList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		case "ResourceQuota":
-			resourceQuotaList, e := clientset.CoreV1().ResourceQuotas(namespace).List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range resourceQuotaList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "storage/v1alpha1":
-		switch kapi.Kind {
-
-		case "VolumeAttachment":
-			volumeAttachmentList, e := clientset.StorageV1alpha1().VolumeAttachments().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range volumeAttachmentList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-
-	case "admissionregistration/v1alpha1":
-		switch kapi.Kind {
-
-		case "InitializerConfiguration":
-			initializerConfigurationList, e := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().List(*opts)
-			if e != nil {
-				return nil,e
-			}
-			var items []string
-			for _,i := range initializerConfigurationList.Items {
-				json, err := json.Marshal(i)
-				if err != nil {
-					return nil,fmt.Errorf("json Unmarshal err")
-				}
-				data ,_ := yaml.JSONToYAML(json)
-				items = append(items, string(data))
-			}
-			return items,nil
-
-		default:
-			return nil,fmt.Errorf("not support a kind : %s in  apiVersion: %s",kapi.Kind,kapi.ApiVersion)
-		}
-	}
-
-	return nil,fmt.Errorf("Error")
-
+	return cronJobList.Items,nil
 }
 
-func List(opts *v1.ListOptions,kapi *Kubeapi ,namespace string) ( []string, error) {
-	return Get(opts,kapi,namespace)
 
+func (i *AuditSink) List(opts *v1.ListOptions) ([]auditregistrationV1alpha1.AuditSink, error) {
+	auditSinkList, e := clientset.AuditregistrationV1alpha1().AuditSinks().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return auditSinkList.Items,nil
+}
+
+
+func (i *ValidatingWebhookConfiguration) List(opts *v1.ListOptions) ([]admissionregistrationV1beta1.ValidatingWebhookConfiguration, error) {
+	validatingWebhookConfigurationList, e := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return validatingWebhookConfigurationList.Items,nil
+}
+
+
+func (i *MutatingWebhookConfiguration) List(opts *v1.ListOptions) ([]admissionregistrationV1beta1.MutatingWebhookConfiguration, error) {
+	mutatingWebhookConfigurationList, e := clientset.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return mutatingWebhookConfigurationList.Items,nil
+}
+
+
+func (i *Job) List(opts *v1.ListOptions) ([]batchV1.Job, error) {
+	jobList, e := clientset.BatchV1().Jobs(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return jobList.Items,nil
+}
+
+
+func (i *CertificateSigningRequest) List(opts *v1.ListOptions) ([]certificatesV1beta1.CertificateSigningRequest, error) {
+	certificateSigningRequestList, e := clientset.CertificatesV1beta1().CertificateSigningRequests().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return certificateSigningRequestList.Items,nil
+}
+
+
+func (i *RoleBinding) List(opts *v1.ListOptions) ([]rbacV1.RoleBinding, error) {
+	roleBindingList, e := clientset.RbacV1().RoleBindings(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return roleBindingList.Items,nil
+}
+
+
+func (i *Role) List(opts *v1.ListOptions) ([]rbacV1.Role, error) {
+	roleList, e := clientset.RbacV1().Roles(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return roleList.Items,nil
+}
+
+
+func (i *ClusterRoleBinding) List(opts *v1.ListOptions) ([]rbacV1.ClusterRoleBinding, error) {
+	clusterRoleBindingList, e := clientset.RbacV1().ClusterRoleBindings().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return clusterRoleBindingList.Items,nil
+}
+
+
+func (i *ClusterRole) List(opts *v1.ListOptions) ([]rbacV1.ClusterRole, error) {
+	clusterRoleList, e := clientset.RbacV1().ClusterRoles().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return clusterRoleList.Items,nil
+}
+
+
+func (i *Lease) List(opts *v1.ListOptions) ([]coordinationV1beta1.Lease, error) {
+	leaseList, e := clientset.CoordinationV1beta1().Leases(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return leaseList.Items,nil
+}
+
+
+func (i *NetworkPolicy) List(opts *v1.ListOptions) ([]networkingV1.NetworkPolicy, error) {
+	networkPolicyList, e := clientset.NetworkingV1().NetworkPolicies(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return networkPolicyList.Items,nil
+}
+
+
+func (i *StatefulSet) List(opts *v1.ListOptions) ([]appsV1.StatefulSet, error) {
+	statefulSetList, e := clientset.AppsV1().StatefulSets(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return statefulSetList.Items,nil
+}
+
+
+func (i *ControllerRevision) List(opts *v1.ListOptions) ([]appsV1.ControllerRevision, error) {
+	controllerRevisionList, e := clientset.AppsV1().ControllerRevisions(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return controllerRevisionList.Items,nil
+}
+
+
+func (i *DaemonSet) List(opts *v1.ListOptions) ([]appsV1.DaemonSet, error) {
+	daemonSetList, e := clientset.AppsV1().DaemonSets(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return daemonSetList.Items,nil
+}
+
+
+func (i *Deployment) List(opts *v1.ListOptions) ([]appsV1.Deployment, error) {
+	deploymentList, e := clientset.AppsV1().Deployments(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return deploymentList.Items,nil
+}
+
+
+func (i *ReplicaSet) List(opts *v1.ListOptions) ([]appsV1.ReplicaSet, error) {
+	replicaSetList, e := clientset.AppsV1().ReplicaSets(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return replicaSetList.Items,nil
+}
+
+
+func (i *HorizontalPodAutoscaler) List(opts *v1.ListOptions) ([]autoscalingV2beta2.HorizontalPodAutoscaler, error) {
+	horizontalPodAutoscalerList, e := clientset.AutoscalingV2beta2().HorizontalPodAutoscalers(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return horizontalPodAutoscalerList.Items,nil
+}
+
+
+
+func (i *PodDisruptionBudget) List(opts *v1.ListOptions) ([]policyV1beta1.PodDisruptionBudget, error) {
+	podDisruptionBudgetList, e := clientset.PolicyV1beta1().PodDisruptionBudgets(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return podDisruptionBudgetList.Items,nil
+}
+
+
+func (i *PodSecurityPolicy) List(opts *v1.ListOptions) ([]policyV1beta1.PodSecurityPolicy, error) {
+	podSecurityPolicyList, e := clientset.PolicyV1beta1().PodSecurityPolicies().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return podSecurityPolicyList.Items,nil
+}
+
+
+
+
+func (i *Namespace) List(opts *v1.ListOptions) ([]coreV1.Namespace, error) {
+	namespaceList, e := clientset.CoreV1().Namespaces().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return namespaceList.Items,nil
+}
+
+
+func (i *Node) List(opts *v1.ListOptions) ([]coreV1.Node, error) {
+	nodeList, e := clientset.CoreV1().Nodes().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return nodeList.Items,nil
+}
+
+
+func (i *ReplicationController) List(opts *v1.ListOptions) ([]coreV1.ReplicationController, error) {
+	replicationControllerList, e := clientset.CoreV1().ReplicationControllers(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return replicationControllerList.Items,nil
+}
+
+
+func (i *ConfigMap) List(opts *v1.ListOptions) ([]coreV1.ConfigMap, error) {
+	configMapList, e := clientset.CoreV1().ConfigMaps(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return configMapList.Items,nil
+}
+
+
+func (i *Event) List(opts *v1.ListOptions) ([]coreV1.Event, error) {
+	eventList, e := clientset.CoreV1().Events(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return eventList.Items,nil
+}
+
+
+func (i *Pod) List(opts *v1.ListOptions) ([]coreV1.Pod, error) {
+	podList, e := clientset.CoreV1().Pods(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return podList.Items,nil
+}
+
+
+func (i *Secret) List(opts *v1.ListOptions) ([]coreV1.Secret, error) {
+	secretList, e := clientset.CoreV1().Secrets(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return secretList.Items,nil
+}
+
+
+func (i *ComponentStatus) List(opts *v1.ListOptions) ([]coreV1.ComponentStatus, error) {
+	componentStatusList, e := clientset.CoreV1().ComponentStatuses().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return componentStatusList.Items,nil
+}
+
+
+func (i *PersistentVolumeClaim) List(opts *v1.ListOptions) ([]coreV1.PersistentVolumeClaim, error) {
+	persistentVolumeClaimList, e := clientset.CoreV1().PersistentVolumeClaims(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return persistentVolumeClaimList.Items,nil
+}
+
+
+func (i *PodTemplate) List(opts *v1.ListOptions) ([]coreV1.PodTemplate, error) {
+	podTemplateList, e := clientset.CoreV1().PodTemplates(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return podTemplateList.Items,nil
+}
+
+
+func (i *ResourceQuota) List(opts *v1.ListOptions) ([]coreV1.ResourceQuota, error) {
+	resourceQuotaList, e := clientset.CoreV1().ResourceQuotas(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return resourceQuotaList.Items,nil
+}
+
+
+func (i *Service) List(opts *v1.ListOptions) ([]coreV1.Service, error) {
+	serviceList, e := clientset.CoreV1().Services(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return serviceList.Items,nil
+}
+
+
+func (i *LimitRange) List(opts *v1.ListOptions) ([]coreV1.LimitRange, error) {
+	limitRangeList, e := clientset.CoreV1().LimitRanges(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return limitRangeList.Items,nil
+}
+
+
+func (i *PersistentVolume) List(opts *v1.ListOptions) ([]coreV1.PersistentVolume, error) {
+	persistentVolumeList, e := clientset.CoreV1().PersistentVolumes().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return persistentVolumeList.Items,nil
+}
+
+
+func (i *ServiceAccount) List(opts *v1.ListOptions) ([]coreV1.ServiceAccount, error) {
+	serviceAccountList, e := clientset.CoreV1().ServiceAccounts(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return serviceAccountList.Items,nil
+}
+
+
+func (i *PodPreset) List(opts *v1.ListOptions) ([]settingsV1alpha1.PodPreset, error) {
+	podPresetList, e := clientset.SettingsV1alpha1().PodPresets(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return podPresetList.Items,nil
+}
+
+
+func (i *InitializerConfiguration) List(opts *v1.ListOptions) ([]admissionregistrationV1alpha1.InitializerConfiguration, error) {
+	initializerConfigurationList, e := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return initializerConfigurationList.Items,nil
+}
+
+
+
+
+
+func (i *Ingress) List(opts *v1.ListOptions) ([]extensionsV1beta1.Ingress, error) {
+	ingressList, e := clientset.ExtensionsV1beta1().Ingresses(i.Namespace).List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return ingressList.Items,nil
+}
+
+
+
+func (i *PriorityClass) List(opts *v1.ListOptions) ([]schedulingV1beta1.PriorityClass, error) {
+	priorityClassList, e := clientset.SchedulingV1beta1().PriorityClasses().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return priorityClassList.Items,nil
+}
+
+
+func (i *StorageClass) List(opts *v1.ListOptions) ([]storageV1.StorageClass, error) {
+	storageClassList, e := clientset.StorageV1().StorageClasses().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return storageClassList.Items,nil
+}
+
+
+func (i *VolumeAttachment) List(opts *v1.ListOptions) ([]storageV1.VolumeAttachment, error) {
+	volumeAttachmentList, e := clientset.StorageV1().VolumeAttachments().List(*opts)
+	if e != nil {
+		return nil,e
+	}
+	return volumeAttachmentList.Items,nil
 }
