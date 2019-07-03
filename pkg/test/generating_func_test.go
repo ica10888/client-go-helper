@@ -53,10 +53,6 @@ func TestWriteDeleteCode(t *testing.T)  {
 
 
 func writeDeleteCode (args map[string]bool,api string){
-	if api == "CoreV1" {
-		api = "V1"
-	}
-
 	for  v,vbool := range args {
 		if v!= "" {
 			var vs = v + "s"
