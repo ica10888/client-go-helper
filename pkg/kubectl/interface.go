@@ -4,6 +4,17 @@ import (
 	corev1 "k8s.io/api/core/v1"
 )
 
+
+
+
+//batch.v1beta1
+type CronJob struct {
+	Name     string
+	Namespace     string
+}
+
+
+
 //auditregistration.v1alpha1
 type AuditSink struct {
 	Name     string

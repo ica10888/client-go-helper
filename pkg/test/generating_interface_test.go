@@ -145,6 +145,8 @@ func TestWriteInterfaceCode2(t *testing.T)  {
 	clientset, _ := kubectl.InitClient()
 
 	//输出转输入
+	writeInterfaceCode2(GetFunctionName2(clientset.BatchV1beta1()),"BatchV1beta1")
+
 	writeInterfaceCode2(GetFunctionName2(clientset.AuditregistrationV1alpha1()),"AuditregistrationV1alpha1")
 
 	writeInterfaceCode2(GetFunctionName2(clientset.AdmissionregistrationV1beta1()),"AdmissionregistrationV1beta1")

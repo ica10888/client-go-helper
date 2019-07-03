@@ -5,6 +5,19 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+
+
+
+func (i *CronJob) Delete (opts *v1.DeleteOptions) (error) {
+	e := clientset.BatchV1beta1().CronJobs(i.Namespace).Delete(i.Name,opts)
+	if e != nil {
+		return e
+	}
+	return nil
+}
+
+
+
 func Delete(opts *v1.DeleteOptions,kapi *Kubeapi ,name string ,namespace string) (error) {
 
 	switch kapi.ApiVersion {
