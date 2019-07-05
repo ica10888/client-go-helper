@@ -1,6 +1,6 @@
 # client-go-helper
 
-client-go-helper  像使用 kubectl 一样使用 client-go
+client-go-helper ， 像使用 kubectl 一样使用 client-go
 
 ### 依赖
 
