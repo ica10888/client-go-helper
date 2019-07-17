@@ -5,6 +5,7 @@ import (
 	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	appsV1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	"regexp"
 
 	auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
 	autoscalingV2beta2 "k8s.io/api/autoscaling/v2beta2"
@@ -23,12 +24,26 @@ import (
 )
 
 func (i *CronJob) List(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
-	cronJobList, e := clientset.BatchV1beta1().CronJobs(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+	cronJobList, err := clientset.BatchV1beta1().CronJobs(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return cronJobList.Items,nil
-}
+	if i.Name == "" {
+		return cronJobList.Items, nil
+	} else {
+		var items = cronJobList.Items
+		for _, v := range cronJobList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+	}
 
 
 func (i *AuditSink) List(opts *v1.ListOptions) ([]auditregistrationV1alpha1.AuditSink, error) {

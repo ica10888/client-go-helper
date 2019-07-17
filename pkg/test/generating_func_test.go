@@ -145,14 +145,28 @@ func writeListCode (args map[string]bool,api string){
 			}
 			fmt.Printf(`
 func (i *%s) GetAll(opts *v1.ListOptions) ([]%s.%s, error) {
-	%sList, e := clientset.%s().%s(%s).List(*opts)
-	if e != nil {
-		return nil,e
+	%sList, err := clientset.%s().%s(%s).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return %sList.Items,nil
-}
+	if i.Name == "" {
+		return %sList.Items, nil
+	} else {
+		var items = %sList.Items
+		for _, v := range %sList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+	}
 
-`, v, lcfirst(api), v,lcfirst(v) , api,vs, ns,lcfirst(v))
+`, v, lcfirst(api), v,lcfirst(v) , api,vs, ns,lcfirst(v),lcfirst(v),lcfirst(v))
 		}
 	}
 
