@@ -153,7 +153,7 @@ func (i *%s) GetAll(opts *v1.ListOptions) ([]%s.%s, error) {
 	if i.Name == "" {
 		return %sList.Items, nil
 	} else {
-		var items = %sList.Items
+		var items []%s.%s
 		for _, v := range %sList.Items {
 			match, err := regexp.Match(i.Name, []byte(v.ObjectMeta.Name))
 			if err != nil {
@@ -167,7 +167,7 @@ func (i *%s) GetAll(opts *v1.ListOptions) ([]%s.%s, error) {
 	}
 	}
 
-`, v, lcfirst(api), v,lcfirst(v) , api,vs, ns,lcfirst(v),lcfirst(v),lcfirst(v))
+`, v, lcfirst(api), v,lcfirst(v) , api,vs, ns,lcfirst(v),lcfirst(api), v,lcfirst(v))
 		}
 	}
 
