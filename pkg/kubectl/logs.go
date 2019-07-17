@@ -8,14 +8,14 @@ import (
 
 func (i *Pod) Logs(podLogOpts *corev1.PodLogOptions) (string ,error) {
 	podLogOpts.Container = i.ContainerName
-	clientset, e := InitClient()
-	if e != nil{
-		return "",e
+	clientset, err := InitClient()
+	if err != nil{
+		return "",err
 	}
 	req := clientset.CoreV1().Pods(i.Namespace).GetLogs(i.Name, podLogOpts)
 	podLogs, err := req.Stream()
 	if err != nil {
-		return "",e
+		return "",err
 	}
 	defer podLogs.Close()
 
