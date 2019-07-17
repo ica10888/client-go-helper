@@ -23,7 +23,7 @@ import (
 	storageV1 "k8s.io/api/storage/v1"
 )
 
-func (i *CronJob) List(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
+func (i *CronJob) GetAll(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
 	cronJobList, err := clientset.BatchV1beta1().CronJobs(i.Namespace).List(*opts)
 	if err != nil {
 		return nil,err
@@ -43,371 +43,934 @@ func (i *CronJob) List(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
 		}
 		return items, nil
 	}
-	}
-
-
-func (i *AuditSink) List(opts *v1.ListOptions) ([]auditregistrationV1alpha1.AuditSink, error) {
-	auditSinkList, e := clientset.AuditregistrationV1alpha1().AuditSinks().List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return auditSinkList.Items,nil
 }
 
 
-func (i *ValidatingWebhookConfiguration) List(opts *v1.ListOptions) ([]admissionregistrationV1beta1.ValidatingWebhookConfiguration, error) {
-	validatingWebhookConfigurationList, e := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().List(*opts)
-	if e != nil {
-		return nil,e
+func (i *AuditSink) GetAll(opts *v1.ListOptions) ([]auditregistrationV1alpha1.AuditSink, error) {
+	auditSinkList, err := clientset.AuditregistrationV1alpha1().AuditSinks().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return validatingWebhookConfigurationList.Items,nil
+	if i.Name == "" {
+		return auditSinkList.Items, nil
+	} else {
+		var items = auditSinkList.Items
+		for _, v := range auditSinkList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *MutatingWebhookConfiguration) List(opts *v1.ListOptions) ([]admissionregistrationV1beta1.MutatingWebhookConfiguration, error) {
-	mutatingWebhookConfigurationList, e := clientset.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().List(*opts)
-	if e != nil {
-		return nil,e
+func (i *MutatingWebhookConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1beta1.MutatingWebhookConfiguration, error) {
+	mutatingWebhookConfigurationList, err := clientset.AdmissionregistrationV1beta1().MutatingWebhookConfigurations().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return mutatingWebhookConfigurationList.Items,nil
+	if i.Name == "" {
+		return mutatingWebhookConfigurationList.Items, nil
+	} else {
+		var items = mutatingWebhookConfigurationList.Items
+		for _, v := range mutatingWebhookConfigurationList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *Job) List(opts *v1.ListOptions) ([]batchV1.Job, error) {
-	jobList, e := clientset.BatchV1().Jobs(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *ValidatingWebhookConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1beta1.ValidatingWebhookConfiguration, error) {
+	validatingWebhookConfigurationList, err := clientset.AdmissionregistrationV1beta1().ValidatingWebhookConfigurations().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return jobList.Items,nil
+	if i.Name == "" {
+		return validatingWebhookConfigurationList.Items, nil
+	} else {
+		var items = validatingWebhookConfigurationList.Items
+		for _, v := range validatingWebhookConfigurationList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *CertificateSigningRequest) List(opts *v1.ListOptions) ([]certificatesV1beta1.CertificateSigningRequest, error) {
-	certificateSigningRequestList, e := clientset.CertificatesV1beta1().CertificateSigningRequests().List(*opts)
-	if e != nil {
-		return nil,e
+func (i *Job) GetAll(opts *v1.ListOptions) ([]batchV1.Job, error) {
+	jobList, err := clientset.BatchV1().Jobs(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return certificateSigningRequestList.Items,nil
+	if i.Name == "" {
+		return jobList.Items, nil
+	} else {
+		var items = jobList.Items
+		for _, v := range jobList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *RoleBinding) List(opts *v1.ListOptions) ([]rbacV1.RoleBinding, error) {
-	roleBindingList, e := clientset.RbacV1().RoleBindings(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *CertificateSigningRequest) GetAll(opts *v1.ListOptions) ([]certificatesV1beta1.CertificateSigningRequest, error) {
+	certificateSigningRequestList, err := clientset.CertificatesV1beta1().CertificateSigningRequests().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return roleBindingList.Items,nil
+	if i.Name == "" {
+		return certificateSigningRequestList.Items, nil
+	} else {
+		var items = certificateSigningRequestList.Items
+		for _, v := range certificateSigningRequestList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *Role) List(opts *v1.ListOptions) ([]rbacV1.Role, error) {
-	roleList, e := clientset.RbacV1().Roles(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *Role) GetAll(opts *v1.ListOptions) ([]rbacV1.Role, error) {
+	roleList, err := clientset.RbacV1().Roles(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return roleList.Items,nil
+	if i.Name == "" {
+		return roleList.Items, nil
+	} else {
+		var items = roleList.Items
+		for _, v := range roleList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *ClusterRoleBinding) List(opts *v1.ListOptions) ([]rbacV1.ClusterRoleBinding, error) {
-	clusterRoleBindingList, e := clientset.RbacV1().ClusterRoleBindings().List(*opts)
-	if e != nil {
-		return nil,e
+func (i *ClusterRoleBinding) GetAll(opts *v1.ListOptions) ([]rbacV1.ClusterRoleBinding, error) {
+	clusterRoleBindingList, err := clientset.RbacV1().ClusterRoleBindings().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return clusterRoleBindingList.Items,nil
+	if i.Name == "" {
+		return clusterRoleBindingList.Items, nil
+	} else {
+		var items = clusterRoleBindingList.Items
+		for _, v := range clusterRoleBindingList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *ClusterRole) List(opts *v1.ListOptions) ([]rbacV1.ClusterRole, error) {
-	clusterRoleList, e := clientset.RbacV1().ClusterRoles().List(*opts)
-	if e != nil {
-		return nil,e
+func (i *ClusterRole) GetAll(opts *v1.ListOptions) ([]rbacV1.ClusterRole, error) {
+	clusterRoleList, err := clientset.RbacV1().ClusterRoles().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return clusterRoleList.Items,nil
+	if i.Name == "" {
+		return clusterRoleList.Items, nil
+	} else {
+		var items = clusterRoleList.Items
+		for _, v := range clusterRoleList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *Lease) List(opts *v1.ListOptions) ([]coordinationV1beta1.Lease, error) {
-	leaseList, e := clientset.CoordinationV1beta1().Leases(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *RoleBinding) GetAll(opts *v1.ListOptions) ([]rbacV1.RoleBinding, error) {
+	roleBindingList, err := clientset.RbacV1().RoleBindings(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return leaseList.Items,nil
+	if i.Name == "" {
+		return roleBindingList.Items, nil
+	} else {
+		var items = roleBindingList.Items
+		for _, v := range roleBindingList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *NetworkPolicy) List(opts *v1.ListOptions) ([]networkingV1.NetworkPolicy, error) {
-	networkPolicyList, e := clientset.NetworkingV1().NetworkPolicies(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *Lease) GetAll(opts *v1.ListOptions) ([]coordinationV1beta1.Lease, error) {
+	leaseList, err := clientset.CoordinationV1beta1().Leases(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return networkPolicyList.Items,nil
+	if i.Name == "" {
+		return leaseList.Items, nil
+	} else {
+		var items = leaseList.Items
+		for _, v := range leaseList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *StatefulSet) List(opts *v1.ListOptions) ([]appsV1.StatefulSet, error) {
-	statefulSetList, e := clientset.AppsV1().StatefulSets(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *NetworkPolicy) GetAll(opts *v1.ListOptions) ([]networkingV1.NetworkPolicy, error) {
+	networkPolicyList, err := clientset.NetworkingV1().NetworkPolicies(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return statefulSetList.Items,nil
+	if i.Name == "" {
+		return networkPolicyList.Items, nil
+	} else {
+		var items = networkPolicyList.Items
+		for _, v := range networkPolicyList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *ControllerRevision) List(opts *v1.ListOptions) ([]appsV1.ControllerRevision, error) {
-	controllerRevisionList, e := clientset.AppsV1().ControllerRevisions(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *ReplicaSet) GetAll(opts *v1.ListOptions) ([]appsV1.ReplicaSet, error) {
+	replicaSetList, err := clientset.AppsV1().ReplicaSets(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return controllerRevisionList.Items,nil
+	if i.Name == "" {
+		return replicaSetList.Items, nil
+	} else {
+		var items = replicaSetList.Items
+		for _, v := range replicaSetList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *DaemonSet) List(opts *v1.ListOptions) ([]appsV1.DaemonSet, error) {
-	daemonSetList, e := clientset.AppsV1().DaemonSets(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *StatefulSet) GetAll(opts *v1.ListOptions) ([]appsV1.StatefulSet, error) {
+	statefulSetList, err := clientset.AppsV1().StatefulSets(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return daemonSetList.Items,nil
+	if i.Name == "" {
+		return statefulSetList.Items, nil
+	} else {
+		var items = statefulSetList.Items
+		for _, v := range statefulSetList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *Deployment) List(opts *v1.ListOptions) ([]appsV1.Deployment, error) {
-	deploymentList, e := clientset.AppsV1().Deployments(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *ControllerRevision) GetAll(opts *v1.ListOptions) ([]appsV1.ControllerRevision, error) {
+	controllerRevisionList, err := clientset.AppsV1().ControllerRevisions(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return deploymentList.Items,nil
+	if i.Name == "" {
+		return controllerRevisionList.Items, nil
+	} else {
+		var items = controllerRevisionList.Items
+		for _, v := range controllerRevisionList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *ReplicaSet) List(opts *v1.ListOptions) ([]appsV1.ReplicaSet, error) {
-	replicaSetList, e := clientset.AppsV1().ReplicaSets(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *DaemonSet) GetAll(opts *v1.ListOptions) ([]appsV1.DaemonSet, error) {
+	daemonSetList, err := clientset.AppsV1().DaemonSets(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return replicaSetList.Items,nil
+	if i.Name == "" {
+		return daemonSetList.Items, nil
+	} else {
+		var items = daemonSetList.Items
+		for _, v := range daemonSetList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *HorizontalPodAutoscaler) List(opts *v1.ListOptions) ([]autoscalingV2beta2.HorizontalPodAutoscaler, error) {
-	horizontalPodAutoscalerList, e := clientset.AutoscalingV2beta2().HorizontalPodAutoscalers(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *Deployment) GetAll(opts *v1.ListOptions) ([]appsV1.Deployment, error) {
+	deploymentList, err := clientset.AppsV1().Deployments(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return horizontalPodAutoscalerList.Items,nil
+	if i.Name == "" {
+		return deploymentList.Items, nil
+	} else {
+		var items = deploymentList.Items
+		for _, v := range deploymentList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-
-func (i *PodDisruptionBudget) List(opts *v1.ListOptions) ([]policyV1beta1.PodDisruptionBudget, error) {
-	podDisruptionBudgetList, e := clientset.PolicyV1beta1().PodDisruptionBudgets(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
+func (i *HorizontalPodAutoscaler) GetAll(opts *v1.ListOptions) ([]autoscalingV2beta2.HorizontalPodAutoscaler, error) {
+	horizontalPodAutoscalerList, err := clientset.AutoscalingV2beta2().HorizontalPodAutoscalers(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return podDisruptionBudgetList.Items,nil
-}
-
-
-func (i *PodSecurityPolicy) List(opts *v1.ListOptions) ([]policyV1beta1.PodSecurityPolicy, error) {
-	podSecurityPolicyList, e := clientset.PolicyV1beta1().PodSecurityPolicies().List(*opts)
-	if e != nil {
-		return nil,e
+	if i.Name == "" {
+		return horizontalPodAutoscalerList.Items, nil
+	} else {
+		var items = horizontalPodAutoscalerList.Items
+		for _, v := range horizontalPodAutoscalerList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
 	}
-	return podSecurityPolicyList.Items,nil
-}
-
-
-
-
-func (i *Namespace) List(opts *v1.ListOptions) ([]coreV1.Namespace, error) {
-	namespaceList, e := clientset.CoreV1().Namespaces().List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return namespaceList.Items,nil
-}
-
-
-func (i *Node) List(opts *v1.ListOptions) ([]coreV1.Node, error) {
-	nodeList, e := clientset.CoreV1().Nodes().List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return nodeList.Items,nil
-}
-
-
-func (i *ReplicationController) List(opts *v1.ListOptions) ([]coreV1.ReplicationController, error) {
-	replicationControllerList, e := clientset.CoreV1().ReplicationControllers(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return replicationControllerList.Items,nil
-}
-
-
-func (i *ConfigMap) List(opts *v1.ListOptions) ([]coreV1.ConfigMap, error) {
-	configMapList, e := clientset.CoreV1().ConfigMaps(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return configMapList.Items,nil
-}
-
-
-func (i *Event) List(opts *v1.ListOptions) ([]coreV1.Event, error) {
-	eventList, e := clientset.CoreV1().Events(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return eventList.Items,nil
-}
-
-
-func (i *Pod) List(opts *v1.ListOptions) ([]coreV1.Pod, error) {
-	podList, e := clientset.CoreV1().Pods(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return podList.Items,nil
-}
-
-
-func (i *Secret) List(opts *v1.ListOptions) ([]coreV1.Secret, error) {
-	secretList, e := clientset.CoreV1().Secrets(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return secretList.Items,nil
-}
-
-
-func (i *ComponentStatus) List(opts *v1.ListOptions) ([]coreV1.ComponentStatus, error) {
-	componentStatusList, e := clientset.CoreV1().ComponentStatuses().List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return componentStatusList.Items,nil
-}
-
-
-func (i *PersistentVolumeClaim) List(opts *v1.ListOptions) ([]coreV1.PersistentVolumeClaim, error) {
-	persistentVolumeClaimList, e := clientset.CoreV1().PersistentVolumeClaims(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return persistentVolumeClaimList.Items,nil
-}
-
-
-func (i *PodTemplate) List(opts *v1.ListOptions) ([]coreV1.PodTemplate, error) {
-	podTemplateList, e := clientset.CoreV1().PodTemplates(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return podTemplateList.Items,nil
-}
-
-
-func (i *ResourceQuota) List(opts *v1.ListOptions) ([]coreV1.ResourceQuota, error) {
-	resourceQuotaList, e := clientset.CoreV1().ResourceQuotas(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return resourceQuotaList.Items,nil
-}
-
-
-func (i *Service) List(opts *v1.ListOptions) ([]coreV1.Service, error) {
-	serviceList, e := clientset.CoreV1().Services(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return serviceList.Items,nil
-}
-
-
-func (i *LimitRange) List(opts *v1.ListOptions) ([]coreV1.LimitRange, error) {
-	limitRangeList, e := clientset.CoreV1().LimitRanges(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return limitRangeList.Items,nil
-}
-
-
-func (i *PersistentVolume) List(opts *v1.ListOptions) ([]coreV1.PersistentVolume, error) {
-	persistentVolumeList, e := clientset.CoreV1().PersistentVolumes().List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return persistentVolumeList.Items,nil
-}
-
-
-func (i *ServiceAccount) List(opts *v1.ListOptions) ([]coreV1.ServiceAccount, error) {
-	serviceAccountList, e := clientset.CoreV1().ServiceAccounts(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return serviceAccountList.Items,nil
-}
-
-
-func (i *PodPreset) List(opts *v1.ListOptions) ([]settingsV1alpha1.PodPreset, error) {
-	podPresetList, e := clientset.SettingsV1alpha1().PodPresets(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return podPresetList.Items,nil
-}
-
-
-func (i *InitializerConfiguration) List(opts *v1.ListOptions) ([]admissionregistrationV1alpha1.InitializerConfiguration, error) {
-	initializerConfigurationList, e := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return initializerConfigurationList.Items,nil
-}
-
-
-
-
-
-func (i *Ingress) List(opts *v1.ListOptions) ([]extensionsV1beta1.Ingress, error) {
-	ingressList, e := clientset.ExtensionsV1beta1().Ingresses(i.Namespace).List(*opts)
-	if e != nil {
-		return nil,e
-	}
-	return ingressList.Items,nil
 }
 
 
 
-func (i *PriorityClass) List(opts *v1.ListOptions) ([]schedulingV1beta1.PriorityClass, error) {
-	priorityClassList, e := clientset.SchedulingV1beta1().PriorityClasses().List(*opts)
-	if e != nil {
-		return nil,e
+
+func (i *PodDisruptionBudget) GetAll(opts *v1.ListOptions) ([]policyV1beta1.PodDisruptionBudget, error) {
+	podDisruptionBudgetList, err := clientset.PolicyV1beta1().PodDisruptionBudgets(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return priorityClassList.Items,nil
+	if i.Name == "" {
+		return podDisruptionBudgetList.Items, nil
+	} else {
+		var items = podDisruptionBudgetList.Items
+		for _, v := range podDisruptionBudgetList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *StorageClass) List(opts *v1.ListOptions) ([]storageV1.StorageClass, error) {
-	storageClassList, e := clientset.StorageV1().StorageClasses().List(*opts)
-	if e != nil {
-		return nil,e
+func (i *PodSecurityPolicy) GetAll(opts *v1.ListOptions) ([]policyV1beta1.PodSecurityPolicy, error) {
+	podSecurityPolicyList, err := clientset.PolicyV1beta1().PodSecurityPolicies().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return storageClassList.Items,nil
+	if i.Name == "" {
+		return podSecurityPolicyList.Items, nil
+	} else {
+		var items = podSecurityPolicyList.Items
+		for _, v := range podSecurityPolicyList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
 
 
-func (i *VolumeAttachment) List(opts *v1.ListOptions) ([]storageV1.VolumeAttachment, error) {
-	volumeAttachmentList, e := clientset.StorageV1().VolumeAttachments().List(*opts)
-	if e != nil {
-		return nil,e
+
+func (i *ComponentStatus) GetAll(opts *v1.ListOptions) ([]coreV1.ComponentStatus, error) {
+	componentStatusList, err := clientset.CoreV1().ComponentStatuses().List(*opts)
+	if err != nil {
+		return nil,err
 	}
-	return volumeAttachmentList.Items,nil
+	if i.Name == "" {
+		return componentStatusList.Items, nil
+	} else {
+		var items = componentStatusList.Items
+		for _, v := range componentStatusList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *ConfigMap) GetAll(opts *v1.ListOptions) ([]coreV1.ConfigMap, error) {
+	configMapList, err := clientset.CoreV1().ConfigMaps(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return configMapList.Items, nil
+	} else {
+		var items = configMapList.Items
+		for _, v := range configMapList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *Event) GetAll(opts *v1.ListOptions) ([]coreV1.Event, error) {
+	eventList, err := clientset.CoreV1().Events(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return eventList.Items, nil
+	} else {
+		var items = eventList.Items
+		for _, v := range eventList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *Namespace) GetAll(opts *v1.ListOptions) ([]coreV1.Namespace, error) {
+	namespaceList, err := clientset.CoreV1().Namespaces().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return namespaceList.Items, nil
+	} else {
+		var items = namespaceList.Items
+		for _, v := range namespaceList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *PersistentVolume) GetAll(opts *v1.ListOptions) ([]coreV1.PersistentVolume, error) {
+	persistentVolumeList, err := clientset.CoreV1().PersistentVolumes().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return persistentVolumeList.Items, nil
+	} else {
+		var items = persistentVolumeList.Items
+		for _, v := range persistentVolumeList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *PodTemplate) GetAll(opts *v1.ListOptions) ([]coreV1.PodTemplate, error) {
+	podTemplateList, err := clientset.CoreV1().PodTemplates(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return podTemplateList.Items, nil
+	} else {
+		var items = podTemplateList.Items
+		for _, v := range podTemplateList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *Node) GetAll(opts *v1.ListOptions) ([]coreV1.Node, error) {
+	nodeList, err := clientset.CoreV1().Nodes().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return nodeList.Items, nil
+	} else {
+		var items = nodeList.Items
+		for _, v := range nodeList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *PersistentVolumeClaim) GetAll(opts *v1.ListOptions) ([]coreV1.PersistentVolumeClaim, error) {
+	persistentVolumeClaimList, err := clientset.CoreV1().PersistentVolumeClaims(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return persistentVolumeClaimList.Items, nil
+	} else {
+		var items = persistentVolumeClaimList.Items
+		for _, v := range persistentVolumeClaimList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *ResourceQuota) GetAll(opts *v1.ListOptions) ([]coreV1.ResourceQuota, error) {
+	resourceQuotaList, err := clientset.CoreV1().ResourceQuotas(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return resourceQuotaList.Items, nil
+	} else {
+		var items = resourceQuotaList.Items
+		for _, v := range resourceQuotaList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *Secret) GetAll(opts *v1.ListOptions) ([]coreV1.Secret, error) {
+	secretList, err := clientset.CoreV1().Secrets(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return secretList.Items, nil
+	} else {
+		var items = secretList.Items
+		for _, v := range secretList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *LimitRange) GetAll(opts *v1.ListOptions) ([]coreV1.LimitRange, error) {
+	limitRangeList, err := clientset.CoreV1().LimitRanges(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return limitRangeList.Items, nil
+	} else {
+		var items = limitRangeList.Items
+		for _, v := range limitRangeList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *Pod) GetAll(opts *v1.ListOptions) ([]coreV1.Pod, error) {
+	podList, err := clientset.CoreV1().Pods(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return podList.Items, nil
+	} else {
+		var items = podList.Items
+		for _, v := range podList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *ServiceAccount) GetAll(opts *v1.ListOptions) ([]coreV1.ServiceAccount, error) {
+	serviceAccountList, err := clientset.CoreV1().ServiceAccounts(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return serviceAccountList.Items, nil
+	} else {
+		var items = serviceAccountList.Items
+		for _, v := range serviceAccountList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+
+
+func (i *ReplicationController) GetAll(opts *v1.ListOptions) ([]coreV1.ReplicationController, error) {
+	replicationControllerList, err := clientset.CoreV1().ReplicationControllers(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return replicationControllerList.Items, nil
+	} else {
+		var items = replicationControllerList.Items
+		for _, v := range replicationControllerList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *Service) GetAll(opts *v1.ListOptions) ([]coreV1.Service, error) {
+	serviceList, err := clientset.CoreV1().Services(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return serviceList.Items, nil
+	} else {
+		var items = serviceList.Items
+		for _, v := range serviceList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *PodPreset) GetAll(opts *v1.ListOptions) ([]settingsV1alpha1.PodPreset, error) {
+	podPresetList, err := clientset.SettingsV1alpha1().PodPresets(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return podPresetList.Items, nil
+	} else {
+		var items = podPresetList.Items
+		for _, v := range podPresetList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *InitializerConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1alpha1.InitializerConfiguration, error) {
+	initializerConfigurationList, err := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return initializerConfigurationList.Items, nil
+	} else {
+		var items = initializerConfigurationList.Items
+		for _, v := range initializerConfigurationList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+
+
+
+
+func (i *Ingress) GetAll(opts *v1.ListOptions) ([]extensionsV1beta1.Ingress, error) {
+	ingressList, err := clientset.ExtensionsV1beta1().Ingresses(i.Namespace).List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return ingressList.Items, nil
+	} else {
+		var items = ingressList.Items
+		for _, v := range ingressList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+
+func (i *PriorityClass) GetAll(opts *v1.ListOptions) ([]schedulingV1beta1.PriorityClass, error) {
+	priorityClassList, err := clientset.SchedulingV1beta1().PriorityClasses().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return priorityClassList.Items, nil
+	} else {
+		var items = priorityClassList.Items
+		for _, v := range priorityClassList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *VolumeAttachment) GetAll(opts *v1.ListOptions) ([]storageV1.VolumeAttachment, error) {
+	volumeAttachmentList, err := clientset.StorageV1().VolumeAttachments().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return volumeAttachmentList.Items, nil
+	} else {
+		var items = volumeAttachmentList.Items
+		for _, v := range volumeAttachmentList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
+
+
+func (i *StorageClass) GetAll(opts *v1.ListOptions) ([]storageV1.StorageClass, error) {
+	storageClassList, err := clientset.StorageV1().StorageClasses().List(*opts)
+	if err != nil {
+		return nil,err
+	}
+	if i.Name == "" {
+		return storageClassList.Items, nil
+	} else {
+		var items = storageClassList.Items
+		for _, v := range storageClassList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.Name))
+			if err != nil {
+				return nil,err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
 }
