@@ -16,11 +16,11 @@ func TestLogs(t *testing.T) {
 		Namespace:     "dev",
 	}
 	opts := corev1.PodLogOptions{}
-	str,e := pod.Logs(&opts)
-	if e !=nil {
-		log.Print(e)
+	str,err := pod.Logs(&opts)
+	if err != nil {
+		log.Println(err)
 	}else {
-		log.Print(str)
+		log.Println(str)
 	}
 
 }
@@ -31,11 +31,11 @@ func TestDescribe(t *testing.T) {
 		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	str,e :=pod.Describe()
-	if e !=nil {
-		log.Print(e)
+	str,err := pod.Describe()
+	if err != nil {
+		log.Print(err)
 	}
-	log.Print(str)
+	log.Println(str)
 }
 
 func TestExec(t *testing.T) {
@@ -45,9 +45,9 @@ func TestExec(t *testing.T) {
 		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	e := pod.Exec([]string{"ls","-al"})
-	if e !=nil {
-		log.Print(e)
+	err :=  pod.Exec([]string{"ls","-al"})
+	if err != nil {
+		log.Print(err)
 	}
 }
 
@@ -58,9 +58,9 @@ func TestCp(t *testing.T) {
 		Name:       "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
-	e := pod.Cp("/tmp/localfile","/opt/")
-		if e !=nil {
-		log.Print(e)
+	err :=  pod.Cp("/tmp/localfile","/opt/")
+		if err != nil {
+		log.Print(err)
 	}
 }
 
@@ -72,9 +72,9 @@ func TestGetAll(t *testing.T) {
 		Namespace:     "dev",
 	}
 	opts := v1.ListOptions{}
-	items ,e := pod.GetAll(&opts)
-	if e !=nil {
-		log.Print(e)
+	items ,err :=  pod.GetAll(&opts)
+	if err != nil {
+		log.Print(err)
 	}
 	for _, v := range items {
 		json, _ := json.Marshal(v)
@@ -87,9 +87,9 @@ func TestGetAll(t *testing.T) {
 		Name:       "api-test",
 		Namespace:     "dev",
 	}
-	items2 ,e := pod2.GetAll(&opts)
-	if e !=nil {
-		log.Print(e)
+	items2 ,err :=  pod2.GetAll(&opts)
+	if err != nil {
+		log.Print(err)
 	}
 	for _, v := range items2 {
 		json, _ := json.Marshal(v)
