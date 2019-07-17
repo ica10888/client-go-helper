@@ -1,10 +1,12 @@
 package kubectl
 
 import (
+	"encoding/json"
+	"github.com/ghodss/yaml"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"log"
 	"testing"
-	corev1 "k8s.io/api/core/v1"
 )
 
 func TestLogs(t *testing.T) {
@@ -75,9 +77,11 @@ func TestGetAll(t *testing.T) {
 		log.Print(e)
 	}
 	for _, v := range items {
-		log.Println(v)
+		json, _ := json.Marshal(v)
+		rawYaml ,_ := yaml.JSONToYAML(json)
+		log.Println(string(rawYaml))
 	}
-	log.Print(items)
+	log.Println("=======================")
 	pod2 := Pod{
 		ContainerName: "",
 		Name:       "api-test",
@@ -87,5 +91,9 @@ func TestGetAll(t *testing.T) {
 	if e !=nil {
 		log.Print(e)
 	}
-	log.Print(items2)
+	for _, v := range items2 {
+		json, _ := json.Marshal(v)
+		rawYaml ,_ := yaml.JSONToYAML(json)
+		log.Println(string(rawYaml))
+	}
 }
