@@ -145,6 +145,7 @@ func writeListCode (args map[string]bool,api string){
 			}
 			fmt.Printf(`
 func (i *%s) GetAll(opts *v1.ListOptions) ([]%s.%s, error) {
+    var clientset,_  = InitClient()
 	%sList, err := clientset.%s().%s(%s).List(*opts)
 	if err != nil {
 		return nil,err
@@ -154,7 +155,7 @@ func (i *%s) GetAll(opts *v1.ListOptions) ([]%s.%s, error) {
 	} else {
 		var items = %sList.Items
 		for _, v := range %sList.Items {
-			match, err := regexp.Match(i.Name, []byte(v.Name))
+			match, err := regexp.Match(i.Name, []byte(v.ObjectMeta.Name))
 			if err != nil {
 				return nil,err
 			}

@@ -74,6 +74,9 @@ func TestGetAll(t *testing.T) {
 	if e !=nil {
 		log.Print(e)
 	}
+	for _, v := range items {
+		log.Println(v)
+	}
 	log.Print(items)
 	pod2 := Pod{
 		ContainerName: "",
