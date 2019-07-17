@@ -740,7 +740,8 @@ func (i *LimitRange) GetAll(opts *v1.ListOptions) ([]coreV1.LimitRange, error) {
 
 
 func (i *Pod) GetAll(opts *v1.ListOptions) ([]coreV1.Pod, error) {
-	podList, err := clientset.CoreV1().Pods(i.Namespace).List(*opts)
+	opts2 := new(v1.ListOptions)
+	podList, err := clientset.CoreV1().Pods(i.Namespace).List(*opts2)
 	if err != nil {
 		return nil,err
 	}

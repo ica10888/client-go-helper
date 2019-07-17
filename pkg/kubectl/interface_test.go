@@ -63,26 +63,24 @@ func TestCp(t *testing.T) {
 }
 
 
-func TestGet(t *testing.T) {
-
+func TestGetAll(t *testing.T) {
+	pod := Pod{
+		ContainerName: "",
+		Name:       "api-test-775cf487ff-7zhnj",
+		Namespace:     "dev",
+	}
 	opts := v1.ListOptions{}
-	kapi := Kubeapi{
-		ApiVersion:   "extensions/v1beta1",
-		Kind:  "Deployment",
-		Yaml:   "",
-	}
-	//same result
-	kapi2 := Kubeapi{
-		ApiVersion:   "apps/v1beta2",
-		Kind:  "Deployment",
-		Yaml:   "",
-	}
-	items ,e := Get(&opts,&kapi,"dev")
+	items ,e := pod.GetAll(&opts)
 	if e !=nil {
 		log.Print(e)
 	}
 	log.Print(items)
-	items2 ,e := Get(&opts,&kapi2,"dev")
+	pod2 := Pod{
+		ContainerName: "",
+		Name:       "api-test",
+		Namespace:     "dev",
+	}
+	items2 ,e := pod2.GetAll(&opts)
 	if e !=nil {
 		log.Print(e)
 	}
