@@ -69,9 +69,13 @@ func writeDeleteCode (args map[string]bool,api string){
 			}
 			fmt.Printf(`
 func (i *%s) Delete (opts *v1.DeleteOptions) (error) {
-	e := clientset.%s().%s(%s).Delete(i.Name,opts)
-	if e != nil {
-		return e
+	var clientset, err  = InitClient()
+	if err != nil {
+		return err
+	}
+	err = clientset.%s().%s(%s).Delete(i.Name,opts)
+	if err != nil {
+		return err
 	}
 	return nil
 }
