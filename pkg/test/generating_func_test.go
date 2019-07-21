@@ -149,7 +149,10 @@ func writeListCode (args map[string]bool,api string){
 			}
 			fmt.Printf(`
 func (i *%s) GetAll(opts *v1.ListOptions) ([]%s.%s, error) {
-    var clientset,_  = InitClient()
+	var clientset, err  = InitClient()
+	if err != nil {
+		return nil,err
+	}
 	%sList, err := clientset.%s().%s(%s).List(*opts)
 	if err != nil {
 		return nil,err
