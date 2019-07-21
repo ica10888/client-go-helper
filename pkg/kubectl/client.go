@@ -15,11 +15,11 @@ import (
 	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
 )
 
-var once sync.Once
-var clientset *kubernetes.Clientset
 
 // use sync.Once, so clientset can only init once
 func InitClient() (*kubernetes.Clientset, error) {
+	var once sync.Once
+	var clientset *kubernetes.Clientset
 	once.Do(func() {
 		log.Print("start doInit()")
 		clientset, _ = doInit()
