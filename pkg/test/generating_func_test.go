@@ -52,6 +52,51 @@ func TestWriteDeleteCode(t *testing.T)  {
 
 
 
+func TestWriteGetCode(t *testing.T)  {
+
+	clientset, _ := kubectl.InitClient()
+
+	//输出转输入
+	writeGetCode(GetFunctionName2(clientset.BatchV1beta1()),"BatchV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.AuditregistrationV1alpha1()),"AuditregistrationV1alpha1")
+
+	writeGetCode(GetFunctionName2(clientset.AdmissionregistrationV1beta1()),"AdmissionregistrationV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.BatchV1()),"BatchV1")
+
+	writeGetCode(GetFunctionName2(clientset.CertificatesV1beta1()),"CertificatesV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.RbacV1()),"RbacV1")
+
+	writeGetCode(GetFunctionName2(clientset.CoordinationV1beta1()),"CoordinationV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.NetworkingV1()),"NetworkingV1")
+
+	writeGetCode(GetFunctionName2(clientset.AppsV1()),"AppsV1")
+
+	writeGetCode(GetFunctionName2(clientset.AutoscalingV2beta2()),"AutoscalingV2beta2")
+
+	writeGetCode(GetFunctionName2(clientset.PolicyV1beta1()),"PolicyV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.AuthorizationV1()),"AuthorizationV1")
+
+	writeGetCode(GetFunctionName2(clientset.CoreV1()),"CoreV1")
+
+	writeGetCode(GetFunctionName2(clientset.SettingsV1alpha1()),"SettingsV1alpha1")
+
+	writeGetCode(GetFunctionName2(clientset.AdmissionregistrationV1alpha1()),"AdmissionregistrationV1alpha1")
+
+	writeGetCode(GetFunctionName2(clientset.AuthenticationV1()),"AuthenticationV1")
+
+	writeGetCode(GetFunctionName2(clientset.ExtensionsV1beta1()),"ExtensionsV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.SchedulingV1beta1()),"SchedulingV1beta1")
+
+	writeGetCode(GetFunctionName2(clientset.StorageV1()),"StorageV1")
+}
+
+
 func writeDeleteCode (args map[string]bool,api string){
 	for  v,vbool := range args {
 		if v!= "" {
@@ -85,6 +130,46 @@ func (i *%s) Delete (opts *v1.DeleteOptions) (error) {
 
 
 }
+
+
+
+
+func writeGetCode (args map[string]bool,api string){
+	for  v,vbool := range args {
+		if v!= "" {
+			var vs = v + "s"
+			if  v[len(v)-1:]== "s"  {
+				vs = v + "es"
+			}
+			if v[len(v)-1:]== "y" {
+				vs = v[:len(v)-1] + "ies"
+			}
+
+			var ns = "i.Namespace"
+			if vbool == false {
+				ns = ""
+			}
+			fmt.Printf(`
+func (i *%s) Get (opts *v1.GetOptions) (error) {
+	var clientset, err  = InitClient()
+	if err != nil {
+		return err
+	}
+	err = clientset.%s().%s(%s).Get(i.Name,opts)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+`, v, api, vs, ns)
+		}
+	}
+
+
+}
+
+
+
 
 
 func TestWriteListCode(t *testing.T)  {
