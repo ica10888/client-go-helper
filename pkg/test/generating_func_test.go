@@ -155,7 +155,7 @@ func (i *%s) Get (opts *v1.GetOptions) (error) {
 	if err != nil {
 		return err
 	}
-	err = clientset.%s().%s(%s).Get(i.Name,opts)
+	_ , err = clientset.%s().%s(%s).Get(i.Name,*opts)
 	if err != nil {
 		return err
 	}
