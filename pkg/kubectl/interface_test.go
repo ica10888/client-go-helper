@@ -97,3 +97,17 @@ func TestGetAll(t *testing.T) {
 		log.Println(string(rawYaml))
 	}
 }
+
+
+func TestGet(t *testing.T) {
+	pod := Pod{
+		ContainerName: "",
+		Name:          "api-test-775cf487ff-7zhnj",
+		Namespace:     "dev",
+	}
+	opts := v1.GetOptions{}
+	err := pod.Get(&opts)
+	if err != nil {
+		log.Print(err)
+	}
+}
