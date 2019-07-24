@@ -150,18 +150,18 @@ func writeGetCode (args map[string]bool,api string){
 				ns = ""
 			}
 			fmt.Printf(`
-func (i *%s) Get (opts *v1.GetOptions) (error) {
+func (i *%s) Get (opts *v1.GetOptions) (%s.%s,error) {
 	var clientset, err  = InitClient()
 	if err != nil {
-		return err
+		return %s.%s{},err
 	}
-	_ , err = clientset.%s().%s(%s).Get(i.Name,*opts)
+	%s , err := clientset.%s().%s(%s).Get(i.Name,*opts)
 	if err != nil {
-		return err
+		return %s.%s{},err
 	}
-	return nil
+	return *%s,nil
 }
-`, v, api, vs, ns)
+`, v,lcfirst(api),v,lcfirst(api),v,lcfirst(v), api, vs, ns,lcfirst(api),v,lcfirst(v))
 		}
 	}
 
