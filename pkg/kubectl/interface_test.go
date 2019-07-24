@@ -106,8 +106,12 @@ func TestGet(t *testing.T) {
 		Namespace:     "dev",
 	}
 	opts := v1.GetOptions{}
-	err := pod.Get(&opts)
+	v1Pod,err := pod.Get(&opts)
 	if err != nil {
 		log.Print(err)
 	}
+	json, _ := json.Marshal(v1Pod)
+	rawYaml ,_ := yaml.JSONToYAML(json)
+	log.Println(string(rawYaml))
+
 }
