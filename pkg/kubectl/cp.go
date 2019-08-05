@@ -124,7 +124,6 @@ func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 		Proxy:           http.ProxyFromEnvironment,
 		TLSClientConfig: tlsConfig,
 	}
-
 	c, _, err := dialer.Dial(u.String(), req.Header)
 	if err != nil {
 		log.Fatalf("failed to do req: %v", err)

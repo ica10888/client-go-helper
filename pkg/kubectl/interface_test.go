@@ -59,10 +59,26 @@ func TestCp(t *testing.T) {
 		Namespace:     "dev",
 	}
 	err :=  pod.Cp("/tmp/localfile","/opt/")
-		if err != nil {
+	if err != nil {
 		log.Print(err)
 	}
+
 }
+
+func TestCp2(t *testing.T) {
+	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
+	pod := Pod{
+		ContainerName: "",
+		Name:       "data-processor-6fdb657bc-hgttl",
+		Namespace:     "dev",
+	}
+	err :=  pod.Cp2("/opt/config/bootstrap.yml","/tmp/")
+	if err != nil {
+		log.Print(err)
+	}
+
+}
+
 
 
 func TestGetAll(t *testing.T) {

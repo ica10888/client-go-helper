@@ -9,7 +9,7 @@ func (i *CronJob) Patch (pt *types.PatchType) (batchV1beta1.CronJob,error) {
 	if err != nil {
 		return batchV1beta1.CronJob{},err
 	}
-	cronJob , err := clientset.BatchV1beta1().CronJobs(i.Namespace).Patch(i.Name,*pt,"","")
+	cronJob , err := clientset.BatchV1beta1().CronJobs(i.Namespace).Patch(i.Name,*pt,nil,"")
 	if err != nil {
 		return batchV1beta1.CronJob{},err
 	}
