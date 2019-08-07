@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"io"
+	"io/ioutil"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
@@ -95,7 +96,9 @@ func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 		Name(i.Name).
 		Resource("pods").
 		SubResource("exec").
-		Param("command", "/bin/cat").
+		Param("command", "/bin/tar").
+		Param("command", "-cf").
+		Param("command", "-").
 		Param("command", srcPath).
 		Param("container", i.ContainerName).
 		Param("stderr", "true").
@@ -146,5 +149,12 @@ func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 		res = append(res, p...)
 	}
 	fmt.Printf("body:\n%s\n", res)
+	filename :=  path.Join(destPath,path.Base(srcPath))
+	err = ioutil.WriteFile(filename, res, 0644)
+	if err != nil {
+		panic("write file err : "+ filename)
+	}
+	fmt.Printf("body:\n%s\n", filename)
+
 	return nil
 }

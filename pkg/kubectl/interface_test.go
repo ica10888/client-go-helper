@@ -69,10 +69,10 @@ func TestCp2(t *testing.T) {
 	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
 	pod := Pod{
 		ContainerName: "",
-		Name:       "data-processor-6fdb657bc-hgttl",
+		Name:       "www-7b7d8f49db-2p9kc",
 		Namespace:     "dev",
 	}
-	err :=  pod.Cp2("/opt/config/bootstrap.yml","/tmp/")
+	err :=  pod.Cp2("/usr/src/app/web/dist","/tmp/")
 	if err != nil {
 		log.Print(err)
 	}
