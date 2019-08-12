@@ -1,22 +1,19 @@
 package kubectl
 
 import (
-	"fmt"
-	"github.com/gorilla/websocket"
 	"io"
-	"io/ioutil"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/remotecommand"
 	_ "k8s.io/kubernetes/pkg/kubectl/cmd/cp"
 	cmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"log"
-	"net/http"
 	"os"
 	"path"
 	"strings"
 	_ "unsafe"
+	k8sexec "k8s.io/kubernetes/pkg/kubectl/cmd/exec"
 )
 
 func (i *Pod) Cp(srcPath string, destPath string) (error) {
@@ -89,72 +86,44 @@ func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
 
 func (i *Pod) Cp2(srcPath string, destPath string) (error) {
-	clientset, _ := InitClient()
-	restconfig, _, _ := InitRestClient()
-	u := clientset.CoreV1().RESTClient().Get().
-		Namespace(i.Namespace).
-		Name(i.Name).
-		Resource("pods").
-		SubResource("exec").
-		Param("command", "/bin/tar").
-		Param("command", "-cf").
-		Param("command", "-").
-		Param("command", srcPath).
-		Param("container", i.ContainerName).
-		Param("stderr", "true").
-		Param("stdout", "true").URL()
 
-	switch u.Scheme {
-	case "https":
-		u.Scheme = "wss"
-	case "http":
-		u.Scheme = "ws"
-	default:
-		log.Fatalf("malformed URL %s", u.String())
+
+	reader, outStream := io.Pipe()
+	options := &k8sexec.ExecOptions{
+		StreamOptions: k8sexec.StreamOptions{
+			IOStreams: genericclioptions.IOStreams{
+				In:     nil,
+				Out:    outStream,
+				ErrOut: o.Out,
+			},
+
+			Namespace: i.Namespace,
+			PodName:   i.Name,
+		},
+
+		Command:  []string{"tar", "cf", "-", srcPath},
+		Executor: &k8sexec.DefaultRemoteExecutor{},
 	}
 
-	req := &http.Request{
-		Method: http.MethodGet,
-		URL:    u,
-	}
-
-	tlsConfig, err := rest.TLSConfigFor(restconfig)
-	if err != nil {
-		log.Fatalf("failed to read tls config: %v", err)
-	}
-
-	dialer := &websocket.Dialer{
-		Proxy:           http.ProxyFromEnvironment,
-		TLSClientConfig: tlsConfig,
-	}
-	c, _, err := dialer.Dial(u.String(), req.Header)
-	if err != nil {
-		log.Fatalf("failed to do req: %v", err)
-	}
-	defer c.Close()
-
-	var res []byte
-	for {
-		msgT, p, err := c.ReadMessage()
-		if err != nil {
-			if _, ok := err.(*websocket.CloseError); ok {
-				break
-			}
-			fmt.Printf("err %T %v\n", err, err)
-			break
-		}
-		if msgT != 2 {
-			log.Fatalf("unknown message type %d", msgT)
-		}
-		res = append(res, p...)
-	}
-	fmt.Printf("body:\n%s\n", res)
-	filename :=  path.Join(destPath,path.Base(srcPath))
-	err = ioutil.WriteFile(filename, res, 0644)
-	if err != nil {
-		panic("write file err : "+ filename)
-	}
-	fmt.Printf("body:\n%s\n", filename)
-
-	return nil
+	go func() {
+		defer outStream.Close()
+		err := o.execute(options)
+		cmdutil.CheckErr(err)
+	}()
+	prefix := getPrefix(srcPath)
+	prefix = path.Clean(prefix)
+	// remove extraneous path shortcuts - these could occur if a path contained extra "../"
+	// and attempted to navigate beyond "/" in a remote filesystem
+	prefix = stripPathShortcuts(prefix)
+	return o.untarAll(reader, destPath, prefix)
 }
+
+
+
+func getPrefix(file string) string {
+	// tar strips the leading '/' if it's there, so we will too
+	return strings.TrimLeft(file, "/")
+}
+
+//go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.stripPathShortcuts
+func stripPathShortcuts(p string) string
