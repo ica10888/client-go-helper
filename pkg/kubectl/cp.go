@@ -1,6 +1,8 @@
 package kubectl
 
 import (
+	"archive/tar"
+	"fmt"
 	"io"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -11,6 +13,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 	_ "unsafe"
 	k8sexec "k8s.io/kubernetes/pkg/kubectl/cmd/exec"
@@ -87,14 +90,13 @@ func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
 func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 
-
 	reader, outStream := io.Pipe()
 	options := &k8sexec.ExecOptions{
 		StreamOptions: k8sexec.StreamOptions{
 			IOStreams: genericclioptions.IOStreams{
 				In:     nil,
 				Out:    outStream,
-				ErrOut: o.Out,
+				ErrOut: os.Stderr,
 			},
 
 			Namespace: i.Namespace,
@@ -107,7 +109,7 @@ func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 
 	go func() {
 		defer outStream.Close()
-		err := o.execute(options)
+		err := options.Run()
 		cmdutil.CheckErr(err)
 	}()
 	prefix := getPrefix(srcPath)
@@ -115,7 +117,7 @@ func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 	// remove extraneous path shortcuts - these could occur if a path contained extra "../"
 	// and attempted to navigate beyond "/" in a remote filesystem
 	prefix = stripPathShortcuts(prefix)
-	return o.untarAll(reader, destPath, prefix)
+	return untarAll(reader, destPath, prefix)
 }
 
 
@@ -127,3 +129,81 @@ func getPrefix(file string) string {
 
 //go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.stripPathShortcuts
 func stripPathShortcuts(p string) string
+
+
+
+
+func untarAll(reader io.Reader, destDir, prefix string) error {
+	tarReader := tar.NewReader(reader)
+	for {
+		header, err := tarReader.Next()
+		if err != nil {
+			if err != io.EOF {
+				return err
+			}
+			break
+		}
+
+		// All the files will start with the prefix, which is the directory where
+		// they were located on the pod, we need to strip down that prefix, but
+		// if the prefix is missing it means the tar was tempered with.
+		// For the case where prefix is empty we need to ensure that the path
+		// is not absolute, which also indicates the tar file was tempered with.
+		if !strings.HasPrefix(header.Name, prefix) {
+			return fmt.Errorf("tar contents corrupted")
+		}
+
+		// basic file information
+		mode := header.FileInfo().Mode()
+		destFileName := filepath.Join(destDir, header.Name[len(prefix):])
+
+
+		baseName := filepath.Dir(destFileName)
+		if err := os.MkdirAll(baseName, 0755); err != nil {
+			return err
+		}
+		if header.FileInfo().IsDir() {
+			if err := os.MkdirAll(destFileName, 0755); err != nil {
+				return err
+			}
+			continue
+		}
+
+		// We need to ensure that the destination file is always within boundries
+		// of the destination directory. This prevents any kind of path traversal
+		// from within tar archive.
+		evaledPath, err := filepath.EvalSymlinks(baseName)
+		if err != nil {
+			return err
+		}
+
+
+		if mode&os.ModeSymlink != 0 {
+			linkname := header.Linkname
+			// We need to ensure that the link destination is always within boundries
+			// of the destination directory. This prevents any kind of path traversal
+			// from within tar archive.
+			if !filepath.IsAbs(linkname) {
+				_ = filepath.Join(evaledPath, linkname)
+			}
+
+			if err := os.Symlink(linkname, destFileName); err != nil {
+				return err
+			}
+		} else {
+			outFile, err := os.Create(destFileName)
+			if err != nil {
+				return err
+			}
+			defer outFile.Close()
+			if _, err := io.Copy(outFile, tarReader); err != nil {
+				return err
+			}
+			if err := outFile.Close(); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
