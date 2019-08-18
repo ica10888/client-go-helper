@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"io"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/remotecommand"
 	_ "k8s.io/kubernetes/pkg/kubectl/cmd/cp"
-	k8sexec "k8s.io/kubernetes/pkg/kubectl/cmd/exec"
 	cmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"log"
 	"os"
@@ -87,31 +85,36 @@ func checkDestinationIsDir(i *Pod, destPath string) error {
 func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
 func (i *Pod) Cp2(srcPath string, destPath string) error {
-
+	restconfig, err, coreclient := InitRestClient()
 	reader, outStream := io.Pipe()
-	options := &k8sexec.ExecOptions{
-		StreamOptions: k8sexec.StreamOptions{
-			IOStreams: genericclioptions.IOStreams{
-				In:     nil,
-				Out:    outStream,
-				ErrOut: os.Stderr,
-			},
+	cmdArr := []string{"tar", "cf", "-", srcPath}
+	req := coreclient.RESTClient().
+		Post().
+		Namespace(i.Namespace).
+		Resource("pods").
+		Name(i.Name).
+		SubResource("exec").
+		VersionedParams(&corev1.PodExecOptions{
+			Container: i.ContainerName,
+			Command:   cmdArr,
+			Stdin:     true,
+			Stdout:    true,
+			Stderr:    true,
+			TTY:       false,
+		}, scheme.ParameterCodec)
 
-			Namespace: i.Namespace,
-			PodName:   i.Name,
-		},
-
-		Command:  []string{"tar", "cf", "-", srcPath},
-		Executor: &k8sexec.DefaultRemoteExecutor{},
+	exec, err := remotecommand.NewSPDYExecutor(restconfig, "POST", req.URL())
+	if err != nil {
+		log.Fatalf("error %s\n", err)
+		return err
 	}
+	err = exec.Stream(remotecommand.StreamOptions{
+		Stdin:  nil,
+		Stdout: outStream,
+		Stderr: os.Stderr,
+		Tty:    false,
+	})
 
-	go func() {
-		defer outStream.Close()
-		options.Config, _, _ = InitRestClient()
-		options.PodClient = CoreV1Client()
-		_ = options.Run()
-		//cmdutil.CheckErr(err)
-	}()
 	prefix := getPrefix(srcPath)
 	prefix = path.Clean(prefix)
 	// remove extraneous path shortcuts - these could occur if a path contained extra "../"
