@@ -2,13 +2,14 @@ package kubectl
 
 import (
 	"bytes"
+	"client-go-helper/pkg/kubectl/client"
 	"io"
 	corev1 "k8s.io/api/core/v1"
 )
 
 func (i *pod) Logs(podLogOpts *corev1.PodLogOptions) (string, error) {
 	podLogOpts.Container = i.ContainerName
-	clientset, err := InitClient()
+	clientset, err := client.InitClient()
 	if err != nil {
 		return "", err
 	}

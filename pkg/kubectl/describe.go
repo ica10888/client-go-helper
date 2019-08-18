@@ -1,6 +1,7 @@
 package kubectl
 
 import (
+	"client-go-helper/pkg/kubectl/client"
 	"encoding/json"
 	"fmt"
 	"github.com/ghodss/yaml"
@@ -17,7 +18,7 @@ func (i *pod) Describe() (string, error) {
 	// Status
 	podGetOpts := metav1.GetOptions{}
 	//podLogOpts.Container = containerMeta.ContainerName
-	clientset, e := InitClient()
+	clientset, e := client.InitClient()
 	if e != nil {
 		return "", fmt.Errorf("something wrong happend ,%s", e)
 	}

@@ -2,6 +2,7 @@ package kubectl
 
 import (
 	"archive/tar"
+	"client-go-helper/pkg/kubectl/client"
 	"fmt"
 	"io"
 	corev1 "k8s.io/api/core/v1"
@@ -18,7 +19,7 @@ import (
 )
 
 func (i *pod) copyToPod(srcPath string, destPath string) error {
-	restconfig, err, coreclient := InitRestClient()
+	restconfig, err, coreclient := client.InitRestClient()
 
 	reader, writer := io.Pipe()
 	// strip trailing slash (if any)
@@ -85,7 +86,7 @@ func checkDestinationIsDir(i *pod, destPath string) error {
 func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
 func (i *pod) copyFromPod(srcPath string, destPath string) error {
-	restconfig, err, coreclient := InitRestClient()
+	restconfig, err, coreclient := client.InitRestClient()
 	reader, outStream := io.Pipe()
 	cmdArr := []string{"tar", "cf", "-", srcPath}
 	req := coreclient.RESTClient().

@@ -1,20 +1,17 @@
-package kubectl
-
-
+package client
 
 import (
 	"flag"
 	"k8s.io/client-go/kubernetes"
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
+	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"log"
 	"os"
 	"path/filepath"
 	"sync"
-	"k8s.io/client-go/rest"
-	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
 )
-
 
 // use sync.Once, so clientset can only init once
 func InitClient() (*kubernetes.Clientset, error) {

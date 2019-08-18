@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-var yaml =`
+var yaml = `
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -90,20 +90,17 @@ spec:
       terminationGracePeriodSeconds: 20
 `
 
-
 func TestApply(t *testing.T) {
-	e :=  kubectl.Apply(yaml,"local")
-	if e !=nil {
+	e := kubectl.Apply(yaml, "local")
+	if e != nil {
 		log.Print(e)
 	}
 
 }
 
 func TestCreate(t *testing.T) {
-	e :=  kubectl.Create(yaml,"local")
-	if e !=nil {
+	e := kubectl.Create(yaml, "local")
+	if e != nil {
 		log.Print(e)
 	}
-
 }
-

@@ -1,6 +1,7 @@
 package kubectl
 
 import (
+	"client-go-helper/pkg/kubectl/client"
 	admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
 	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	appsV1 "k8s.io/api/apps/v1"
@@ -22,7 +23,7 @@ import (
 )
 
 func (i *cronJob) Get(opts *v1.GetOptions) (batchV1beta1.CronJob, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return batchV1beta1.CronJob{}, err
 	}
@@ -34,7 +35,7 @@ func (i *cronJob) Get(opts *v1.GetOptions) (batchV1beta1.CronJob, error) {
 }
 
 func (i *auditSink) Get(opts *v1.GetOptions) (auditregistrationV1alpha1.AuditSink, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return auditregistrationV1alpha1.AuditSink{}, err
 	}
@@ -46,7 +47,7 @@ func (i *auditSink) Get(opts *v1.GetOptions) (auditregistrationV1alpha1.AuditSin
 }
 
 func (i *validatingWebhookConfiguration) Get(opts *v1.GetOptions) (admissionregistrationV1beta1.ValidatingWebhookConfiguration, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return admissionregistrationV1beta1.ValidatingWebhookConfiguration{}, err
 	}
@@ -58,7 +59,7 @@ func (i *validatingWebhookConfiguration) Get(opts *v1.GetOptions) (admissionregi
 }
 
 func (i *mutatingWebhookConfiguration) Get(opts *v1.GetOptions) (admissionregistrationV1beta1.MutatingWebhookConfiguration, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return admissionregistrationV1beta1.MutatingWebhookConfiguration{}, err
 	}
@@ -70,7 +71,7 @@ func (i *mutatingWebhookConfiguration) Get(opts *v1.GetOptions) (admissionregist
 }
 
 func (i *job) Get(opts *v1.GetOptions) (batchV1.Job, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return batchV1.Job{}, err
 	}
@@ -82,7 +83,7 @@ func (i *job) Get(opts *v1.GetOptions) (batchV1.Job, error) {
 }
 
 func (i *certificateSigningRequest) Get(opts *v1.GetOptions) (certificatesV1beta1.CertificateSigningRequest, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return certificatesV1beta1.CertificateSigningRequest{}, err
 	}
@@ -94,7 +95,7 @@ func (i *certificateSigningRequest) Get(opts *v1.GetOptions) (certificatesV1beta
 }
 
 func (i *clusterRoleBinding) Get(opts *v1.GetOptions) (rbacV1.ClusterRoleBinding, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return rbacV1.ClusterRoleBinding{}, err
 	}
@@ -106,7 +107,7 @@ func (i *clusterRoleBinding) Get(opts *v1.GetOptions) (rbacV1.ClusterRoleBinding
 }
 
 func (i *clusterRole) Get(opts *v1.GetOptions) (rbacV1.ClusterRole, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return rbacV1.ClusterRole{}, err
 	}
@@ -118,7 +119,7 @@ func (i *clusterRole) Get(opts *v1.GetOptions) (rbacV1.ClusterRole, error) {
 }
 
 func (i *roleBinding) Get(opts *v1.GetOptions) (rbacV1.RoleBinding, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return rbacV1.RoleBinding{}, err
 	}
@@ -130,7 +131,7 @@ func (i *roleBinding) Get(opts *v1.GetOptions) (rbacV1.RoleBinding, error) {
 }
 
 func (i *role) Get(opts *v1.GetOptions) (rbacV1.Role, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return rbacV1.Role{}, err
 	}
@@ -142,7 +143,7 @@ func (i *role) Get(opts *v1.GetOptions) (rbacV1.Role, error) {
 }
 
 func (i *lease) Get(opts *v1.GetOptions) (coordinationV1beta1.Lease, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coordinationV1beta1.Lease{}, err
 	}
@@ -154,7 +155,7 @@ func (i *lease) Get(opts *v1.GetOptions) (coordinationV1beta1.Lease, error) {
 }
 
 func (i *networkPolicy) Get(opts *v1.GetOptions) (networkingV1.NetworkPolicy, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return networkingV1.NetworkPolicy{}, err
 	}
@@ -166,7 +167,7 @@ func (i *networkPolicy) Get(opts *v1.GetOptions) (networkingV1.NetworkPolicy, er
 }
 
 func (i *daemonSet) Get(opts *v1.GetOptions) (appsV1.DaemonSet, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return appsV1.DaemonSet{}, err
 	}
@@ -178,7 +179,7 @@ func (i *daemonSet) Get(opts *v1.GetOptions) (appsV1.DaemonSet, error) {
 }
 
 func (i *deployment) Get(opts *v1.GetOptions) (appsV1.Deployment, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return appsV1.Deployment{}, err
 	}
@@ -190,7 +191,7 @@ func (i *deployment) Get(opts *v1.GetOptions) (appsV1.Deployment, error) {
 }
 
 func (i *replicaSet) Get(opts *v1.GetOptions) (appsV1.ReplicaSet, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return appsV1.ReplicaSet{}, err
 	}
@@ -202,7 +203,7 @@ func (i *replicaSet) Get(opts *v1.GetOptions) (appsV1.ReplicaSet, error) {
 }
 
 func (i *statefulSet) Get(opts *v1.GetOptions) (appsV1.StatefulSet, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return appsV1.StatefulSet{}, err
 	}
@@ -214,7 +215,7 @@ func (i *statefulSet) Get(opts *v1.GetOptions) (appsV1.StatefulSet, error) {
 }
 
 func (i *controllerRevision) Get(opts *v1.GetOptions) (appsV1.ControllerRevision, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return appsV1.ControllerRevision{}, err
 	}
@@ -226,7 +227,7 @@ func (i *controllerRevision) Get(opts *v1.GetOptions) (appsV1.ControllerRevision
 }
 
 func (i *horizontalPodAutoscaler) Get(opts *v1.GetOptions) (autoscalingV2beta2.HorizontalPodAutoscaler, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return autoscalingV2beta2.HorizontalPodAutoscaler{}, err
 	}
@@ -238,7 +239,7 @@ func (i *horizontalPodAutoscaler) Get(opts *v1.GetOptions) (autoscalingV2beta2.H
 }
 
 func (i *podDisruptionBudget) Get(opts *v1.GetOptions) (policyV1beta1.PodDisruptionBudget, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return policyV1beta1.PodDisruptionBudget{}, err
 	}
@@ -250,7 +251,7 @@ func (i *podDisruptionBudget) Get(opts *v1.GetOptions) (policyV1beta1.PodDisrupt
 }
 
 func (i *podSecurityPolicy) Get(opts *v1.GetOptions) (policyV1beta1.PodSecurityPolicy, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return policyV1beta1.PodSecurityPolicy{}, err
 	}
@@ -262,7 +263,7 @@ func (i *podSecurityPolicy) Get(opts *v1.GetOptions) (policyV1beta1.PodSecurityP
 }
 
 func (i *resourceQuota) Get(opts *v1.GetOptions) (coreV1.ResourceQuota, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.ResourceQuota{}, err
 	}
@@ -274,7 +275,7 @@ func (i *resourceQuota) Get(opts *v1.GetOptions) (coreV1.ResourceQuota, error) {
 }
 
 func (i *secret) Get(opts *v1.GetOptions) (coreV1.Secret, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.Secret{}, err
 	}
@@ -286,7 +287,7 @@ func (i *secret) Get(opts *v1.GetOptions) (coreV1.Secret, error) {
 }
 
 func (i *componentStatus) Get(opts *v1.GetOptions) (coreV1.ComponentStatus, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.ComponentStatus{}, err
 	}
@@ -298,7 +299,7 @@ func (i *componentStatus) Get(opts *v1.GetOptions) (coreV1.ComponentStatus, erro
 }
 
 func (i *event) Get(opts *v1.GetOptions) (coreV1.Event, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.Event{}, err
 	}
@@ -310,7 +311,7 @@ func (i *event) Get(opts *v1.GetOptions) (coreV1.Event, error) {
 }
 
 func (i *pod) Get(opts *v1.GetOptions) (coreV1.Pod, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.Pod{}, err
 	}
@@ -322,7 +323,7 @@ func (i *pod) Get(opts *v1.GetOptions) (coreV1.Pod, error) {
 }
 
 func (i *persistentVolume) Get(opts *v1.GetOptions) (coreV1.PersistentVolume, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.PersistentVolume{}, err
 	}
@@ -334,7 +335,7 @@ func (i *persistentVolume) Get(opts *v1.GetOptions) (coreV1.PersistentVolume, er
 }
 
 func (i *service) Get(opts *v1.GetOptions) (coreV1.Service, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.Service{}, err
 	}
@@ -346,7 +347,7 @@ func (i *service) Get(opts *v1.GetOptions) (coreV1.Service, error) {
 }
 
 func (i *podTemplate) Get(opts *v1.GetOptions) (coreV1.PodTemplate, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.PodTemplate{}, err
 	}
@@ -358,7 +359,7 @@ func (i *podTemplate) Get(opts *v1.GetOptions) (coreV1.PodTemplate, error) {
 }
 
 func (i *replicationController) Get(opts *v1.GetOptions) (coreV1.ReplicationController, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.ReplicationController{}, err
 	}
@@ -370,7 +371,7 @@ func (i *replicationController) Get(opts *v1.GetOptions) (coreV1.ReplicationCont
 }
 
 func (i *serviceAccount) Get(opts *v1.GetOptions) (coreV1.ServiceAccount, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.ServiceAccount{}, err
 	}
@@ -382,7 +383,7 @@ func (i *serviceAccount) Get(opts *v1.GetOptions) (coreV1.ServiceAccount, error)
 }
 
 func (i *limitRange) Get(opts *v1.GetOptions) (coreV1.LimitRange, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.LimitRange{}, err
 	}
@@ -394,7 +395,7 @@ func (i *limitRange) Get(opts *v1.GetOptions) (coreV1.LimitRange, error) {
 }
 
 func (i *namespace) Get(opts *v1.GetOptions) (coreV1.Namespace, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.Namespace{}, err
 	}
@@ -406,7 +407,7 @@ func (i *namespace) Get(opts *v1.GetOptions) (coreV1.Namespace, error) {
 }
 
 func (i *node) Get(opts *v1.GetOptions) (coreV1.Node, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.Node{}, err
 	}
@@ -418,7 +419,7 @@ func (i *node) Get(opts *v1.GetOptions) (coreV1.Node, error) {
 }
 
 func (i *configMap) Get(opts *v1.GetOptions) (coreV1.ConfigMap, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.ConfigMap{}, err
 	}
@@ -430,7 +431,7 @@ func (i *configMap) Get(opts *v1.GetOptions) (coreV1.ConfigMap, error) {
 }
 
 func (i *persistentVolumeClaim) Get(opts *v1.GetOptions) (coreV1.PersistentVolumeClaim, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return coreV1.PersistentVolumeClaim{}, err
 	}
@@ -442,7 +443,7 @@ func (i *persistentVolumeClaim) Get(opts *v1.GetOptions) (coreV1.PersistentVolum
 }
 
 func (i *podPreset) Get(opts *v1.GetOptions) (settingsV1alpha1.PodPreset, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return settingsV1alpha1.PodPreset{}, err
 	}
@@ -454,7 +455,7 @@ func (i *podPreset) Get(opts *v1.GetOptions) (settingsV1alpha1.PodPreset, error)
 }
 
 func (i *initializerConfiguration) Get(opts *v1.GetOptions) (admissionregistrationV1alpha1.InitializerConfiguration, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return admissionregistrationV1alpha1.InitializerConfiguration{}, err
 	}
@@ -466,7 +467,7 @@ func (i *initializerConfiguration) Get(opts *v1.GetOptions) (admissionregistrati
 }
 
 func (i *ingress) Get(opts *v1.GetOptions) (extensionsV1beta1.Ingress, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return extensionsV1beta1.Ingress{}, err
 	}
@@ -478,7 +479,7 @@ func (i *ingress) Get(opts *v1.GetOptions) (extensionsV1beta1.Ingress, error) {
 }
 
 func (i *priorityClass) Get(opts *v1.GetOptions) (schedulingV1beta1.PriorityClass, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return schedulingV1beta1.PriorityClass{}, err
 	}
@@ -490,7 +491,7 @@ func (i *priorityClass) Get(opts *v1.GetOptions) (schedulingV1beta1.PriorityClas
 }
 
 func (i *storageClass) Get(opts *v1.GetOptions) (storageV1.StorageClass, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return storageV1.StorageClass{}, err
 	}
@@ -502,7 +503,7 @@ func (i *storageClass) Get(opts *v1.GetOptions) (storageV1.StorageClass, error) 
 }
 
 func (i *volumeAttachment) Get(opts *v1.GetOptions) (storageV1.VolumeAttachment, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return storageV1.VolumeAttachment{}, err
 	}

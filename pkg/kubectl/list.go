@@ -7,6 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"regexp"
 
+	"client-go-helper/pkg/kubectl/client"
 	auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
 	autoscalingV2beta2 "k8s.io/api/autoscaling/v2beta2"
 	batchV1 "k8s.io/api/batch/v1"
@@ -24,7 +25,7 @@ import (
 )
 
 func (i *cronJob) GetAll(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +51,7 @@ func (i *cronJob) GetAll(opts *v1.ListOptions) ([]batchV1beta1.CronJob, error) {
 }
 
 func (i *auditSink) GetAll(opts *v1.ListOptions) ([]auditregistrationV1alpha1.AuditSink, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +77,7 @@ func (i *auditSink) GetAll(opts *v1.ListOptions) ([]auditregistrationV1alpha1.Au
 }
 
 func (i *mutatingWebhookConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1beta1.MutatingWebhookConfiguration, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +103,7 @@ func (i *mutatingWebhookConfiguration) GetAll(opts *v1.ListOptions) ([]admission
 }
 
 func (i *validatingWebhookConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1beta1.ValidatingWebhookConfiguration, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +129,7 @@ func (i *validatingWebhookConfiguration) GetAll(opts *v1.ListOptions) ([]admissi
 }
 
 func (i *job) GetAll(opts *v1.ListOptions) ([]batchV1.Job, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -154,7 +155,7 @@ func (i *job) GetAll(opts *v1.ListOptions) ([]batchV1.Job, error) {
 }
 
 func (i *certificateSigningRequest) GetAll(opts *v1.ListOptions) ([]certificatesV1beta1.CertificateSigningRequest, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +181,7 @@ func (i *certificateSigningRequest) GetAll(opts *v1.ListOptions) ([]certificates
 }
 
 func (i *clusterRoleBinding) GetAll(opts *v1.ListOptions) ([]rbacV1.ClusterRoleBinding, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -206,7 +207,7 @@ func (i *clusterRoleBinding) GetAll(opts *v1.ListOptions) ([]rbacV1.ClusterRoleB
 }
 
 func (i *clusterRole) GetAll(opts *v1.ListOptions) ([]rbacV1.ClusterRole, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +233,7 @@ func (i *clusterRole) GetAll(opts *v1.ListOptions) ([]rbacV1.ClusterRole, error)
 }
 
 func (i *roleBinding) GetAll(opts *v1.ListOptions) ([]rbacV1.RoleBinding, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +259,7 @@ func (i *roleBinding) GetAll(opts *v1.ListOptions) ([]rbacV1.RoleBinding, error)
 }
 
 func (i *role) GetAll(opts *v1.ListOptions) ([]rbacV1.Role, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -284,7 +285,7 @@ func (i *role) GetAll(opts *v1.ListOptions) ([]rbacV1.Role, error) {
 }
 
 func (i *lease) GetAll(opts *v1.ListOptions) ([]coordinationV1beta1.Lease, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -310,7 +311,7 @@ func (i *lease) GetAll(opts *v1.ListOptions) ([]coordinationV1beta1.Lease, error
 }
 
 func (i *networkPolicy) GetAll(opts *v1.ListOptions) ([]networkingV1.NetworkPolicy, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -336,7 +337,7 @@ func (i *networkPolicy) GetAll(opts *v1.ListOptions) ([]networkingV1.NetworkPoli
 }
 
 func (i *controllerRevision) GetAll(opts *v1.ListOptions) ([]appsV1.ControllerRevision, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -362,7 +363,7 @@ func (i *controllerRevision) GetAll(opts *v1.ListOptions) ([]appsV1.ControllerRe
 }
 
 func (i *daemonSet) GetAll(opts *v1.ListOptions) ([]appsV1.DaemonSet, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -388,7 +389,7 @@ func (i *daemonSet) GetAll(opts *v1.ListOptions) ([]appsV1.DaemonSet, error) {
 }
 
 func (i *deployment) GetAll(opts *v1.ListOptions) ([]appsV1.Deployment, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -414,7 +415,7 @@ func (i *deployment) GetAll(opts *v1.ListOptions) ([]appsV1.Deployment, error) {
 }
 
 func (i *replicaSet) GetAll(opts *v1.ListOptions) ([]appsV1.ReplicaSet, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -440,7 +441,7 @@ func (i *replicaSet) GetAll(opts *v1.ListOptions) ([]appsV1.ReplicaSet, error) {
 }
 
 func (i *statefulSet) GetAll(opts *v1.ListOptions) ([]appsV1.StatefulSet, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -466,7 +467,7 @@ func (i *statefulSet) GetAll(opts *v1.ListOptions) ([]appsV1.StatefulSet, error)
 }
 
 func (i *horizontalPodAutoscaler) GetAll(opts *v1.ListOptions) ([]autoscalingV2beta2.HorizontalPodAutoscaler, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -492,7 +493,7 @@ func (i *horizontalPodAutoscaler) GetAll(opts *v1.ListOptions) ([]autoscalingV2b
 }
 
 func (i *podDisruptionBudget) GetAll(opts *v1.ListOptions) ([]policyV1beta1.PodDisruptionBudget, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -518,7 +519,7 @@ func (i *podDisruptionBudget) GetAll(opts *v1.ListOptions) ([]policyV1beta1.PodD
 }
 
 func (i *podSecurityPolicy) GetAll(opts *v1.ListOptions) ([]policyV1beta1.PodSecurityPolicy, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -544,7 +545,7 @@ func (i *podSecurityPolicy) GetAll(opts *v1.ListOptions) ([]policyV1beta1.PodSec
 }
 
 func (i *serviceAccount) GetAll(opts *v1.ListOptions) ([]coreV1.ServiceAccount, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -570,7 +571,7 @@ func (i *serviceAccount) GetAll(opts *v1.ListOptions) ([]coreV1.ServiceAccount, 
 }
 
 func (i *componentStatus) GetAll(opts *v1.ListOptions) ([]coreV1.ComponentStatus, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -596,7 +597,7 @@ func (i *componentStatus) GetAll(opts *v1.ListOptions) ([]coreV1.ComponentStatus
 }
 
 func (i *persistentVolumeClaim) GetAll(opts *v1.ListOptions) ([]coreV1.PersistentVolumeClaim, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -622,7 +623,7 @@ func (i *persistentVolumeClaim) GetAll(opts *v1.ListOptions) ([]coreV1.Persisten
 }
 
 func (i *resourceQuota) GetAll(opts *v1.ListOptions) ([]coreV1.ResourceQuota, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -648,7 +649,7 @@ func (i *resourceQuota) GetAll(opts *v1.ListOptions) ([]coreV1.ResourceQuota, er
 }
 
 func (i *replicationController) GetAll(opts *v1.ListOptions) ([]coreV1.ReplicationController, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -674,7 +675,7 @@ func (i *replicationController) GetAll(opts *v1.ListOptions) ([]coreV1.Replicati
 }
 
 func (i *secret) GetAll(opts *v1.ListOptions) ([]coreV1.Secret, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -700,7 +701,7 @@ func (i *secret) GetAll(opts *v1.ListOptions) ([]coreV1.Secret, error) {
 }
 
 func (i *namespace) GetAll(opts *v1.ListOptions) ([]coreV1.Namespace, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -726,7 +727,7 @@ func (i *namespace) GetAll(opts *v1.ListOptions) ([]coreV1.Namespace, error) {
 }
 
 func (i *persistentVolume) GetAll(opts *v1.ListOptions) ([]coreV1.PersistentVolume, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -752,7 +753,7 @@ func (i *persistentVolume) GetAll(opts *v1.ListOptions) ([]coreV1.PersistentVolu
 }
 
 func (i *pod) GetAll(opts *v1.ListOptions) ([]coreV1.Pod, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -778,7 +779,7 @@ func (i *pod) GetAll(opts *v1.ListOptions) ([]coreV1.Pod, error) {
 }
 
 func (i *node) GetAll(opts *v1.ListOptions) ([]coreV1.Node, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -804,7 +805,7 @@ func (i *node) GetAll(opts *v1.ListOptions) ([]coreV1.Node, error) {
 }
 
 func (i *podTemplate) GetAll(opts *v1.ListOptions) ([]coreV1.PodTemplate, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -830,7 +831,7 @@ func (i *podTemplate) GetAll(opts *v1.ListOptions) ([]coreV1.PodTemplate, error)
 }
 
 func (i *service) GetAll(opts *v1.ListOptions) ([]coreV1.Service, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -856,7 +857,7 @@ func (i *service) GetAll(opts *v1.ListOptions) ([]coreV1.Service, error) {
 }
 
 func (i *configMap) GetAll(opts *v1.ListOptions) ([]coreV1.ConfigMap, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -882,7 +883,7 @@ func (i *configMap) GetAll(opts *v1.ListOptions) ([]coreV1.ConfigMap, error) {
 }
 
 func (i *event) GetAll(opts *v1.ListOptions) ([]coreV1.Event, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -908,7 +909,7 @@ func (i *event) GetAll(opts *v1.ListOptions) ([]coreV1.Event, error) {
 }
 
 func (i *limitRange) GetAll(opts *v1.ListOptions) ([]coreV1.LimitRange, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -934,7 +935,7 @@ func (i *limitRange) GetAll(opts *v1.ListOptions) ([]coreV1.LimitRange, error) {
 }
 
 func (i *podPreset) GetAll(opts *v1.ListOptions) ([]settingsV1alpha1.PodPreset, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -960,7 +961,7 @@ func (i *podPreset) GetAll(opts *v1.ListOptions) ([]settingsV1alpha1.PodPreset, 
 }
 
 func (i *initializerConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1alpha1.InitializerConfiguration, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -986,7 +987,7 @@ func (i *initializerConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregi
 }
 
 func (i *ingress) GetAll(opts *v1.ListOptions) ([]extensionsV1beta1.Ingress, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -1012,7 +1013,7 @@ func (i *ingress) GetAll(opts *v1.ListOptions) ([]extensionsV1beta1.Ingress, err
 }
 
 func (i *priorityClass) GetAll(opts *v1.ListOptions) ([]schedulingV1beta1.PriorityClass, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -1038,7 +1039,7 @@ func (i *priorityClass) GetAll(opts *v1.ListOptions) ([]schedulingV1beta1.Priori
 }
 
 func (i *storageClass) GetAll(opts *v1.ListOptions) ([]storageV1.StorageClass, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}
@@ -1064,7 +1065,7 @@ func (i *storageClass) GetAll(opts *v1.ListOptions) ([]storageV1.StorageClass, e
 }
 
 func (i *volumeAttachment) GetAll(opts *v1.ListOptions) ([]storageV1.VolumeAttachment, error) {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return nil, err
 	}

@@ -37,6 +37,7 @@ import (
 	storageV1alpha1 "k8s.io/api/storage/v1alpha1"
 	storageV1beta1 "k8s.io/api/storage/v1beta1"
 
+	"client-go-helper/pkg/kubectl/client"
 	"k8s.io/client-go/kubernetes/scheme"
 )
 
@@ -51,7 +52,7 @@ func Create(yaml string, namespace string) error {
 	if err != nil {
 		return err
 	}
-	clientset, e := InitClient()
+	clientset, e := client.InitClient()
 	if e != nil {
 		return fmt.Errorf("something wrong happend ,%s", e)
 	}

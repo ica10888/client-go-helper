@@ -1,9 +1,12 @@
 package kubectl
 
-import "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	"client-go-helper/pkg/kubectl/client"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 func (i *cronJob) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -15,7 +18,7 @@ func (i *cronJob) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *auditSink) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -27,7 +30,7 @@ func (i *auditSink) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *mutatingWebhookConfiguration) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -39,7 +42,7 @@ func (i *mutatingWebhookConfiguration) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *validatingWebhookConfiguration) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -51,7 +54,7 @@ func (i *validatingWebhookConfiguration) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *job) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -63,7 +66,7 @@ func (i *job) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *certificateSigningRequest) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -75,7 +78,7 @@ func (i *certificateSigningRequest) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *role) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -87,7 +90,7 @@ func (i *role) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *clusterRoleBinding) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -99,7 +102,7 @@ func (i *clusterRoleBinding) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *clusterRole) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -111,7 +114,7 @@ func (i *clusterRole) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *roleBinding) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -123,7 +126,7 @@ func (i *roleBinding) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *lease) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -135,7 +138,7 @@ func (i *lease) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *networkPolicy) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -147,7 +150,7 @@ func (i *networkPolicy) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *deployment) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -159,7 +162,7 @@ func (i *deployment) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *replicaSet) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -171,7 +174,7 @@ func (i *replicaSet) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *statefulSet) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -183,7 +186,7 @@ func (i *statefulSet) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *controllerRevision) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -195,7 +198,7 @@ func (i *controllerRevision) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *daemonSet) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -207,7 +210,7 @@ func (i *daemonSet) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *horizontalPodAutoscaler) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -219,7 +222,7 @@ func (i *horizontalPodAutoscaler) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *podDisruptionBudget) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -231,7 +234,7 @@ func (i *podDisruptionBudget) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *podSecurityPolicy) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -243,7 +246,7 @@ func (i *podSecurityPolicy) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *configMap) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -255,7 +258,7 @@ func (i *configMap) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *persistentVolume) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -267,7 +270,7 @@ func (i *persistentVolume) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *pod) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -279,7 +282,7 @@ func (i *pod) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *resourceQuota) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -291,7 +294,7 @@ func (i *resourceQuota) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *componentStatus) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -303,7 +306,7 @@ func (i *componentStatus) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *replicationController) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -315,7 +318,7 @@ func (i *replicationController) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *limitRange) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -327,7 +330,7 @@ func (i *limitRange) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *namespace) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -339,7 +342,7 @@ func (i *namespace) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *service) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -351,7 +354,7 @@ func (i *service) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *event) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -363,7 +366,7 @@ func (i *event) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *node) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -375,7 +378,7 @@ func (i *node) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *persistentVolumeClaim) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -387,7 +390,7 @@ func (i *persistentVolumeClaim) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *podTemplate) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -399,7 +402,7 @@ func (i *podTemplate) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *secret) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -411,7 +414,7 @@ func (i *secret) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *serviceAccount) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -423,7 +426,7 @@ func (i *serviceAccount) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *podPreset) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -435,7 +438,7 @@ func (i *podPreset) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *initializerConfiguration) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -447,7 +450,7 @@ func (i *initializerConfiguration) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *ingress) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -459,7 +462,7 @@ func (i *ingress) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *priorityClass) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -471,7 +474,7 @@ func (i *priorityClass) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *storageClass) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
@@ -483,7 +486,7 @@ func (i *storageClass) Delete(opts *v1.DeleteOptions) error {
 }
 
 func (i *volumeAttachment) Delete(opts *v1.DeleteOptions) error {
-	var clientset, err = InitClient()
+	var clientset, err = client.InitClient()
 	if err != nil {
 		return err
 	}
