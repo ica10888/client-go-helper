@@ -1,241 +1,241 @@
 package kubectl
 
 //batch.v1beta1
-type CronJob struct {
+type cronJob struct {
 	Name      string
 	Namespace string
 }
 
 //auditregistration.v1alpha1
-type AuditSink struct {
+type auditSink struct {
 	Name string
 }
 
 //admissionregistration.v1beta1
-type ValidatingWebhookConfiguration struct {
+type validatingWebhookConfiguration struct {
 	Name string
 }
 
-type MutatingWebhookConfiguration struct {
+type mutatingWebhookConfiguration struct {
 	Name string
 }
 
 //batch.v1
-type Job struct {
+type job struct {
 	Name      string
 	Namespace string
 }
 
 //certificates.v1beta1
-type CertificateSigningRequest struct {
+type certificateSigningRequest struct {
 	Name string
 }
 
 //rbac.v1
-type RoleBinding struct {
+type roleBinding struct {
 	Name      string
 	Namespace string
 }
 
-type Role struct {
+type role struct {
 	Name      string
 	Namespace string
 }
 
-type ClusterRoleBinding struct {
+type clusterRoleBinding struct {
 	Name string
 }
 
-type ClusterRole struct {
+type clusterRole struct {
 	Name string
 }
 
 //coordination.v1beta1
-type Lease struct {
+type lease struct {
 	Name      string
 	Namespace string
 }
 
 //networking.v1
-type NetworkPolicy struct {
+type networkPolicy struct {
 	Name      string
 	Namespace string
 }
 
 //apps.v1
-type ControllerRevision struct {
+type controllerRevision struct {
 	Name      string
 	Namespace string
 }
 
-type DaemonSet struct {
+type daemonSet struct {
 	Name      string
 	Namespace string
 }
 
-type Deployment struct {
+type deployment struct {
 	Name      string
 	Namespace string
 }
 
-type ReplicaSet struct {
+type replicaSet struct {
 	Name      string
 	Namespace string
 }
 
-type StatefulSet struct {
+type statefulSet struct {
 	Name      string
 	Namespace string
 }
 
 //autoscaling.v2beta2
-type HorizontalPodAutoscaler struct {
+type horizontalPodAutoscaler struct {
 	Name      string
 	Namespace string
 }
 
 //policy.v1beta1
-type Eviction struct {
+type eviction struct {
 	Name      string
 	Namespace string
 }
 
-type PodDisruptionBudget struct {
+type podDisruptionBudget struct {
 	Name      string
 	Namespace string
 }
 
-type PodSecurityPolicy struct {
+type podSecurityPolicy struct {
 	Name string
 }
 
 //authorization.v1
-type SelfSubjectAccessReview struct {
+type selfSubjectAccessReview struct {
 	Name string
 }
 
-type SelfSubjectRulesReview struct {
+type selfSubjectRulesReview struct {
 	Name string
 }
 
-type SubjectAccessReview struct {
+type subjectAccessReview struct {
 	Name string
 }
 
-type LocalSubjectAccessReview struct {
+type localSubjectAccessReview struct {
 	Name      string
 	Namespace string
 }
 
 // v1
-type ResourceQuota struct {
+type resourceQuota struct {
 	Name      string
 	Namespace string
 }
 
-type ComponentStatus struct {
+type componentStatus struct {
 	Name string
 }
 
-type ConfigMap struct {
+type configMap struct {
 	Name      string
 	Namespace string
 }
 
-type LimitRange struct {
+type limitRange struct {
 	Name      string
 	Namespace string
 }
 
-type Namespace struct {
+type namespace struct {
 	Name string
 }
 
-type Pod struct {
+type pod struct {
 	Name          string
 	Namespace     string
 	ContainerName string
 }
 
-type ReplicationController struct {
+type replicationController struct {
 	Name      string
 	Namespace string
 }
 
-type Endpoints struct {
+type endpoints struct {
 	Name      string
 	Namespace string
 }
 
-type Event struct {
+type event struct {
 	Name      string
 	Namespace string
 }
 
-type PersistentVolumeClaim struct {
+type persistentVolumeClaim struct {
 	Name      string
 	Namespace string
 }
 
-type PersistentVolume struct {
+type persistentVolume struct {
 	Name string
 }
 
-type ServiceAccount struct {
+type serviceAccount struct {
 	Name      string
 	Namespace string
 }
 
-type Node struct {
+type node struct {
 	Name string
 }
 
-type PodTemplate struct {
+type podTemplate struct {
 	Name      string
 	Namespace string
 }
 
-type Secret struct {
+type secret struct {
 	Name      string
 	Namespace string
 }
 
-type Service struct {
+type service struct {
 	Name      string
 	Namespace string
 }
 
 //settings.v1alpha1
-type PodPreset struct {
+type podPreset struct {
 	Name      string
 	Namespace string
 }
 
 //admissionregistration.v1alpha1
-type InitializerConfiguration struct {
+type initializerConfiguration struct {
 	Name string
 }
 
 //authentication.v1
-type TokenReview struct {
+type tokenReview struct {
 	Name string
 }
 
-type Ingress struct {
+type ingress struct {
 	Name      string
 	Namespace string
 }
 
 //scheduling.v1beta1
-type PriorityClass struct {
+type priorityClass struct {
 	Name string
 }
 
 //storage.v1
-type StorageClass struct {
+type storageClass struct {
 	Name string
 }
 
-type VolumeAttachment struct {
+type volumeAttachment struct {
 	Name string
 }
