@@ -1,50 +1,49 @@
 package kubectl
 
-
 import (
-"fmt"
-yaml2 "gopkg.in/yaml.v2"
+	"fmt"
+	yaml2 "gopkg.in/yaml.v2"
 
-admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
-admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
-appsV1 "k8s.io/api/apps/v1"
-appsV1beta1 "k8s.io/api/apps/v1beta1"
-appsV1beta2 "k8s.io/api/apps/v1beta2"
-auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
-authenticationV1 "k8s.io/api/authentication/v1"
-authenticationV1beta1 "k8s.io/api/authentication/v1beta1"
-authorizationV1 "k8s.io/api/authorization/v1"
-authorizationV1beta1 "k8s.io/api/authorization/v1beta1"
-autoscalingV1 "k8s.io/api/autoscaling/v1"
-autoscalingV2beta1 "k8s.io/api/autoscaling/v2beta1"
-autoscalingV2beta2 "k8s.io/api/autoscaling/v2beta2"
-batchV1 "k8s.io/api/batch/v1"
-batchV1beta1 "k8s.io/api/batch/v1beta1"
-batchV2alpha1 "k8s.io/api/batch/v2alpha1"
-certificatesV1beta1 "k8s.io/api/certificates/v1beta1"
-coordinationV1beta1 "k8s.io/api/coordination/v1beta1"
-coreV1 "k8s.io/api/core/v1"
-eventsV1beta1 "k8s.io/api/events/v1beta1"
-extensionsV1beta1 "k8s.io/api/extensions/v1beta1"
-networkingV1 "k8s.io/api/networking/v1"
-policyV1beta1 "k8s.io/api/policy/v1beta1"
-rbacV1 "k8s.io/api/rbac/v1"
-rbacV1alpha1 "k8s.io/api/rbac/v1alpha1"
-rbacV1beta1 "k8s.io/api/rbac/v1beta1"
-schedulingV1alpha1 "k8s.io/api/scheduling/v1alpha1"
-schedulingV1beta1 "k8s.io/api/scheduling/v1beta1"
-settingsV1alpha1 "k8s.io/api/settings/v1alpha1"
-storageV1 "k8s.io/api/storage/v1"
-storageV1alpha1 "k8s.io/api/storage/v1alpha1"
-storageV1beta1 "k8s.io/api/storage/v1beta1"
+	admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
+	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
+	appsV1 "k8s.io/api/apps/v1"
+	appsV1beta1 "k8s.io/api/apps/v1beta1"
+	appsV1beta2 "k8s.io/api/apps/v1beta2"
+	auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
+	authenticationV1 "k8s.io/api/authentication/v1"
+	authenticationV1beta1 "k8s.io/api/authentication/v1beta1"
+	authorizationV1 "k8s.io/api/authorization/v1"
+	authorizationV1beta1 "k8s.io/api/authorization/v1beta1"
+	autoscalingV1 "k8s.io/api/autoscaling/v1"
+	autoscalingV2beta1 "k8s.io/api/autoscaling/v2beta1"
+	autoscalingV2beta2 "k8s.io/api/autoscaling/v2beta2"
+	batchV1 "k8s.io/api/batch/v1"
+	batchV1beta1 "k8s.io/api/batch/v1beta1"
+	batchV2alpha1 "k8s.io/api/batch/v2alpha1"
+	certificatesV1beta1 "k8s.io/api/certificates/v1beta1"
+	coordinationV1beta1 "k8s.io/api/coordination/v1beta1"
+	coreV1 "k8s.io/api/core/v1"
+	eventsV1beta1 "k8s.io/api/events/v1beta1"
+	extensionsV1beta1 "k8s.io/api/extensions/v1beta1"
+	networkingV1 "k8s.io/api/networking/v1"
+	policyV1beta1 "k8s.io/api/policy/v1beta1"
+	rbacV1 "k8s.io/api/rbac/v1"
+	rbacV1alpha1 "k8s.io/api/rbac/v1alpha1"
+	rbacV1beta1 "k8s.io/api/rbac/v1beta1"
+	schedulingV1alpha1 "k8s.io/api/scheduling/v1alpha1"
+	schedulingV1beta1 "k8s.io/api/scheduling/v1beta1"
+	settingsV1alpha1 "k8s.io/api/settings/v1alpha1"
+	storageV1 "k8s.io/api/storage/v1"
+	storageV1alpha1 "k8s.io/api/storage/v1alpha1"
+	storageV1beta1 "k8s.io/api/storage/v1beta1"
 
-apierrs "k8s.io/apimachinery/pkg/api/errors"
-"k8s.io/client-go/kubernetes/scheme"
+	apierrs "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/client-go/kubernetes/scheme"
 )
 
-func Apply(yaml string, namespace string) (error) {
+func Apply(yaml string, namespace string) error {
 	// 校验和放入结构体
-	kapi := Kubeapi{}
+	kapi := kubeapi{}
 	yaml2.Unmarshal([]byte(yaml), &kapi)
 	kapi.Yaml = yaml
 
@@ -1401,7 +1400,7 @@ func Apply(yaml string, namespace string) (error) {
 
 		default:
 			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
-			
+
 		}
 	}
 
