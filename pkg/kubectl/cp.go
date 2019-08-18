@@ -17,7 +17,7 @@ import (
 	_ "unsafe"
 )
 
-func (i *Pod) Cp(srcPath string, destPath string) error {
+func (i *Pod) copyToPod(srcPath string, destPath string) error {
 	restconfig, err, coreclient := InitRestClient()
 
 	reader, writer := io.Pipe()
@@ -84,12 +84,12 @@ func checkDestinationIsDir(i *Pod, destPath string) error {
 //go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.makeTar
 func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
-func (i *Pod) Cp2(srcPath string, destPath string) error {
+func (i *Pod) copyFromPod(srcPath string, destPath string) error {
 	restconfig, err, coreclient := InitRestClient()
 	reader, outStream := io.Pipe()
 	cmdArr := []string{"tar", "cf", "-", srcPath}
 	req := coreclient.RESTClient().
-		Post().
+		Get().
 		Namespace(i.Namespace).
 		Resource("pods").
 		Name(i.Name).
@@ -108,28 +108,25 @@ func (i *Pod) Cp2(srcPath string, destPath string) error {
 		log.Fatalf("error %s\n", err)
 		return err
 	}
-	err = exec.Stream(remotecommand.StreamOptions{
-		Stdin:  nil,
-		Stdout: outStream,
-		Stderr: os.Stderr,
-		Tty:    false,
-	})
-
+	go func() {
+		defer outStream.Close()
+		err = exec.Stream(remotecommand.StreamOptions{
+			Stdin:  os.Stdin,
+			Stdout: outStream,
+			Stderr: os.Stderr,
+			Tty:    false,
+		})
+		cmdutil.CheckErr(err)
+	}()
 	prefix := getPrefix(srcPath)
 	prefix = path.Clean(prefix)
 	// remove extraneous path shortcuts - these could occur if a path contained extra "../"
 	// and attempted to navigate beyond "/" in a remote filesystem
 	prefix = cpStripPathShortcuts(prefix)
-	return untarAll(reader, destPath, prefix)
+	destPath = path.Join(destPath, path.Base(prefix))
+	err = untarAll(reader, destPath, prefix)
+	return err
 }
-
-func getPrefix(file string) string {
-	// tar strips the leading '/' if it's there, so we will too
-	return strings.TrimLeft(file, "/")
-}
-
-//go:linkname cpStripPathShortcuts k8s.io/kubernetes/pkg/kubectl/cmd/cp.stripPathShortcuts
-func cpStripPathShortcuts(p string) string
 
 func untarAll(reader io.Reader, destDir, prefix string) error {
 	tarReader := tar.NewReader(reader)
@@ -203,3 +200,11 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 
 	return nil
 }
+
+func getPrefix(file string) string {
+	// tar strips the leading '/' if it's there, so we will too
+	return strings.TrimLeft(file, "/")
+}
+
+//go:linkname cpStripPathShortcuts k8s.io/kubernetes/pkg/kubectl/cmd/cp.stripPathShortcuts
+func cpStripPathShortcuts(p string) string
