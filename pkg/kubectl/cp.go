@@ -17,7 +17,7 @@ import (
 	_ "unsafe"
 )
 
-func (i *Pod) copyToPod(srcPath string, destPath string) error {
+func (i *pod) copyToPod(srcPath string, destPath string) error {
 	restconfig, err, coreclient := InitRestClient()
 
 	reader, writer := io.Pipe()
@@ -77,14 +77,14 @@ func (i *Pod) copyToPod(srcPath string, destPath string) error {
 	return nil
 }
 
-func checkDestinationIsDir(i *Pod, destPath string) error {
+func checkDestinationIsDir(i *pod, destPath string) error {
 	return i.Exec([]string{"test", "-d", destPath})
 }
 
 //go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.makeTar
 func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
-func (i *Pod) copyFromPod(srcPath string, destPath string) error {
+func (i *pod) copyFromPod(srcPath string, destPath string) error {
 	restconfig, err, coreclient := InitRestClient()
 	reader, outStream := io.Pipe()
 	cmdArr := []string{"tar", "cf", "-", srcPath}
