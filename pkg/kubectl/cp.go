@@ -9,6 +9,7 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/remotecommand"
 	_ "k8s.io/kubernetes/pkg/kubectl/cmd/cp"
+	k8sexec "k8s.io/kubernetes/pkg/kubectl/cmd/exec"
 	cmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"log"
 	"os"
@@ -16,10 +17,9 @@ import (
 	"path/filepath"
 	"strings"
 	_ "unsafe"
-	k8sexec "k8s.io/kubernetes/pkg/kubectl/cmd/exec"
 )
 
-func (i *Pod) Cp(srcPath string, destPath string) (error) {
+func (i *Pod) Cp(srcPath string, destPath string) error {
 	restconfig, err, coreclient := InitRestClient()
 
 	reader, writer := io.Pipe()
@@ -79,7 +79,6 @@ func (i *Pod) Cp(srcPath string, destPath string) (error) {
 	return nil
 }
 
-
 func checkDestinationIsDir(i *Pod, destPath string) error {
 	return i.Exec([]string{"test", "-d", destPath})
 }
@@ -87,8 +86,7 @@ func checkDestinationIsDir(i *Pod, destPath string) error {
 //go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.makeTar
 func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 
-
-func (i *Pod) Cp2(srcPath string, destPath string) (error) {
+func (i *Pod) Cp2(srcPath string, destPath string) error {
 
 	reader, outStream := io.Pipe()
 	options := &k8sexec.ExecOptions{
@@ -109,29 +107,26 @@ func (i *Pod) Cp2(srcPath string, destPath string) (error) {
 
 	go func() {
 		defer outStream.Close()
-		err := options.Run()
-		cmdutil.CheckErr(err)
+		options.Config, _, _ = InitRestClient()
+		options.PodClient = CoreV1Client()
+		_ = options.Run()
+		//cmdutil.CheckErr(err)
 	}()
 	prefix := getPrefix(srcPath)
 	prefix = path.Clean(prefix)
 	// remove extraneous path shortcuts - these could occur if a path contained extra "../"
 	// and attempted to navigate beyond "/" in a remote filesystem
-	prefix = stripPathShortcuts(prefix)
+	prefix = cpStripPathShortcuts(prefix)
 	return untarAll(reader, destPath, prefix)
 }
-
-
 
 func getPrefix(file string) string {
 	// tar strips the leading '/' if it's there, so we will too
 	return strings.TrimLeft(file, "/")
 }
 
-//go:linkname cpMakeTar k8s.io/kubernetes/pkg/kubectl/cmd/cp.stripPathShortcuts
-func stripPathShortcuts(p string) string
-
-
-
+//go:linkname cpStripPathShortcuts k8s.io/kubernetes/pkg/kubectl/cmd/cp.stripPathShortcuts
+func cpStripPathShortcuts(p string) string
 
 func untarAll(reader io.Reader, destDir, prefix string) error {
 	tarReader := tar.NewReader(reader)
@@ -157,7 +152,6 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 		mode := header.FileInfo().Mode()
 		destFileName := filepath.Join(destDir, header.Name[len(prefix):])
 
-
 		baseName := filepath.Dir(destFileName)
 		if err := os.MkdirAll(baseName, 0755); err != nil {
 			return err
@@ -176,7 +170,6 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 		if err != nil {
 			return err
 		}
-
 
 		if mode&os.ModeSymlink != 0 {
 			linkname := header.Linkname
