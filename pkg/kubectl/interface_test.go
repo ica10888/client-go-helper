@@ -10,7 +10,7 @@ import (
 )
 
 func TestLogs(t *testing.T) {
-	pod := Pod{
+	pod := pod{
 		ContainerName: "",
 		Name:          "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
@@ -26,7 +26,7 @@ func TestLogs(t *testing.T) {
 }
 
 func TestDescribe(t *testing.T) {
-	pod := Pod{
+	pod := pod{
 		ContainerName: "",
 		Name:          "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
@@ -40,7 +40,7 @@ func TestDescribe(t *testing.T) {
 
 func TestExec(t *testing.T) {
 
-	pod := Pod{
+	pod := pod{
 		ContainerName: "",
 		Name:          "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
@@ -53,7 +53,7 @@ func TestExec(t *testing.T) {
 
 func TestCp(t *testing.T) {
 	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
-	pod := Pod{
+	pod := pod{
 		ContainerName: "",
 		Name:          "api-test-775cf487ff-7kmk2",
 		Namespace:     "dev",
@@ -67,7 +67,7 @@ func TestCp(t *testing.T) {
 
 func TestCp2(t *testing.T) {
 	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
-	pod := Pod{
+	pod := pod{
 		ContainerName: "",
 		Name:          "www-6df84b8b6f-w7lv6",
 		Namespace:     "dev",
@@ -80,13 +80,13 @@ func TestCp2(t *testing.T) {
 }
 
 func TestGetAll(t *testing.T) {
-	pod := Pod{
+	pod1 := pod{
 		ContainerName: "",
 		Name:          "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
 	}
 	opts := v1.ListOptions{}
-	items, err := pod.GetAll(&opts)
+	items, err := pod1.GetAll(&opts)
 	if err != nil {
 		log.Print(err)
 	}
@@ -96,7 +96,7 @@ func TestGetAll(t *testing.T) {
 		log.Println(string(rawYaml))
 	}
 	log.Println("=======================")
-	pod2 := Pod{
+	pod2 := pod{
 		ContainerName: "",
 		Name:          "api-test",
 		Namespace:     "dev",
@@ -113,7 +113,7 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	pod := Pod{
+	pod := pod{
 		ContainerName: "",
 		Name:          "api-test-775cf487ff-7zhnj",
 		Namespace:     "dev",
