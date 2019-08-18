@@ -8,31 +8,29 @@ import (
 	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/tools/clientcmd"
 	"log"
-
 )
-
 
 //kubectl  describe pods
 // from  https://stackoverflow.com/questions/40764400/rest-api-alternative-for-describe-command
 // a describe is actually a combination of results from the pod and the events APIs:
-func (i *Pod) Describe()(string ,error) {
+func (i *pod) Describe() (string, error) {
 	// Status
 	podGetOpts := metav1.GetOptions{}
 	//podLogOpts.Container = containerMeta.ContainerName
 	clientset, e := InitClient()
-	if e != nil{
-		return "",fmt.Errorf("something wrong happend ,%s",e)
+	if e != nil {
+		return "", fmt.Errorf("something wrong happend ,%s", e)
 	}
-	pod,err := clientset.CoreV1().Pods(i.Namespace).Get(i.Name, podGetOpts)
+	pod, err := clientset.CoreV1().Pods(i.Namespace).Get(i.Name, podGetOpts)
 	if err != nil {
-		log.Fatalf( "error in get pod events")
+		log.Fatalf("error in get pod events")
 	}
 	//parsing client-go data structures into K8s yaml spec
 	json, err := json.Marshal(pod)
 	if err != nil {
-		return "",fmt.Errorf("json Unmarshal err")
+		return "", fmt.Errorf("json Unmarshal err")
 	}
-	data ,_ := yaml.JSONToYAML(json)
+	data, _ := yaml.JSONToYAML(json)
 	str1 := string(data)
 	// Events
 	// Instantiate loader for kubeconfig file.
@@ -45,13 +43,13 @@ func (i *Pod) Describe()(string ,error) {
 	// the client objects we create.
 	restconfig, err := kubeconfig.ClientConfig()
 	if err != nil {
-		return  "",err
+		return "", err
 	}
 
 	// Create a Kubernetes core/v1 client.
 	coreclient, err := corev1client.NewForConfig(restconfig)
 	if err != nil {
-		return  "",err
+		return "", err
 	}
 
 	// Prepare the API URL used to execute another process within the Pod.  In
@@ -60,11 +58,11 @@ func (i *Pod) Describe()(string ,error) {
 		Get().
 		Namespace(i.Namespace).
 		Resource("events").
-		Param("fieldSelector","involvedObject.name="+ i.Name)
+		Param("fieldSelector", "involvedObject.name="+i.Name)
 
-	rawJson ,_:= req.Do().Raw()
-	rawYaml ,_ := yaml.JSONToYAML(rawJson)
+	rawJson, _ := req.Do().Raw()
+	rawYaml, _ := yaml.JSONToYAML(rawJson)
 	str2 := string(rawYaml)
 	str := str1 + str2
-	return str,nil
+	return str, nil
 }

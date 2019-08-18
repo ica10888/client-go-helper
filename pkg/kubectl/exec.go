@@ -1,6 +1,5 @@
 package kubectl
 
-
 import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/scheme"
@@ -14,9 +13,8 @@ import (
 	_ "unsafe"
 )
 
-
 // kubectl exec
-func (i *Pod) Exec( cmd []string) (error){
+func (i *pod) Exec(cmd []string) error {
 	// Instantiate loader for kubeconfig file.
 	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
 		clientcmd.NewDefaultClientConfigLoadingRules(),
@@ -65,7 +63,7 @@ func (i *Pod) Exec( cmd []string) (error){
 		Tty:    false,
 	})
 	if err != nil {
-		return  err
+		return err
 	}
 	return nil
 }
