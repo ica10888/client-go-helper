@@ -1,7 +1,7 @@
 package kubectl
 
 import (
-	"client-go-helper/pkg/kubectl/client"
+	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	batchV1beta1 "k8s.io/api/batch/v1beta1"
 	types "k8s.io/apimachinery/pkg/types"
 )

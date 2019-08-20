@@ -2,7 +2,7 @@ package kubectl
 
 import (
 	"bytes"
-	"client-go-helper/pkg/kubectl/client"
+	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	"io"
 	corev1 "k8s.io/api/core/v1"
 )

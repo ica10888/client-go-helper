@@ -7,7 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"regexp"
 
-	"client-go-helper/pkg/kubectl/client"
+	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
 	autoscalingV2beta2 "k8s.io/api/autoscaling/v2beta2"
 	batchV1 "k8s.io/api/batch/v1"
