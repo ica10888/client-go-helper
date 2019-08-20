@@ -1,6 +1,5 @@
 module github.com/ica10888/client-go-helper
 
-go 1.12
 
 replace (
 	github.com/renstrom/dedent => github.com/lithammer/dedent v1.1.0
