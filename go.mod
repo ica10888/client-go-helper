@@ -1,4 +1,4 @@
-module client-go-helper
+module github.com/ica10888/client-go-helper
 
 go 1.12
 
