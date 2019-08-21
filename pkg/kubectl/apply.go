@@ -39,6 +39,7 @@ import (
 
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/client-go/kubernetes/scheme"
+	"client-go-helper/pkg/kubectl/client"
 )
 
 func Apply(yaml string, namespace string) error {
@@ -52,7 +53,7 @@ func Apply(yaml string, namespace string) error {
 	if err != nil {
 		return err
 	}
-	clientset, e := InitClient()
+	clientset, e := client.InitClient()
 	if e != nil {
 		return fmt.Errorf("something wrong happend ,%s", e)
 	}
