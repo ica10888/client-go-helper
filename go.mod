@@ -1,6 +1,4 @@
-module client-go-helper
-
-go 1.12
+module github.com/ica10888/client-go-helper
 
 replace (
 	github.com/renstrom/dedent => github.com/lithammer/dedent v1.1.0
@@ -8,6 +6,14 @@ replace (
 	golang.org/x/oauth2 v0.0.0-20190226205417-e64efc72b421 => github.com/golang/oauth2 v0.0.0-20190226205417-e64efc72b421
 	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2 => github.com/golang/text v0.3.1-0.20180807135948-17ff2d5776d2
 	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19 => github.com/google/go-genproto v0.0.0-20190307195333-5fe7a883aa19
+	k8s.io/api v0.0.0-20181213150558-05914d821849 => github.com/kubernetes/api v0.0.0-20181213150558-05914d821849
+	k8s.io/apimachinery v0.0.0-20181127025237-2b1284ed4c93 => github.com/kubernetes/apimachinery v0.0.0-20181127025237-2b1284ed4c93
+	k8s.io/cli-runtime v0.0.0-20181213153952-835b10687cb6 => github.com/kubernetes/cli-runtime v0.0.0-20181213153952-835b10687cb6
+	k8s.io/client-go v10.0.0+incompatible => github.com/kubernetes/client-go v10.0.0+incompatible
+	k8s.io/klog v0.2.0 => github.com/kubernetes/klog v0.2.0
+	k8s.io/kube-openapi v0.0.0-20190320154901-5e45bb682580 => github.com/kubernetes/kube-openapi v0.0.0-20190320154901-5e45bb682580
+	k8s.io/kubernetes v1.13.5-beta.0.0.20190322001621-1a91ffde19dd => github.com/kubernetes/kubernetes v1.13.5-beta.0.0.20190322001621-1a91ffde19dd
+	k8s.io/utils v0.0.0-20190308190857-21c4ce38f2a7 => github.com/kubernetes/utils v0.0.0-20190308190857-21c4ce38f2a7
 )
 
 require (

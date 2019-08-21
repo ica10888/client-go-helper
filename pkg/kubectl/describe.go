@@ -1,7 +1,7 @@
 package kubectl
 
 import (
-	"client-go-helper/pkg/kubectl/client"
+	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	"encoding/json"
 	"fmt"
 	"github.com/ghodss/yaml"

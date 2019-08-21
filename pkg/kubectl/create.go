@@ -37,7 +37,7 @@ import (
 	storageV1alpha1 "k8s.io/api/storage/v1alpha1"
 	storageV1beta1 "k8s.io/api/storage/v1beta1"
 
-	"client-go-helper/pkg/kubectl/client"
+	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	"k8s.io/client-go/kubernetes/scheme"
 )
 
