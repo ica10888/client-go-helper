@@ -66,24 +66,24 @@ func writeDeleteCode(args map[string]bool, api string) {
 				ns = ""
 			}
 			fmt.Printf(`
-func (i *%s) Patch(data string, pt *types.PatchType) (%s.%s, error) {
-	var clientset, err = client.InitClient()
+func (i *%s) Delete (opts *v1.DeleteOptions) (error) {
+	var clientset, err  = InitClient()
 	if err != nil {
-		return %s.%s{}, err
+		return err
 	}
-	%s, err := clientset.%s().%s(%s).Patch(i.Name, *pt, []byte(data))
+	err = clientset.%s().%s(%s).Delete(i.Name,opts)
 	if err != nil {
-		return %s.%s{}, err
+		return err
 	}
-	return *%s, nil
+	return nil
 }
-`, lcfirst(v), lcfirst(api), v, lcfirst(api), v, lcfirst(v), api, vs, ns, lcfirst(api), v, lcfirst(v))
+`, v, api, vs, ns)
 		}
 	}
 
 }
 
-func writeDeleteCode2(args map[string]bool, api string) {
+func writePatchCode(args map[string]bool, api string) {
 	for v, vbool := range args {
 		if v != "" {
 			var vs = v + "s"
@@ -99,18 +99,18 @@ func writeDeleteCode2(args map[string]bool, api string) {
 				ns = ""
 			}
 			fmt.Printf(`
-func (i *%s) Delete (opts *v1.DeleteOptions) (error) {
-	var clientset, err  = InitClient()
+func (i *%s) Patch(data string, pt *types.PatchType) (%s.%s, error) {
+	var clientset, err = client.InitClient()
 	if err != nil {
-		return err
+		return %s.%s{}, err
 	}
-	err = clientset.%s().%s(%s).Delete(i.Name,opts)
+	%s, err := clientset.%s().%s(%s).Patch(i.Name, *pt, []byte(data))
 	if err != nil {
-		return err
+		return %s.%s{}, err
 	}
-	return nil
+	return *%s, nil
 }
-`, v, api, vs, ns)
+`, lcfirst(v), lcfirst(api), v, lcfirst(api), v, lcfirst(v), api, vs, ns, lcfirst(api), v, lcfirst(v))
 		}
 	}
 
