@@ -66,6 +66,39 @@ func writeDeleteCode(args map[string]bool, api string) {
 				ns = ""
 			}
 			fmt.Printf(`
+func (i *%s) Patch(data string, pt *types.PatchType) (%s.%s, error) {
+	var clientset, err = client.InitClient()
+	if err != nil {
+		return %s.%s{}, err
+	}
+	%s, err := clientset.%s().%s(%s).Patch(i.Name, *pt, []byte(data))
+	if err != nil {
+		return %s.%s{}, err
+	}
+	return *%s, nil
+}
+`, lcfirst(v), lcfirst(api), v, lcfirst(api), v, lcfirst(v), api, vs, ns, lcfirst(api), v, lcfirst(v))
+		}
+	}
+
+}
+
+func writeDeleteCode2(args map[string]bool, api string) {
+	for v, vbool := range args {
+		if v != "" {
+			var vs = v + "s"
+			if v[len(v)-1:] == "s" {
+				vs = v + "es"
+			}
+			if v[len(v)-1:] == "y" {
+				vs = v[:len(v)-1] + "ies"
+			}
+
+			var ns = "i.Namespace"
+			if vbool == false {
+				ns = ""
+			}
+			fmt.Printf(`
 func (i *%s) Delete (opts *v1.DeleteOptions) (error) {
 	var clientset, err  = InitClient()
 	if err != nil {

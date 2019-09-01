@@ -1,7 +1,7 @@
 package test
 
 import (
-	"client-go-helper/pkg/kubectl"
+	"github.com/ica10888/client-go-helper/pkg/kubectl"
 	"log"
 	"testing"
 )
