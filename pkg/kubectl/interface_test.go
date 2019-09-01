@@ -58,7 +58,7 @@ func TestCp(t *testing.T) {
 		Name:          "api-test-775cf487ff-7kmk2",
 		Namespace:     "dev",
 	}
-	err := pod.Cp("/tmp/localfile").ToPod("/opt/")
+	err := pod.Cp().ToPod("/opt/", "/tmp/localfile")
 	if err != nil {
 		log.Print(err)
 	}
@@ -72,7 +72,7 @@ func TestCp2(t *testing.T) {
 		Name:          "www-6df84b8b6f-w7lv6",
 		Namespace:     "dev",
 	}
-	err := pod.Cp("/usr/src/app/web/server.js").FromPod("/tmp/")
+	err := pod.Cp().FromPod("/tmp/", "/usr/src/app/web/server.js")
 	if err != nil {
 		log.Print(err)
 	}

@@ -37,19 +37,18 @@ type kubeapi struct {
 }
 
 //ckubectl cp
-type Copyer struct {
-	srcPath string
-	pod     *pod
+type copyer struct {
+	pod *pod
 }
 
-func (i *pod) Cp(srcPath string) Copyer {
-	return Copyer{srcPath, i}
+func (i *pod) Cp() copyer {
+	return copyer{i}
 }
 
-func (i *Copyer) ToPod(destPath string) error {
-	return i.pod.copyToPod(i.srcPath, destPath)
+func (i *copyer) ToPod(srcPath string, destPath string) error {
+	return i.pod.copyToPod(srcPath, destPath)
 }
 
-func (i *Copyer) FromPod(destPath string) error {
-	return i.pod.copyFromPod(i.srcPath, destPath)
+func (i *copyer) FromPod(srcPath string, destPath string) error {
+	return i.pod.copyFromPod(srcPath, destPath)
 }
