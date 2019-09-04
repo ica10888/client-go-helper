@@ -84,6 +84,7 @@ func cpMakeTar(srcPath, destPath string, writer io.Writer) error
 func (i *pod) copyFromPod(srcPath string, destPath string) error {
 	restconfig, err, coreclient := client.InitRestClient()
 	reader, outStream := io.Pipe()
+	//todo some containers failed : tar: Refusing to write archive contents to terminal (missing -f option?) when execute `tar cf -` in container
 	cmdArr := []string{"tar", "cf", "-", srcPath}
 	req := coreclient.RESTClient().
 		Get().

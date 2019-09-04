@@ -13,7 +13,6 @@ import (
 	_ "unsafe"
 )
 
-// kubectl exec
 func (i *pod) Exec(cmd []string) error {
 	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
 		clientcmd.NewDefaultClientConfigLoadingRules(),
