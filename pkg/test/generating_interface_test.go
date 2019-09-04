@@ -99,7 +99,7 @@ func TestWriteInterfaceCode(t *testing.T) {
 
 }
 
-func writeInterfaceCode(args map[string]bool, api string) {
+func writeInterfaceCode2(args map[string]bool, api string) {
 	if api != "CoreV1" {
 		comma := strings.Index(lcfirst(api), "V")
 		v2 := lcfirst(api)[:comma]
@@ -132,7 +132,42 @@ type %s%s struct {
 `)
 }
 
-func writeInterfaceCode2(args map[string]bool, api string) {
+func writeInterfaceCode(args map[string]bool, api string) {
+	if api != "CoreV1" {
+		comma := strings.Index(lcfirst(api), "V")
+		v2 := lcfirst(api)[:comma]
+		v3 := lcfirst(lcfirst(api)[comma:])
+		fmt.Printf(`
+//%s.%s`, v2, v3)
+	} else {
+		fmt.Printf(`
+// v1`)
+	}
+
+	for v, vbool := range args {
+		if v != "" {
+
+			var ns = ", namespace string"
+			var ns2 = ", namespace"
+			if vbool == false {
+				ns = ""
+				ns2 = ""
+			}
+
+			fmt.Printf(`
+func %s(name string%s) %s {
+	return %s{name %s}
+}
+`, v,ns,lcfirst(v),lcfirst(v),ns2)
+
+		}
+	}
+	fmt.Printf(`
+`)
+}
+
+
+func writeInterfaceCode3(args map[string]bool, api string) {
 	if api != "CoreV1" {
 		comma := strings.Index(lcfirst(api), "V")
 		v2 := lcfirst(api)[:comma]
