@@ -15,27 +15,21 @@ import (
 
 // kubectl exec
 func (i *pod) Exec(cmd []string) error {
-	// Instantiate loader for kubeconfig file.
 	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
 		clientcmd.NewDefaultClientConfigLoadingRules(),
 		&clientcmd.ConfigOverrides{},
 	)
 
-	// Get a rest.Config from the kubeconfig file.  This will be passed into all
-	// the client objects we create.
 	restconfig, err := kubeconfig.ClientConfig()
 	if err != nil {
 		panic(err)
 	}
 
-	// Create a Kubernetes core/v1 client.
 	coreclient, err := corev1client.NewForConfig(restconfig)
 	if err != nil {
 		panic(err)
 	}
 
-	// Prepare the API URL used to execute another process within the Pod.  In
-	// this case, we'll run a remote shell.
 	req := coreclient.RESTClient().
 		Post().
 		Namespace(i.Namespace).

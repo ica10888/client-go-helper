@@ -26,16 +26,13 @@ func TestLogs(t *testing.T) {
 }
 
 func TestDescribe(t *testing.T) {
-	pod := pod{
-		ContainerName: "",
-		Name:          "api-test-775cf487ff-7zhnj",
-		Namespace:     "dev",
-	}
-	str, err := pod.Describe()
+	pod := Pod("hy-demo-front-686df5c58f-4v8nk","dev")
+	pods, events, err := pod.Describe()
 	if err != nil {
 		log.Print(err)
 	}
-	log.Println(str)
+	log.Println(pods)
+	log.Println(events)
 }
 
 func TestExec(t *testing.T) {
@@ -53,21 +50,21 @@ func TestExec(t *testing.T) {
 
 func TestCp(t *testing.T) {
 	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
-	pod := pod{
-		ContainerName: "",
-		Name:          "api-test-775cf487ff-7kmk2",
-		Namespace:     "dev",
-	}
-	err := pod.Cp().ToPod("/opt/", "/tmp/localfile")
-	if err != nil {
-		log.Print(err)
-	}
+	/*	pod := pod{
+			ContainerName: "",
+			Name:          "api-test-775cf487ff-7kmk2",
+			Namespace:     "dev",
+		}
+		err := pod.Cp().ToPod("/opt/", "/tmp/localfile")
+		if err != nil {
+			log.Print(err)
+		}*/
 
 }
 
 func TestCp2(t *testing.T) {
 	// kubectl cp /tmp/localfile  api-test-775cf487ff-7zhnj:/opt
-	pod := pod{
+/*	pod := pod{
 		ContainerName: "",
 		Name:          "www-6df84b8b6f-w7lv6",
 		Namespace:     "dev",
@@ -76,7 +73,7 @@ func TestCp2(t *testing.T) {
 	if err != nil {
 		log.Print(err)
 	}
-
+*/
 }
 
 func TestGetAll(t *testing.T) {
