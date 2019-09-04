@@ -2,8 +2,8 @@ package kubectl
 
 import (
 	"archive/tar"
-	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	"fmt"
+	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
 	"io"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/scheme"

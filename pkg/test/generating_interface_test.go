@@ -158,14 +158,13 @@ func writeInterfaceCode(args map[string]bool, api string) {
 func %s(name string%s) %s {
 	return %s{name %s}
 }
-`, v,ns,lcfirst(v),lcfirst(v),ns2)
+`, v, ns, lcfirst(v), lcfirst(v), ns2)
 
 		}
 	}
 	fmt.Printf(`
 `)
 }
-
 
 func writeInterfaceCode3(args map[string]bool, api string) {
 	if api != "CoreV1" {
