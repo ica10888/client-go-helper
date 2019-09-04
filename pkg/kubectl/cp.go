@@ -22,13 +22,10 @@ func (i *pod) copyToPod(srcPath string, destPath string) error {
 	restconfig, err, coreclient := client.InitRestClient()
 
 	reader, writer := io.Pipe()
-	// strip trailing slash (if any)
 	if destPath != "/" && strings.HasSuffix(string(destPath[len(destPath)-1]), "/") {
 		destPath = destPath[:len(destPath)-1]
 	}
 	if err := checkDestinationIsDir(i, destPath); err == nil {
-		// If no error, destPath was found to be a directory.
-		// Copy specified src into it
 		destPath = destPath + "/" + path.Base(srcPath)
 	}
 	go func() {
@@ -43,8 +40,7 @@ func (i *pod) copyToPod(srcPath string, destPath string) error {
 	if len(destDir) > 0 {
 		cmdArr = append(cmdArr, "-C", destDir)
 	}
-	// Prepare the API URL used to execute another process within the Pod.  In
-	// this case, we'll run a remote shell.
+	//remote shell.
 	req := coreclient.RESTClient().
 		Post().
 		Namespace(i.Namespace).
@@ -121,8 +117,6 @@ func (i *pod) copyFromPod(srcPath string, destPath string) error {
 	}()
 	prefix := getPrefix(srcPath)
 	prefix = path.Clean(prefix)
-	// remove extraneous path shortcuts - these could occur if a path contained extra "../"
-	// and attempted to navigate beyond "/" in a remote filesystem
 	prefix = cpStripPathShortcuts(prefix)
 	destPath = path.Join(destPath, path.Base(prefix))
 	err = untarAll(reader, destPath, prefix)
@@ -140,16 +134,10 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 			break
 		}
 
-		// All the files will start with the prefix, which is the directory where
-		// they were located on the pod, we need to strip down that prefix, but
-		// if the prefix is missing it means the tar was tempered with.
-		// For the case where prefix is empty we need to ensure that the path
-		// is not absolute, which also indicates the tar file was tempered with.
 		if !strings.HasPrefix(header.Name, prefix) {
 			return fmt.Errorf("tar contents corrupted")
 		}
 
-		// basic file information
 		mode := header.FileInfo().Mode()
 		destFileName := filepath.Join(destDir, header.Name[len(prefix):])
 
@@ -164,9 +152,6 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 			continue
 		}
 
-		// We need to ensure that the destination file is always within boundries
-		// of the destination directory. This prevents any kind of path traversal
-		// from within tar archive.
 		evaledPath, err := filepath.EvalSymlinks(baseName)
 		if err != nil {
 			return err
@@ -174,9 +159,7 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 
 		if mode&os.ModeSymlink != 0 {
 			linkname := header.Linkname
-			// We need to ensure that the link destination is always within boundries
-			// of the destination directory. This prevents any kind of path traversal
-			// from within tar archive.
+
 			if !filepath.IsAbs(linkname) {
 				_ = filepath.Join(evaledPath, linkname)
 			}
@@ -203,7 +186,6 @@ func untarAll(reader io.Reader, destDir, prefix string) error {
 }
 
 func getPrefix(file string) string {
-	// tar strips the leading '/' if it's there, so we will too
 	return strings.TrimLeft(file, "/")
 }
 
