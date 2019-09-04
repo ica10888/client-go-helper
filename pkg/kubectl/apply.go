@@ -151,7 +151,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1beta1().SelfSubjectAccessReviews().Create(selfSubjectAccessReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1beta1().SelfSubjectAccessReviews().Update(selfSubjectAccessReview)
 					if e != nil {
 						return e
 					}
@@ -165,7 +164,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1beta1().SelfSubjectRulesReviews().Create(selfSubjectRulesReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1beta1().SelfSubjectRulesReviews().Update(selfSubjectRulesReview)
 					if e != nil {
 						return e
 					}
@@ -179,7 +177,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1beta1().SubjectAccessReviews().Create(subjectAccessReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1beta1().SubjectAccessReviews().Update(subjectAccessReview)
 					if e != nil {
 						return e
 					}
@@ -193,7 +190,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1beta1().LocalSubjectAccessReviews(namespace).Create(localSubjectAccessReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1beta1().LocalSubjectAccessReviews(namespace).Update(localSubjectAccessReview)
 					if e != nil {
 						return e
 					}
@@ -431,7 +427,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthenticationV1().TokenReviews().Create(tokenReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthenticationV1().TokenReviews().Update(tokenReview)
 					if e != nil {
 						return e
 					}
@@ -823,7 +818,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthenticationV1beta1().TokenReviews().Create(tokenReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthenticationV1beta1().TokenReviews().Update(tokenReview)
 					if e != nil {
 						return e
 					}
@@ -1012,7 +1006,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1().SelfSubjectRulesReviews().Create(selfSubjectRulesReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1().SelfSubjectRulesReviews().Update(selfSubjectRulesReview)
 					if e != nil {
 						return e
 					}
@@ -1026,7 +1019,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1().SubjectAccessReviews().Create(subjectAccessReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1().SubjectAccessReviews().Update(subjectAccessReview)
 					if e != nil {
 						return e
 					}
@@ -1040,7 +1032,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1().LocalSubjectAccessReviews(namespace).Create(localSubjectAccessReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1().LocalSubjectAccessReviews(namespace).Update(localSubjectAccessReview)
 					if e != nil {
 						return e
 					}
@@ -1054,7 +1045,6 @@ func Apply(yaml string, namespace string) error {
 			_, e = clientset.AuthorizationV1().SelfSubjectAccessReviews().Create(selfSubjectAccessReview)
 			if e != nil {
 				if apierrs.IsAlreadyExists(e) {
-					//_ ,e := clientset.AuthorizationV1().SelfSubjectAccessReviews().Update(selfSubjectAccessReview)
 					if e != nil {
 						return e
 					}
