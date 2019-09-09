@@ -13,7 +13,7 @@ import (
 
 func (i *pod) Describe() (coreV1.Pod, coreV1.EventList , error)  {
 	//Pod
-	podGetOpts := metav1.GetOptions{}
+	getOpts := metav1.GetOptions{}
 	clientset, err := client.InitClient()
 	if err != nil {
 		return coreV1.Pod{} ,coreV1.EventList{}, err
@@ -22,7 +22,7 @@ func (i *pod) Describe() (coreV1.Pod, coreV1.EventList , error)  {
 	pod , err := clientset.
 		CoreV1().
 		Pods(i.Namespace).
-		Get(i.Name, podGetOpts)
+		Get(i.Name, getOpts)
 
 	if err != nil {
 		return  coreV1.Pod{} ,coreV1.EventList{}, err
@@ -60,4 +60,56 @@ func (i *pod) Describe() (coreV1.Pod, coreV1.EventList , error)  {
 	}
 
 	return *pod ,*events,nil
+}
+
+
+
+func (i *node) Describe() (coreV1.Node, coreV1.EventList , error)  {
+	//Node
+	getOpts := metav1.GetOptions{}
+	clientset, err := client.InitClient()
+	if err != nil {
+		return coreV1.Node{} ,coreV1.EventList{}, err
+	}
+
+	node , err := clientset.
+		CoreV1().
+		Nodes().
+		Get(i.Name, getOpts)
+
+	if err != nil {
+		return  coreV1.Node{} ,coreV1.EventList{}, err
+	}
+
+	// Events
+	kubeconfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
+		clientcmd.NewDefaultClientConfigLoadingRules(),
+		&clientcmd.ConfigOverrides{},
+	)
+
+	restconfig, err := kubeconfig.ClientConfig()
+	if err != nil {
+		return  *node ,coreV1.EventList{}, err
+	}
+
+	coreclient, err := corev1client.NewForConfig(restconfig)
+	if err != nil {
+		return *node ,coreV1.EventList{}, err
+	}
+
+	req := coreclient.
+		RESTClient().
+		Get().
+		Resource("events").
+		Param("fieldSelector", "involvedObject.name="+i.Name)
+
+	eventsJson, _ := req.Do().Raw()
+	eventsYaml, _ := yaml.JSONToYAML(eventsJson)
+	obj, _, err := scheme.Codecs.UniversalDeserializer().Decode([]byte(eventsYaml), nil, nil)
+	events := obj.(*coreV1.EventList)
+	if err != nil {
+		return *node ,coreV1.EventList{}, err
+	}
+
+	return *node ,*events,nil
 }

@@ -33,6 +33,17 @@ func TestDescribe(t *testing.T) {
 	}
 	log.Println(pods)
 	log.Println(events)
+	log.Println("=======================")
+	node := Node("node13")
+	nodes, events, err := node.Describe()
+	if err != nil {
+		log.Print(err)
+	}
+	log.Println(nodes)
+	log.Println(events)
+
+
+
 }
 
 func TestExec(t *testing.T) {
