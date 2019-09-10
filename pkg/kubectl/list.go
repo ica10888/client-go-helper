@@ -1,6 +1,7 @@
 package kubectl
 
 import (
+	admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
 	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	appsV1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -958,6 +959,31 @@ func (i *podPreset) GetAll(opts *v1.ListOptions) ([]settingsV1alpha1.PodPreset, 
 	}
 }
 
+func (i *initializerConfiguration) GetAll(opts *v1.ListOptions) ([]admissionregistrationV1alpha1.InitializerConfiguration, error) {
+	var clientset, err = client.InitClient()
+	if err != nil {
+		return nil, err
+	}
+	initializerConfigurationList, err := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().List(*opts)
+	if err != nil {
+		return nil, err
+	}
+	if i.Name == "" {
+		return initializerConfigurationList.Items, nil
+	} else {
+		var items []admissionregistrationV1alpha1.InitializerConfiguration
+		for _, v := range initializerConfigurationList.Items {
+			match, err := regexp.Match(i.Name, []byte(v.ObjectMeta.Name))
+			if err != nil {
+				return nil, err
+			}
+			if match {
+				items = append(items, v)
+			}
+		}
+		return items, nil
+	}
+}
 
 func (i *ingress) GetAll(opts *v1.ListOptions) ([]extensionsV1beta1.Ingress, error) {
 	var clientset, err = client.InitClient()

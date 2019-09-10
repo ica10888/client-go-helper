@@ -123,3 +123,15 @@ func TestGet(t *testing.T) {
 	log.Println(string(rawYaml))
 
 }
+
+/*
+func TestTop(t *testing.T) {
+	node := Node("node13")
+	nodeMetrics, err := node.Top()
+	if err != nil {
+		log.Print(err)
+	}
+	log.Println(nodeMetrics)
+
+}
+*/

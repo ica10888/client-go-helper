@@ -1,6 +1,7 @@
 package kubectl
 
-
+//looping trying to add package
+/*
 import (
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/metrics/pkg/client/clientset/versioned"
@@ -65,3 +66,4 @@ func (i *node) Top ()(v1beta1.NodeMetrics,error) {
 	}
 	return *nodeMetrics , nil
 }
+*/

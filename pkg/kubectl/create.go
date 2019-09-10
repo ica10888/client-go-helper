@@ -4,6 +4,7 @@ import (
 	"fmt"
 	yaml2 "gopkg.in/yaml.v2"
 
+	admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
 	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	appsV1 "k8s.io/api/apps/v1"
 	appsV1beta1 "k8s.io/api/apps/v1beta1"
@@ -836,6 +837,19 @@ func Create(yaml string, namespace string) error {
 			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
 		}
 
+	case "admissionregistration/v1alpha1":
+		switch kapi.Kind {
+
+		case "InitializerConfiguration":
+			initializerConfiguration := obj.(*admissionregistrationV1alpha1.InitializerConfiguration)
+			_, e = clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().Create(initializerConfiguration)
+			if e != nil {
+				return e
+			}
+
+		default:
+			return fmt.Errorf("not support a kind : %s in  apiVersion: %s", kapi.Kind, kapi.ApiVersion)
+		}
 
 	}
 
