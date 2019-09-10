@@ -8,11 +8,13 @@ replace (
 	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19 => github.com/google/go-genproto v0.0.0-20190307195333-5fe7a883aa19
 	k8s.io/api v0.0.0-20181213150558-05914d821849 => github.com/kubernetes/api v0.0.0-20181213150558-05914d821849
 	k8s.io/apimachinery v0.0.0-20181127025237-2b1284ed4c93 => github.com/kubernetes/apimachinery v0.0.0-20181127025237-2b1284ed4c93
+	k8s.io/apimachinery v0.0.0-20190612205821-1799e75a0719 => github.com/kubernetes/apimachinery v0.0.0-20190612205821-1799e75a0719
 	k8s.io/cli-runtime v0.0.0-20181213153952-835b10687cb6 => github.com/kubernetes/cli-runtime v0.0.0-20181213153952-835b10687cb6
 	k8s.io/client-go v10.0.0+incompatible => github.com/kubernetes/client-go v10.0.0+incompatible
 	k8s.io/klog v0.2.0 => github.com/kubernetes/klog v0.2.0
 	k8s.io/kube-openapi v0.0.0-20190320154901-5e45bb682580 => github.com/kubernetes/kube-openapi v0.0.0-20190320154901-5e45bb682580
 	k8s.io/kubernetes v1.13.5-beta.0.0.20190322001621-1a91ffde19dd => github.com/kubernetes/kubernetes v1.13.5-beta.0.0.20190322001621-1a91ffde19dd
+	k8s.io/metrics v0.0.0-20190612211942-9f546f7ce766 => github.com/kubernetes/metrics v0.0.0-20190612211942-9f546f7ce766
 	k8s.io/utils v0.0.0-20190308190857-21c4ce38f2a7 => github.com/kubernetes/utils v0.0.0-20190308190857-21c4ce38f2a7
 )
 
@@ -33,7 +35,6 @@ require (
 	github.com/gogo/protobuf v1.2.1 // indirect
 	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/google/btree v1.0.0 // indirect
-	github.com/google/gofuzz v0.0.0-20170612174753-24818f796faf // indirect
 	github.com/googleapis/gnostic v0.2.0 // indirect
 	github.com/gregjones/httpcache v0.0.0-20190212212710-3befbb6ad0cc // indirect
 	github.com/imdario/mergo v0.3.7 // indirect
@@ -41,8 +42,6 @@ require (
 	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.0 // indirect
-	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
-	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/onsi/ginkgo v1.7.0 // indirect
 	github.com/onsi/gomega v1.4.3 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
@@ -54,22 +53,21 @@ require (
 	github.com/stretchr/testify v1.3.0 // indirect
 	golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c // indirect
 	golang.org/x/net v0.0.0-20190320064053-1272bf9dcd53 // indirect
-	golang.org/x/oauth2 v0.0.0-20190226205417-e64efc72b421 // indirect
-	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2 // indirect
+	golang.org/x/oauth2 v0.0.0-20190402181905-9f3314589c9a // indirect
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
+	google.golang.org/appengine v1.5.0 // indirect
 	gopkg.in/airbrake/gobrake.v2 v2.0.9 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/gemnasium/logrus-airbrake-hook.v2 v2.1.2 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.2.2
-	k8s.io/api v0.0.0-20181213150558-05914d821849
-	k8s.io/apimachinery v0.0.0-20181127025237-2b1284ed4c93
+	k8s.io/api v0.0.0-20190612210016-7525909cc6da
+	k8s.io/apimachinery v0.0.0-20190612205821-1799e75a0719
 	k8s.io/cli-runtime v0.0.0-20181213153952-835b10687cb6 // indirect
 	k8s.io/client-go v10.0.0+incompatible
-	k8s.io/klog v0.2.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20190320154901-5e45bb682580 // indirect
 	k8s.io/kubernetes v1.13.5-beta.0.0.20190322001621-1a91ffde19dd
+	k8s.io/metrics v0.0.0-20190612211942-9f546f7ce766
 	k8s.io/utils v0.0.0-20190308190857-21c4ce38f2a7 // indirect
-	sigs.k8s.io/yaml v1.1.0 // indirect
 
 )
