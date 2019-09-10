@@ -2,7 +2,6 @@ package kubectl
 
 import (
 	"github.com/ica10888/client-go-helper/pkg/kubectl/client"
-	admissionregistrationV1alpha1 "k8s.io/api/admissionregistration/v1alpha1"
 	admissionregistrationV1beta1 "k8s.io/api/admissionregistration/v1beta1"
 	appsV1 "k8s.io/api/apps/v1"
 	auditregistrationV1alpha1 "k8s.io/api/auditregistration/v1alpha1"
@@ -452,18 +451,6 @@ func (i *podPreset) Patch(data string, pt *types.PatchType) (settingsV1alpha1.Po
 		return settingsV1alpha1.PodPreset{}, err
 	}
 	return *podPreset, nil
-}
-
-func (i *initializerConfiguration) Patch(data string, pt *types.PatchType) (admissionregistrationV1alpha1.InitializerConfiguration, error) {
-	var clientset, err = client.InitClient()
-	if err != nil {
-		return admissionregistrationV1alpha1.InitializerConfiguration{}, err
-	}
-	initializerConfiguration, err := clientset.AdmissionregistrationV1alpha1().InitializerConfigurations().Patch(i.Name, *pt, []byte(data))
-	if err != nil {
-		return admissionregistrationV1alpha1.InitializerConfiguration{}, err
-	}
-	return *initializerConfiguration, nil
 }
 
 func (i *ingress) Patch(data string, pt *types.PatchType) (extensionsV1beta1.Ingress, error) {
