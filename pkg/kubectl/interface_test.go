@@ -135,3 +135,15 @@ func TestTop(t *testing.T) {
 
 }
 */
+
+func TestScale(t *testing.T) {
+	deployment := deployment{
+		Name:          "api-test",
+		Namespace:     "dev",
+	}
+	err := deployment.Scale(2)
+	if err != nil {
+		log.Print(err)
+	}
+
+}
