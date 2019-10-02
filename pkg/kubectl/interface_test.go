@@ -26,7 +26,7 @@ func TestLogs(t *testing.T) {
 }
 
 func TestDescribe(t *testing.T) {
-	pod := Pod("hy-demo-front-686df5c58f-4v8nk","dev")
+	pod := Pod("api-test-775cf487ff-7zhnj","dev")
 	pods, events, err := pod.Describe()
 	if err != nil {
 		log.Print(err)
@@ -61,7 +61,7 @@ func TestExec(t *testing.T) {
 
 func TestCp(t *testing.T) {
 	// kubectl cp /tmp/local  api-test-77c6f9bf8c-nhhp5:/opt -n dev
-	pod :=Pod("api-test-77c6f9bf8c-nhhp5","dev")
+	pod :=Pod("api-test-775cf487ff-7zhnj","dev")
 	err := pod.Cp().ToPod("/tmp/local", "/opt")
 	if err != nil {
 		log.Print(err)
